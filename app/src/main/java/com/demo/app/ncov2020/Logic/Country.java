@@ -2,7 +2,7 @@ package com.demo.app.ncov2020.Logic;
 
 import java.util.List;
 
-public class Country{
+public class Country implements Everydayble{
     private final String name;
     private final int amountOfPeople;
     private int deadPeople;
@@ -38,6 +38,32 @@ public class Country{
         pathsGround.add(country);
     }
 
+    @Override
+    public void pastOneUnit() {
 
+    }
 
+    public int getDeadPeople() {
+        return deadPeople;
+    }
+
+    public void setDeadPeople(int deadPeople) {
+        this.deadPeople = deadPeople;
+    }
+
+    public int getInfectedPeople() {
+        return infectedPeople;
+    }
+
+    public void setInfectedPeople(int infectedPeople) {
+        this.infectedPeople = infectedPeople;
+    }
+
+    public int getHeathyPeople() {
+        return heathyPeople;
+    }
+
+    public void setHeathyPeople(int heathyPeople) {
+        this.heathyPeople = heathyPeople;
+    }
 }
