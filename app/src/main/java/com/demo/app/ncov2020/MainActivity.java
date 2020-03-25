@@ -253,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
     public void testGameModel(){
         ArrayList<Country> countries = new ArrayList<>();
         countries.add(new Country("Ukraine",42_000_000,false,true,true).beginInfection());
+
         countries.add(new Country("China",1_400_000_000,false,true,true));
         countries.add(new Country("Italy",60_000_000,true,true,true));
         Disease disease = new Disease("nCov2019");

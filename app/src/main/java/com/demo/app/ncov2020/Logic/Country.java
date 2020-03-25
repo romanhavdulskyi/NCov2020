@@ -44,7 +44,7 @@ public class Country {
         pathsSea.add(country);
     }
 
-    public void addNeighbourGround(Country country) {
+    public void addPathsGround(Country country) {
         pathsGround.add(country);
     }
 
@@ -56,6 +56,8 @@ public class Country {
         infectedPeople += perUnitInfected;
         deadPeople += Math.min(perUnitDead, infectedPeople);
         infectedPeople -= Math.min(perUnitDead, infectedPeople);
+
+
     }
 
     public long getAmountOfPeople() {
