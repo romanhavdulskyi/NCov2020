@@ -23,6 +23,7 @@ public class Country {
     public Country(String name, int amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport) {
         this.name = name;
         this.amountOfPeople = amountOfPeople;
+        this.heathyPeople = amountOfPeople;
         this.rich = rich;
         this.openAirport = openAirport;
         this.openSeaport = openSeaport;
@@ -30,6 +31,8 @@ public class Country {
 
     public Country beginInfection(){
         infected=true;
+        heathyPeople--;
+        infectedPeople=1;
         return this;
     }
 
@@ -46,6 +49,7 @@ public class Country {
     }
 
     public void pastOneUnit(Disease disease) {
+        if (!infected) return;
         long perUnitInfected = (long) Math.min((disease.getInfectivity() * infectedPeople + 1), heathyPeople);
         long perUnitDead = (long) disease.getLethality();
         heathyPeople = Math.max(heathyPeople - perUnitInfected, 0);
@@ -80,5 +84,25 @@ public class Country {
 
     public void setHeathyPeople(int heathyPeople) {
         this.heathyPeople = heathyPeople;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "name='" + name + '\'' +
+                ", amountOfPeople=" + amountOfPeople +
+                ", deadPeople=" + deadPeople +
+                ", infectedPeople=" + infectedPeople +
+                ", heathyPeople=" + heathyPeople +
+                ", rich=" + rich +
+                ", openAirport=" + openAirport +
+                ", openSeaport=" + openSeaport +
+                ", openSchool=" + openSchool +
+                ", infected=" + infected +
+                ", cureCoef=" + cureCoef +
+                ", pathsAir=" + pathsAir +
+                ", pathsSea=" + pathsSea +
+                ", pathsGround=" + pathsGround +
+                '}';
     }
 }

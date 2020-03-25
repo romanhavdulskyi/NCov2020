@@ -256,12 +256,15 @@ public class MainActivity extends AppCompatActivity {
         countries.add(new Country("China",1_400_000_000,false,true,true));
         countries.add(new Country("Italy",60_000_000,true,true,true));
         Disease disease = new Disease("nCov2019");
-        disease.addSymptom(new Symptom("Pnevmonia","Hard to breathe",0.1,4,0));
+        disease.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
         disease.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1));
         disease.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR));
         GameModel gameModel = new GameModel(countries,disease);
+        System.out.println(gameModel);
         gameModel.pastOneUnit();
+        System.out.println(gameModel);
         gameModel.pastOneUnit();
+        System.out.println(gameModel);
     }
 
     @Override

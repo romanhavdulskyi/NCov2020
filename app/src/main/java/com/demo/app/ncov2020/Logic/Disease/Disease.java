@@ -1,5 +1,6 @@
 package com.demo.app.ncov2020.Logic.Disease;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Disease {
@@ -13,6 +14,9 @@ public class Disease {
 
     public Disease(String name) {
         this.name = name;
+        symptoms = new ArrayList<>();
+        transmissions = new ArrayList<>();
+        abilities = new ArrayList<>();
     }
 
     public void addSymptom(Symptom symptom){

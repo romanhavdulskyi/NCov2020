@@ -64,4 +64,15 @@ public class GameModel implements Everydayble{
         return heathyPeople;
     }
 
+    @Override
+    public String toString() {
+        return "GameModel{" +
+                "amountOfPeople=" + amountOfPeople +
+                ", deadPeople=" + getDeadPeople() +
+                ", infectedPeople=" + getInfectedPeople() +
+                ", heathyPeople=" + getHeathyPeople() +
+                ", countries=" + countries +
+                ", disease=" + disease +
+                '}';
+    }
 }
