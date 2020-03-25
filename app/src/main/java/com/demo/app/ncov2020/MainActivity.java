@@ -252,19 +252,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void testGameModel(){
         ArrayList<Country> countries = new ArrayList<>();
-        countries.add(new Country("Ukraine",42_000_000,false,true,true).beginInfection());
+        Country ukraine =new Country("Ukraine",42_000_000,false,true,true).beginInfection();
+        Country italy = new Country("Italy",60_000_000,true,true,true);
+        Country china= new Country("China",1_400_000_000,false,true,true);
+        ukraine.addPathAir(china);
+        ukraine.addPathSea(italy);
 
-        countries.add(new Country("China",1_400_000_000,false,true,true));
-        countries.add(new Country("Italy",60_000_000,true,true,true));
+        countries.add(ukraine);
+        countries.add(italy);
+        countries.add(china);
         Disease disease = new Disease("nCov2019");
         disease.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
         disease.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1));
         disease.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR));
         GameModel gameModel = new GameModel(countries,disease);
-        System.out.println(gameModel);
-        gameModel.pastOneUnit();
-        System.out.println(gameModel);
-        gameModel.pastOneUnit();
+        for (int i=0;i<1000;i++) {
+            System.out.println(gameModel);
+            gameModel.pastOneUnit();
+        }
         System.out.println(gameModel);
     }
 

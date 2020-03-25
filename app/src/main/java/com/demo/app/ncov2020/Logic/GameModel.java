@@ -32,8 +32,10 @@ public class GameModel implements Everydayble{
     @Override
     public void pastOneUnit() {
         for (Country country:countries) {
-            country.pastOneUnit(disease);
+            disease.acceptCountry(country);
         }
+        if(getDeadPeople()==amountOfPeople) System.out.println("You won the game");
+        if(getInfectedPeople()==0) System.out.println("You lose the game");
     }
 
     public long getAmountOfPeople(){
