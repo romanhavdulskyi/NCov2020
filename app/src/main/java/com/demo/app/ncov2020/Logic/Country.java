@@ -1,19 +1,21 @@
 package com.demo.app.ncov2020.Logic;
 
+import com.demo.app.ncov2020.Logic.Disease.Disease;
+
 import java.util.List;
 
-public class Country implements Everydayble{
+public class Country {
     private final String name;
-    private final int amountOfPeople;
-    private int deadPeople;
-    private int infectedPeople;
-    private int heathyPeople;
+    private final long amountOfPeople;
+    private long deadPeople = 0;
+    private long infectedPeople = 0;
+    private long heathyPeople;
     private final boolean rich;
     private boolean openAirport;
     private boolean openSeaport;
-    private boolean openSchool=true;
+    private boolean openSchool = true;
     private boolean infected = false;
-    private double cureCoef=0;
+    private double cureCoef = 0;
     private List<Country> pathsAir;
     private List<Country> pathsSea;
     private List<Country> pathsGround;
@@ -26,24 +28,37 @@ public class Country implements Everydayble{
         this.openSeaport = openSeaport;
     }
 
-    public void addPathAir(Country country){
+    public Country beginInfection(){
+        infected=true;
+        return this;
+    }
+
+    public void addPathAir(Country country) {
         pathsAir.add(country);
     }
 
-    public void addPathSea(Country country){
+    public void addPathSea(Country country) {
         pathsSea.add(country);
     }
 
-    public void addNeighbourGround(Country country){
+    public void addNeighbourGround(Country country) {
         pathsGround.add(country);
     }
 
-    @Override
-    public void pastOneUnit() {
-
+    public void pastOneUnit(Disease disease) {
+        long perUnitInfected = (long) Math.min((disease.getInfectivity() * infectedPeople + 1), heathyPeople);
+        long perUnitDead = (long) disease.getLethality();
+        heathyPeople = Math.max(heathyPeople - perUnitInfected, 0);
+        infectedPeople += perUnitInfected;
+        deadPeople += Math.min(perUnitDead, infectedPeople);
+        infectedPeople -= Math.min(perUnitDead, infectedPeople);
     }
 
-    public int getDeadPeople() {
+    public long getAmountOfPeople() {
+        return amountOfPeople;
+    }
+
+    public long getDeadPeople() {
         return deadPeople;
     }
 
@@ -51,7 +66,7 @@ public class Country implements Everydayble{
         this.deadPeople = deadPeople;
     }
 
-    public int getInfectedPeople() {
+    public long getInfectedPeople() {
         return infectedPeople;
     }
 
@@ -59,7 +74,7 @@ public class Country implements Everydayble{
         this.infectedPeople = infectedPeople;
     }
 
-    public int getHeathyPeople() {
+    public long getHeathyPeople() {
         return heathyPeople;
     }
 

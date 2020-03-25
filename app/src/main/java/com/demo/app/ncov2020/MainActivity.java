@@ -4,6 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+
+import com.demo.app.ncov2020.Logic.Country;
+import com.demo.app.ncov2020.Logic.Disease.Ability;
+import com.demo.app.ncov2020.Logic.Disease.Disease;
+import com.demo.app.ncov2020.Logic.Disease.Symptom;
+import com.demo.app.ncov2020.Logic.Disease.Transmission;
+import com.demo.app.ncov2020.Logic.Disease.TypeAbility;
+import com.demo.app.ncov2020.Logic.Disease.TypeTrans;
+import com.demo.app.ncov2020.Logic.GameModel;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.PolygonOptions;
@@ -184,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        testGameModel();
     }
 
     @Override
@@ -238,6 +248,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void testGameModel(){
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country("Ukraine",42_000_000,false,true,true).beginInfection());
+        countries.add(new Country("China",1_400_000_000,false,true,true));
+        countries.add(new Country("Italy",60_000_000,true,true,true));
+        Disease disease = new Disease("nCov2019");
+        disease.addSymptom(new Symptom("Pnevmonia","Hard to breathe",0.1,4,0));
+        disease.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1));
+        disease.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR));
+        GameModel gameModel = new GameModel(countries,disease);
+        gameModel.pastOneUnit();
+        gameModel.pastOneUnit();
     }
 
     @Override

@@ -4,12 +4,16 @@ import java.util.List;
 
 public class Disease {
     private String name;
-    private int infectivity;
-    private int severity;
-    private int lethality;
+    private double infectivity;
+    private long severity;
+    private long lethality;
     private List<Symptom> symptoms;
     private List<Transmission> transmissions;
     private List<Ability> abilities;
+
+    public Disease(String name) {
+        this.name = name;
+    }
 
     public void addSymptom(Symptom symptom){
         symptoms.add(symptom);
@@ -33,11 +37,8 @@ public class Disease {
         return false;
     }
 
-    public void addAbility(Symptom symptom){
-        symptoms.add(symptom);
-        infectivity+=symptom.getInfectivity();
-        severity+=symptom.getSeverity();
-        lethality+=symptom.getLethality();
+    public void addAbility(Ability ability){
+        abilities.add(ability);
     }
 
     public boolean containsAbilityByType(TypeAbility typeAbility){
@@ -45,5 +46,17 @@ public class Disease {
             if(ability.getTypeAbility()==typeAbility) return true;
         }
         return false;
+    }
+
+    public double getInfectivity() {
+        return infectivity;
+    }
+
+    public long getSeverity() {
+        return severity;
+    }
+
+    public long getLethality() {
+        return lethality;
     }
 }

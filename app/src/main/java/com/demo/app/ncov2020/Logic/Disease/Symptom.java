@@ -3,11 +3,11 @@ package com.demo.app.ncov2020.Logic.Disease;
 public class Symptom {
     private final String name;
     private final String description;
-    private final int infectivity;
-    private final int severity;
-    private final int lethality;
+    private final double infectivity;
+    private final long severity;
+    private final long lethality;
 
-    public Symptom(String name, String description, int infectivity, int severity, int lethality) {
+    public Symptom(String name, String description, double infectivity, long severity, long lethality) {
         this.name = name;
         this.description = description;
         this.infectivity = infectivity;
@@ -23,15 +23,15 @@ public class Symptom {
         return description;
     }
 
-    public int getInfectivity() {
+    public double getInfectivity() {
         return infectivity;
     }
 
-    public int getSeverity() {
+    public long getSeverity() {
         return severity;
     }
 
-    public int getLethality() {
+    public long getLethality() {
         return lethality;
     }
 }

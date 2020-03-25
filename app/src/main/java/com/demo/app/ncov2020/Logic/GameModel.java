@@ -5,20 +5,25 @@ import com.demo.app.ncov2020.Logic.Disease.Disease;
 import java.util.List;
 
 public class GameModel implements Everydayble{
-    private final int amountOfPeople;
-    private int deadPeople;
-    private int infectedPeople;
-    private int heathyPeople;
+    private final long amountOfPeople;
+    private long deadPeople=0;
+    private long infectedPeople=0;
+    private long heathyPeople;
     List<Country> countries;
     private Disease disease;
 
-    public GameModel(int amountOfPeople, int deadPeople, int infectedPeople, int heathyPeople, Disease disease) {
-        this.amountOfPeople = amountOfPeople;
-        this.deadPeople = deadPeople;
-        this.infectedPeople = infectedPeople;
-        this.heathyPeople = heathyPeople;
-        this.disease = disease;
+    public GameModel(List<Country> countries, Disease disease) {
+        long amountOfPeople1;
+        this.countries=countries;
+        this.disease=disease;
+        long tempAmountOfPeople=0;
+        for(Country country : countries){
+            tempAmountOfPeople = tempAmountOfPeople + country.getAmountOfPeople();
+        }
+        amountOfPeople = tempAmountOfPeople;
     }
+
+
 
     public void addCountry(Country country){
         countries.add(country);
@@ -27,11 +32,15 @@ public class GameModel implements Everydayble{
     @Override
     public void pastOneUnit() {
         for (Country country:countries) {
-            country.pastOneUnit();
+            country.pastOneUnit(disease);
         }
     }
 
-    public int getDeadPeople() {
+    public long getAmountOfPeople(){
+        return amountOfPeople;
+    }
+
+    public long getDeadPeople() {
         deadPeople=0;
         for (Country country:countries) {
             deadPeople+=country.getDeadPeople();
@@ -39,7 +48,7 @@ public class GameModel implements Everydayble{
         return deadPeople;
     }
 
-    public int getInfectedPeople() {
+    public long getInfectedPeople() {
         infectedPeople=0;
         for (Country country:countries) {
             infectedPeople+=country.getInfectedPeople();
@@ -47,15 +56,12 @@ public class GameModel implements Everydayble{
         return infectedPeople;
     }
 
-    public int getHeathyPeople() {
+    public long getHeathyPeople() {
         heathyPeople=0;
         for (Country country:countries) {
             heathyPeople+=country.getHeathyPeople();
         }
         return heathyPeople;
     }
-    }
-
-
 
 }
