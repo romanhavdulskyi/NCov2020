@@ -1,19 +1,11 @@
 package com.demo.app.ncov2020.logic;
 
-import com.demo.app.ncov2020.data.state.GameState;
-import com.demo.app.ncov2020.logic.Disease.Disease;
+import com.demo.app.ncov2020.data.db_data.GameState;
 
-import java.util.List;
 import java.util.Objects;
 
 public class GameModel implements EverydayAble {
     private final GameState gameState;
-//    private final long amountOfPeople;
-//    private long deadPeople=0;
-//    private long infectedPeople=0;
-//    private long healthyPeople;
-//    List<Country> countries;
-//    private Disease disease;
 
     public GameModel(GameState gameState) {
         this.gameState = gameState;
