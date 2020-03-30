@@ -2,10 +2,12 @@ package com.demo.app.ncov2020.map
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.demo.app.basics.mvvm.BaseActivity
 import com.demo.app.basics.mvvm.BaseView
 import com.demo.app.ncov2020.R
@@ -16,6 +18,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
+import timber.log.Timber
 
 class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
               inflater: LayoutInflater,

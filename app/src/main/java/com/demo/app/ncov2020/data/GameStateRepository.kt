@@ -12,7 +12,10 @@ class GameStateRepository {
             return realm.where(GameState::class.java).equalTo("userId", userId).findFirst()
         }catch (e : Exception)
         {
+            e.printStackTrace()
+        } finally {
             realm.close()
+
         }
         return null
     }

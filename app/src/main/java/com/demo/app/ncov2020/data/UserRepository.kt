@@ -14,6 +14,8 @@ class UserRepository {
             return realm.where(UserProfile::class.java).equalTo("username", username).findFirst()
         }catch (e : Exception)
         {
+            e.printStackTrace()
+        } finally {
             realm.close()
         }
         return null

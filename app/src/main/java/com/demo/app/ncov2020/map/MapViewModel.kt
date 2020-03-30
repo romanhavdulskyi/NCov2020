@@ -18,13 +18,13 @@ import kotlin.math.roundToInt
 class MapViewModel(application: Application) : AndroidViewModel(application) {
     // TODO: Implement the ViewModel
 
-    private var mapLiveDate : MutableLiveData<Map> = MutableLiveData()
+    var mapLiveData : MutableLiveData<Map> = MutableLiveData()
     private val JSON_CHARSET = "UTF-8"
     private val JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME"
     init {
         Mapbox.getInstance(getApplication(), "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
         val map = Map(0, false)
-        mapLiveDate.postValue(map)
+        mapLiveData.value =  map
     }
 
     fun loadMap(style : Style)
@@ -102,28 +102,28 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun startProgress()
     {
-        val mapValue = mapLiveDate.value
+        val mapValue = mapLiveData.value
         mapValue?.let { map -> map.isLoading = true
         map.loadPercentage = 0
-        mapLiveDate.postValue(map)
+        mapLiveData.postValue(map)
         }
     }
 
     private fun endProgress()
     {
-        val mapValue = mapLiveDate.value
+        val mapValue = mapLiveData.value
         mapValue?.let { map -> map.isLoading = false
         map.loadPercentage = 0
-        mapLiveDate.postValue(map)
+        mapLiveData.postValue(map)
         }
     }
 
     private fun setPercentage(percentage : Int)
     {
-        val mapValue = mapLiveDate.value
+        val mapValue = mapLiveData.value
         mapValue?.let { map ->
         map.loadPercentage = percentage
-        mapLiveDate.postValue(map)
+        mapLiveData.postValue(map)
         }
     }
 }
