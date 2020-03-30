@@ -23,6 +23,7 @@ class GameStateRepository {
         realm.beginTransaction()
         realm.copyToRealmOrUpdate(gameState)
         realm.commitTransaction()
+        realm.close()
     }
 
     fun createState(userId: String) : GameState
@@ -33,6 +34,7 @@ class GameStateRepository {
         gameState.userId = userId
         realm.copyToRealmOrUpdate(gameState)
         realm.commitTransaction()
+        realm.close()
         return gameState
     }
 }

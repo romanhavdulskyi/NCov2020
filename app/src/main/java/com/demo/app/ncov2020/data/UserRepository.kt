@@ -25,6 +25,7 @@ class UserRepository {
         realm.beginTransaction()
         realm.copyToRealmOrUpdate(userProfile)
         realm.commitTransaction()
+        realm.close()
     }
 
     fun createProfile(username: String) : UserProfile
@@ -36,6 +37,7 @@ class UserRepository {
         userProfile.GUID = UUID.randomUUID().toString()
         realm.copyToRealmOrUpdate(userProfile)
         realm.commitTransaction()
+        realm.close()
         return userProfile
     }
 }
