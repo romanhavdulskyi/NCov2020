@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Country {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
+public class Country extends RealmObject {
     private final String name;
     private final long amountOfPeople;
     private long deadPeople = 0;
@@ -20,9 +23,9 @@ public class Country {
     private boolean openSchool = true;
     private boolean infected = false;
     private double cureKoef = 0;
-    private List<Country> pathsAir;
-    private List<Country> pathsSea;
-    private List<Country> pathsGround;
+    private RealmList<Country> pathsAir;
+    private RealmList<Country> pathsSea;
+    private RealmList<Country> pathsGround;
 
     public Country(String name, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport) {
         this.name = name;
@@ -31,9 +34,9 @@ public class Country {
         this.rich = rich;
         this.openAirport = openAirport;
         this.openSeaport = openSeaport;
-        pathsAir = new ArrayList<>();
-        pathsSea = new ArrayList<>();
-        pathsGround = new ArrayList<>();
+        pathsAir = new RealmList<>();
+        pathsSea = new RealmList<>();
+        pathsGround = new RealmList<>();
     }
 
     public Country beginInfection(){

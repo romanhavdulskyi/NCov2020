@@ -5,20 +5,23 @@ import com.demo.app.ncov2020.logic.Country;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Disease implements Diseaseable{
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
+public class Disease extends RealmObject implements Diseaseable{
     private String name;
     private double infectivity;
     private long severity;
     private long lethality;
-    private List<Symptom> symptoms;
-    private List<Transmission> transmissions;
-    private List<Ability> abilities;
+    private RealmList<Symptom> symptoms;
+    private RealmList<Transmission> transmissions;
+    private RealmList<Ability> abilities;
 
     public Disease(String name) {
         this.name = name;
-        symptoms = new ArrayList<>();
-        transmissions = new ArrayList<>();
-        abilities = new ArrayList<>();
+        symptoms = new RealmList<>();
+        transmissions = new RealmList<>();
+        abilities = new RealmList<>();
     }
 
     public void addSymptom(Symptom symptom){
