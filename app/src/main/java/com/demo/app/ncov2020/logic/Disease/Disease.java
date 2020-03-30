@@ -47,6 +47,14 @@ public class Disease extends RealmObject implements Diseaseable{
             boolean luck = Math.random()*100 > 80;
             country.infectAnotherCountryBy(TypeTrans.getRandom());
         }
+        if(country.getPercentOfInfectedPeople()>0.5){
+            boolean luck = Math.random()*100 > 50;
+            country.infectAnotherCountryBy(TypeTrans.getRandom());
+        }
+        if(country.getPercentOfInfectedPeople()>0.8){
+            boolean luck = Math.random()*100 > 20;
+            country.infectAnotherCountryBy(TypeTrans.getRandom());
+        }
     }
 
 
