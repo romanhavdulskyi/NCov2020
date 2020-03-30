@@ -1,4 +1,4 @@
-package com.demo.app.ncov2020.Logic.Disease;
+package com.demo.app.ncov2020.logic.Disease;
 
 public class Transmission {
     private final String name;

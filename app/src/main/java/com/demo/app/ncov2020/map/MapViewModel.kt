@@ -19,10 +19,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     // TODO: Implement the ViewModel
 
     private var mapLiveDate : MutableLiveData<Map> = MutableLiveData()
-    //    private boolean isEndNotified;
-//    private ProgressBar progressBar;
-    val JSON_CHARSET = "UTF-8"
-    val JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME"
+    private val JSON_CHARSET = "UTF-8"
+    private val JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME"
     init {
         Mapbox.getInstance(getApplication(), "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
         val map = Map(0, false)
@@ -33,18 +31,12 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     {
         val offlineManager: OfflineManager? = OfflineManager.getInstance(getApplication())
         val context = getApplication<Application>()
-// Set up the OfflineManager
-        // Set up the OfflineManager
 
-// Create a bounding box for the offline region
-        // Create a bounding box for the offline region
         val latLngBounds = LatLngBounds.Builder()
                 .include(LatLng(37.7897, -119.5073)) // Northeast
                 .include(LatLng(37.6744, -119.6815)) // Southwest
                 .build()
 
-// Define the offline region
-        // Define the offline region
         val definition = OfflineTilePyramidRegionDefinition(
                 style.uri,
                 latLngBounds,
@@ -52,7 +44,6 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                 20.0,
                 context.resources.displayMetrics.density)
 
-// Set the metadata
         // Set the metadata
         val metadata: ByteArray?
         metadata = try {
@@ -64,9 +55,13 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             Timber.e("Failed to encode metadata: %s", exception.message)
             null
         }
-
-// Create the region asynchronously
         // Create the region asynchronously
+        createRegion(metadata, offlineManager, definition)
+
+    }
+
+    private fun createRegion(metadata: ByteArray?, offlineManager: OfflineManager?, definition: OfflineTilePyramidRegionDefinition)
+    {
         if (metadata != null) {
             offlineManager?.createOfflineRegion(
                     definition,

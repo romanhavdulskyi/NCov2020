@@ -1,6 +1,6 @@
-package com.demo.app.ncov2020.Logic.Disease;
+package com.demo.app.ncov2020.logic.Disease;
 
-import com.demo.app.ncov2020.Logic.Country;
+import com.demo.app.ncov2020.logic.Country;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +31,11 @@ public class Disease implements Diseaseable{
     @Override
     public void acceptCountry(Country country){
         if (!country.isInfected()) return;
-        double thisCountryMedicineFight=getInfectivity()-country.getCureCoef(); //country has a chance to cure
+        double thisCountryMedicineFight=getInfectivity()-country.getCureKoef(); //country has a chance to cure
 
-        long perUnitInfected = (long) Math.min((thisCountryMedicineFight * country.getInfectedPeople() + 1), country.getHeathyPeople());
+        long perUnitInfected = (long) Math.min((thisCountryMedicineFight * country.getInfectedPeople() + 1), country.getHealthyPeople());
         long perUnitDead = lethality;
-        country.setHeathyPeople(Math.max(country.getHeathyPeople() - perUnitInfected, 0));
+        country.setHealthyPeople(Math.max(country.getHealthyPeople() - perUnitInfected, 0));
         country.setInfectedPeople(country.getInfectedPeople() + perUnitInfected);
         country.setDeadPeople(country.getDeadPeople()+ Math.min(perUnitDead, country.getInfectedPeople()));
         country.setInfectedPeople(country.getInfectedPeople() - Math.min(perUnitDead, country.getInfectedPeople()));

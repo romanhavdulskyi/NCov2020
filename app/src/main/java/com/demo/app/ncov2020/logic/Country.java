@@ -1,7 +1,7 @@
-package com.demo.app.ncov2020.Logic;
+package com.demo.app.ncov2020.logic;
 
-import com.demo.app.ncov2020.Logic.Disease.Disease;
-import com.demo.app.ncov2020.Logic.Disease.TypeTrans;
+import com.demo.app.ncov2020.logic.Disease.Disease;
+import com.demo.app.ncov2020.logic.Disease.TypeTrans;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,14 +12,14 @@ public class Country {
     private final long amountOfPeople;
     private long deadPeople = 0;
     private long infectedPeople = 0;
-    private long heathyPeople;
+    private long healthyPeople;
     private final boolean rich;
     private boolean openAirport;
     private boolean openSeaport;
     private boolean openBorder=true;
     private boolean openSchool = true;
     private boolean infected = false;
-    private double cureCoef = 0;
+    private double cureKoef = 0;
     private List<Country> pathsAir;
     private List<Country> pathsSea;
     private List<Country> pathsGround;
@@ -27,7 +27,7 @@ public class Country {
     public Country(String name, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport) {
         this.name = name;
         this.amountOfPeople = amountOfPeople;
-        this.heathyPeople = amountOfPeople;
+        this.healthyPeople = amountOfPeople;
         this.rich = rich;
         this.openAirport = openAirport;
         this.openSeaport = openSeaport;
@@ -38,7 +38,7 @@ public class Country {
 
     public Country beginInfection(){
         infected=true;
-        heathyPeople--;
+        healthyPeople--;
         infectedPeople=1;
         return this;
     }
@@ -109,7 +109,7 @@ public class Country {
 
 
     public double getPercentOfInfectedPeople(){
-        return (double) infectedPeople/heathyPeople;
+        return (double) infectedPeople/ healthyPeople;
     }
 
     public String getName() {
@@ -136,12 +136,12 @@ public class Country {
         this.infectedPeople = infectedPeople;
     }
 
-    public long getHeathyPeople() {
-        return heathyPeople;
+    public long getHealthyPeople() {
+        return healthyPeople;
     }
 
-    public void setHeathyPeople(long heathyPeople) {
-        this.heathyPeople = heathyPeople;
+    public void setHealthyPeople(long healthyPeople) {
+        this.healthyPeople = healthyPeople;
     }
 
     public boolean isRich() {
@@ -180,12 +180,12 @@ public class Country {
         this.infected = infected;
     }
 
-    public double getCureCoef() {
-        return cureCoef;
+    public double getCureKoef() {
+        return cureKoef;
     }
 
-    public void setCureCoef(double cureCoef) {
-        this.cureCoef = cureCoef;
+    public void setCureKoef(double cureKoef) {
+        this.cureKoef = cureKoef;
     }
 
     @Override
@@ -195,13 +195,13 @@ public class Country {
                 ", amountOfPeople=" + amountOfPeople +
                 ", deadPeople=" + deadPeople +
                 ", infectedPeople=" + infectedPeople +
-                ", heathyPeople=" + heathyPeople +
+                ", heathyPeople=" + healthyPeople +
                 ", rich=" + rich +
                 ", openAirport=" + openAirport +
                 ", openSeaport=" + openSeaport +
                 ", openSchool=" + openSchool +
                 ", infected=" + infected +
-                ", cureCoef=" + cureCoef +
+                ", cureCoef=" + cureKoef +
                 ", pathsAir=" + pathsAir +
                 ", pathsSea=" + pathsSea +
                 ", pathsGround=" + pathsGround +
