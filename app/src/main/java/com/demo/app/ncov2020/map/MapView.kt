@@ -33,7 +33,7 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
         val mapView: MapView = viewLayout.findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { mapboxMap ->
-            mapboxMap.setMaxZoomPreference(2.0)
+            mapboxMap.setMaxZoomPreference(3.0)
             mapboxMap.setMinZoomPreference(1.0)
             mapboxMap.uiSettings.isRotateGesturesEnabled = false
             mapboxMap.addMarker(MarkerOptions()

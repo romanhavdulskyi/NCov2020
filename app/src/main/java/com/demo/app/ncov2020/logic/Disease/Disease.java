@@ -6,17 +6,14 @@ import com.demo.app.ncov2020.logic.Handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-
-public class Disease extends RealmObject implements Diseaseable{
+public class Disease  implements Diseaseable{
     private String name;
     private double infectivity;
     private long severity;
     private long lethality;
-    private ArrayList<Symptom> symptoms;
-    private ArrayList<Transmission> transmissions;
-    private ArrayList<Ability> abilities;
+    private List<Symptom> symptoms;
+    private List<Transmission> transmissions;
+    private List<Ability> abilities;
     private Handler handTrans;
     private Handler handAbilit;
 

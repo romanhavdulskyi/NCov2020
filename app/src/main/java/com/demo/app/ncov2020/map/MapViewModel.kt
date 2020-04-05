@@ -70,7 +70,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
                         override fun onCreate(offlineRegion: OfflineRegion) {
                             offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE)
                             // Display the download progress bar
-                            startProgress()
+                            //startProgress()
                             // Monitor the download progress using setObserver
                             offlineRegion.setObserver(object : OfflineRegionObserver {
                                 override fun onStatusChanged(status: OfflineRegionStatus) { // Calculate the download percentage and update the progress bar
@@ -123,6 +123,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         val mapValue = mapLiveData.value
         mapValue?.let { map ->
         map.loadPercentage = percentage
+        map.isLoading = true
         mapLiveData.postValue(map)
         }
     }

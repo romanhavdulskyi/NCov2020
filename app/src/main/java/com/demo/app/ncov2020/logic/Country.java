@@ -3,12 +3,12 @@ package com.demo.app.ncov2020.logic;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.TypeTrans;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
 
-public class Country extends RealmObject {
+public class Country  {
     private final String name;
     private final long amountOfPeople;
     private long deadPeople = 0;
@@ -22,10 +22,9 @@ public class Country extends RealmObject {
     private boolean knowAboutVirus=false;
     private boolean infected = false;
     private double cureKoef = 0;
-    private double antiinfectioness=0;
-    private RealmList<Country> pathsAir;
-    private RealmList<Country> pathsSea;
-    private RealmList<Country> pathsGround;
+    private List<Country> pathsAir;
+    private List<Country> pathsSea;
+    private List<Country> pathsGround;
 
     public Country(String name, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport) {
         this.name = name;
@@ -34,9 +33,9 @@ public class Country extends RealmObject {
         this.rich = rich;
         this.openAirport = openAirport;
         this.openSeaport = openSeaport;
-        pathsAir = new RealmList<>();
-        pathsSea = new RealmList<>();
-        pathsGround = new RealmList<>();
+        this.pathsAir = new ArrayList<>();
+        this.pathsSea = new ArrayList<>();
+        this.pathsGround = new ArrayList<>();
     }
 
     public Country beginInfection(){
@@ -219,15 +218,15 @@ public class Country extends RealmObject {
         this.openGround = openGround;
     }
 
-    public RealmList<Country> getPathsAir() {
+    public List<Country> getPathsAir() {
         return pathsAir;
     }
 
-    public RealmList<Country> getPathsSea() {
+    public List<Country> getPathsSea() {
         return pathsSea;
     }
 
-    public RealmList<Country> getPathsGround() {
+    public List<Country> getPathsGround() {
         return pathsGround;
     }
 

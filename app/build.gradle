@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
@@ -34,6 +33,14 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    sourceSets {
+        main {
+            assets {
+                srcDirs 'src/main/assets', 'src/main/assets/'
+            }
+        }
+    }
+
 
 }
 
@@ -60,10 +67,21 @@ dependencies {
 
     implementation "androidx.room:room-runtime:+"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    annotationProcessor "androidx.room:room-compiler:+"
     androidTestImplementation "androidx.room:room-testing:+"
 
     kapt "androidx.room:room-compiler:+"
+
+    def nav_version = "2.3.0-alpha04"
+
+    // Kotlin
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    // Dynamic Feature Module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
+    // Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     testImplementation 'org.koin:koin-test:2.0.1'
     testImplementation 'com.android.support.test:testing-support-lib:0.1'
