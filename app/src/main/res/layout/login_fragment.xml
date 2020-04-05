@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.demo.app.ncov2020.userprofile.LoginViewModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <FrameLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="29dp"
+                android:layout_marginEnd="29dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="42dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="@string/nCov_login"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="22sp"
+                    android:textStyle="normal|bold" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/login_username_layout"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="78sp"
+                    android:layout_marginTop="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/login_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_gravity="center|top"
+                        android:hint="@string/account"
+                        android:importantForAutofill="no"
+                        android:text="@={viewModel.loginLiveData.username}"
+                        android:inputType="text"
+                         />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/keep_me_logged_in"
+                    android:checked="@={viewModel.loginLiveData.keep_me_login_in}"
+                    android:textColor="@color/colorGray"
+                    />
+
+                <Button
+                    style="@style/EnterButtons"
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="37sp"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="@{viewModel::onLoginClicked}"
+                    android:text="@string/sign_in" />
+
+            </LinearLayout>
+
+        </ScrollView>
+    </FrameLayout>
+
+</layout>

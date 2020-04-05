@@ -1,45 +1,36 @@
 package com.demo.app.ncov2020.data
 
-import com.demo.app.ncov2020.data.db_data.GameState
-import com.demo.app.ncov2020.data.db_data.UserProfile
-import io.realm.Realm
+
+import com.demo.app.ncov2020.data.dao.CurrentUserProfileDao
+import com.demo.app.ncov2020.data.dao.UserProfileDao
+import com.demo.app.ncov2020.data.room_data.UserProfile
 import java.util.*
 
-class UserRepository {
+class UserRepository(private val userProfileDao: UserProfileDao) {
 
-    fun getProfile(username: String) : UserProfile?
-    {
-        val realm = Realm.getDefaultInstance()
-        try {
-            return realm.where(UserProfile::class.java).equalTo("username", username).findFirst()
-        }catch (e : Exception)
-        {
-            e.printStackTrace()
-        } finally {
-            realm.close()
-        }
-        return null
+    fun getProfileByName(username: String): UserProfile? {
+        return userProfileDao.getUserProfileByName(username)
     }
 
-    fun saveProfile(userProfile: UserProfile)
-    {
-        val realm = Realm.getDefaultInstance()
-        realm.beginTransaction()
-        realm.copyToRealmOrUpdate(userProfile)
-        realm.commitTransaction()
-        realm.close()
+    fun getProfile(GUID: String): UserProfile? {
+        return userProfileDao.getUserProfile(GUID)
     }
 
-    fun createProfile(username: String) : UserProfile
-    {
-        val realm = Realm.getDefaultInstance()
-        realm.beginTransaction()
-        val userProfile = realm.createObject(UserProfile::class.java)
-        userProfile.username = username
-        userProfile.GUID = UUID.randomUUID().toString()
-        realm.copyToRealmOrUpdate(userProfile)
-        realm.commitTransaction()
-        realm.close()
+    fun saveProfile(userProfile: UserProfile) {
+        userProfileDao.insert(userProfile)
+    }
+
+    fun createProfile(username: String): UserProfile {
+        val userProfile = UserProfile(username = username, playerGUID = UUID.randomUUID().toString())
+        userProfileDao.insert(userProfile)
         return userProfile
+    }
+
+    private object HOLDER {
+        val INSTANCE = UserRepository(AppDatabase.getInstance()!!.UserProfileDao())
+    }
+
+    companion object {
+        val instance: UserRepository by lazy { HOLDER.INSTANCE }
     }
 }

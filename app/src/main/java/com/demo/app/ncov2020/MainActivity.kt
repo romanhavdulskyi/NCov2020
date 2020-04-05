@@ -1,25 +1,27 @@
-package com.demo.app.ncov2020;
+package com.demo.app.ncov2020
 
-import android.os.Bundle;
+import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
+import androidx.navigation.Navigation
+import com.demo.app.basics.mvvm.BaseActivity
+import com.demo.app.ncov2020.common.GameNavigatorImpl
+import com.demo.app.ncov2020.common.GameNavigatorImpl.Companion.instance
 
-import com.demo.app.basics.mvvm.BaseActivity;
-import com.demo.app.ncov2020.map.MapFragment;
-import android.view.Window;
-import android.view.WindowManager;
-
-
-public class MainActivity extends BaseActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new MapFragment()).commit();
+class MainActivity : BaseActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        setContentView(R.layout.activity_main)
+        //getSupportFragmentManager().beginTransaction().replace(R.id.container, new LoginFragment()).commit();
+        instance.setNavController(Navigation.findNavController(this, R.id.nav_host_fragment))
     }
 
-//    @Override
+    override fun onDestroy() {
+        instance.releaseNavController()
+        super.onDestroy()
+    } //    @Override
 //    public void onResume() {
 //        super.onResume();
 //        mapView.onResume();
