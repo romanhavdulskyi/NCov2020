@@ -1,6 +1,6 @@
 package com.demo.app.ncov2020.logic;
 
-import com.demo.app.ncov2020.data.db_data.GameState;
+import com.demo.app.ncov2020.data.room_data.GameState;
 import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Symptom;

@@ -45,53 +45,6 @@ public class Country  {
         return this;
     }
 
-    public void infectAnotherCountryBy(TypeTrans typeTrans){
-        switch (typeTrans){
-            case AIR: infectAnotherCountryByAir(); break;
-            case WATER: infectAnotherCountryByWater(); break;
-            case GROUND: infectAnotherCountryByGround(); break;
-        }
-    }
-
-    public void infectAnotherCountryByGround(){
-        if(!openGround) return;
-        Collections.shuffle(pathsGround);
-        for(Country country: pathsGround){
-            if(country.openGround && !country.infected){
-                country.beginInfection();
-                pathsGround.remove(country);
-                return;
-            }
-            else pathsGround.remove(country);
-        }
-    }
-
-    public void infectAnotherCountryByAir(){
-        if(!openAirport) return;
-        Collections.shuffle(pathsAir);
-        for(Country country: pathsAir){
-            if(country.openAirport && !country.infected){
-                country.beginInfection();
-                pathsAir.remove(country);
-                return;
-            }
-            else pathsAir.remove(country);
-        }
-    }
-
-    public void infectAnotherCountryByWater(){
-        if(!openSeaport) return;
-        Collections.shuffle(pathsSea);
-        for(Country country: pathsSea){
-            if(country.openSeaport && !country.infected){
-                country.beginInfection();
-                pathsSea.remove(country);
-                return;
-            }
-            else pathsSea.remove(country);
-        }
-    }
-
     public void shufflePathAir(){
         Collections.shuffle(pathsAir);
     }
@@ -116,19 +69,12 @@ public class Country  {
     public void addPathAir(Country country) {
         pathsAir.add(country);
     }
-
     public void addPathSea(Country country) {
         pathsSea.add(country);
     }
-
     public void addPathsGround(Country country) {
         pathsGround.add(country);
     }
-
-    public void pastOneUnit(Disease disease) {
-
-    }
-
 
     public double getPercentOfInfectedPeople(){
         return (double) infectedPeople/ healthyPeople;
