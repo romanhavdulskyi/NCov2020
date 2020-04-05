@@ -1,17 +1,29 @@
 package com.demo.app.ncov2020.logic;
 
 import com.demo.app.ncov2020.data.db_data.GameState;
+import com.demo.app.ncov2020.logic.Disease.Ability;
+import com.demo.app.ncov2020.logic.Disease.Disease;
+import com.demo.app.ncov2020.logic.Disease.Symptom;
+import com.demo.app.ncov2020.logic.Disease.Transmission;
+import com.demo.app.ncov2020.logic.Disease.TypeAbility;
+import com.demo.app.ncov2020.logic.Disease.TypeTrans;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
+import io.realm.RealmList;
+
 public class GameModel implements EverydayAble {
+    public static GameModel instance;
     private final GameState gameState;
 
     public GameModel(GameState gameState) {
         this.gameState = gameState;
+        instance=this;
     }
-
-
+    public static GameModel getInstance(){
+        return instance;
+    }
 
     public void addCountry(Country country){
         Objects.requireNonNull(gameState.getCountries()).add(country);
@@ -65,4 +77,30 @@ public class GameModel implements EverydayAble {
                 ", disease=" + gameState.getDisease() +
                 '}';
     }
+
+    static public void testGameModel(){
+        RealmList<Country> countries = new RealmList<>();
+        Country ukraine =new Country("Ukraine",42_000_000,false,true,true).beginInfection();
+        Country italy = new Country("Italy",60_000_000,true,true,true);
+        Country china= new Country("China",1_400_000_000,false,true,true);
+        ukraine.addPathAir(china);
+        ukraine.addPathSea(italy);
+
+        countries.add(ukraine);
+        countries.add(italy);
+        countries.add(china);
+        Disease disease = new Disease("nCov2019");
+        disease.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
+        disease.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1));
+        disease.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR));
+        disease.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.GROUND));
+        disease.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.WATER));
+        GameModel gameModel = new GameModel(new GameState(1,"1",countries,disease));
+        for (int i=0;i<100;i++) {
+            System.out.println(gameModel);
+            gameModel.pastOneUnit();
+        }
+        System.out.println(gameModel);
+    }
+
 }

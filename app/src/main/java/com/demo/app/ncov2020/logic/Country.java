@@ -3,9 +3,7 @@ package com.demo.app.ncov2020.logic;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.TypeTrans;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -19,10 +17,12 @@ public class Country extends RealmObject {
     private final boolean rich;
     private boolean openAirport;
     private boolean openSeaport;
-    private boolean openBorder=true;
+    private boolean openGround =true;
     private boolean openSchool = true;
+    private boolean knowAboutVirus=false;
     private boolean infected = false;
     private double cureKoef = 0;
+    private double antiinfectioness=0;
     private RealmList<Country> pathsAir;
     private RealmList<Country> pathsSea;
     private RealmList<Country> pathsGround;
@@ -55,10 +55,10 @@ public class Country extends RealmObject {
     }
 
     public void infectAnotherCountryByGround(){
-        if(!openBorder) return;
+        if(!openGround) return;
         Collections.shuffle(pathsGround);
         for(Country country: pathsGround){
-            if(country.openBorder && !country.infected){
+            if(country.openGround && !country.infected){
                 country.beginInfection();
                 pathsGround.remove(country);
                 return;
@@ -91,6 +91,26 @@ public class Country extends RealmObject {
             }
             else pathsSea.remove(country);
         }
+    }
+
+    public void shufflePathAir(){
+        Collections.shuffle(pathsAir);
+    }
+    public void shufflePathSea(){
+        Collections.shuffle(pathsSea);
+    }
+    public void shufflePathGround(){
+        Collections.shuffle(pathsGround);
+    }
+
+    public void removePathAir(Country country){
+        pathsAir.remove(country);
+    }
+    public void removePathSea(Country country){
+        pathsSea.remove(country);
+    }
+    public void removePathGround(Country country){
+        pathsGround.remove(country);
     }
 
 
@@ -189,6 +209,26 @@ public class Country extends RealmObject {
 
     public void setCureKoef(double cureKoef) {
         this.cureKoef = cureKoef;
+    }
+
+    public boolean isOpenGround() {
+        return openGround;
+    }
+
+    public void setOpenGround(boolean openGround) {
+        this.openGround = openGround;
+    }
+
+    public RealmList<Country> getPathsAir() {
+        return pathsAir;
+    }
+
+    public RealmList<Country> getPathsSea() {
+        return pathsSea;
+    }
+
+    public RealmList<Country> getPathsGround() {
+        return pathsGround;
     }
 
     @Override

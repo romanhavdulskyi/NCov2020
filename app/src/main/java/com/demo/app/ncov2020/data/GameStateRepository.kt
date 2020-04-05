@@ -5,6 +5,7 @@ import io.realm.Realm
 
 
 class GameStateRepository {
+    /*
     fun getState(userId : String) : GameState?
     {
         val realm = Realm.getDefaultInstance()
@@ -15,7 +16,6 @@ class GameStateRepository {
             e.printStackTrace()
         } finally {
             realm.close()
-
         }
         return null
     }
@@ -40,4 +40,6 @@ class GameStateRepository {
         realm.close()
         return gameState
     }
+
+*/
 }

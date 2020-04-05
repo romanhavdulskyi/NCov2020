@@ -1,6 +1,7 @@
 package com.demo.app.ncov2020.logic.Disease;
 
 import com.demo.app.ncov2020.logic.Country;
+import com.demo.app.ncov2020.logic.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +14,17 @@ public class Disease extends RealmObject implements Diseaseable{
     private double infectivity;
     private long severity;
     private long lethality;
-    private RealmList<Symptom> symptoms;
-    private RealmList<Transmission> transmissions;
-    private RealmList<Ability> abilities;
+    private ArrayList<Symptom> symptoms;
+    private ArrayList<Transmission> transmissions;
+    private ArrayList<Ability> abilities;
+    private Handler handTrans;
+    private Handler handAbilit;
 
     public Disease(String name) {
         this.name = name;
-        symptoms = new RealmList<>();
-        transmissions = new RealmList<>();
-        abilities = new RealmList<>();
+        symptoms = new ArrayList<>();
+        transmissions = new ArrayList<>();
+        abilities = new ArrayList<>();
     }
 
     public void addSymptom(Symptom symptom){
@@ -43,17 +46,8 @@ public class Disease extends RealmObject implements Diseaseable{
         country.setDeadPeople(country.getDeadPeople()+ Math.min(perUnitDead, country.getInfectedPeople()));
         country.setInfectedPeople(country.getInfectedPeople() - Math.min(perUnitDead, country.getInfectedPeople()));
 
-        if(country.getPercentOfInfectedPeople()>0.2){
-            boolean luck = Math.random()*100 > 80;
-            country.infectAnotherCountryBy(TypeTrans.getRandom());
-        }
-        if(country.getPercentOfInfectedPeople()>0.5){
-            boolean luck = Math.random()*100 > 50;
-            country.infectAnotherCountryBy(TypeTrans.getRandom());
-        }
-        if(country.getPercentOfInfectedPeople()>0.8){
-            boolean luck = Math.random()*100 > 20;
-            country.infectAnotherCountryBy(TypeTrans.getRandom());
+        for (Transmission transmission : transmissions){
+            transmission.getType().getHandler().handle(country);
         }
     }
 
