@@ -16,11 +16,16 @@ class GameStateRepository(var commonCountryDao: CommonCountryDao, var countryDao
         val gameState =  gameStateDao.getGameState(playerGUID)
         gameState?.countries = countryDao.getAllGameCountries(playerGUID)
         gameState?.disease = diseaseDao.getDisease(playerGUID)
-        gameState?.initialize()
+        //gameState?.initialize()
         return gameState
     }
 
     fun saveState(gameState: GameState)
+    {
+        gameStateDao.insert(gameState)
+    }
+
+    fun updateState(gameState: GameState)
     {
         gameStateDao.insert(gameState)
     }
@@ -31,7 +36,7 @@ class GameStateRepository(var commonCountryDao: CommonCountryDao, var countryDao
         val gameState =  GameState(playerGUID = playerGUID, countries = countryConverter(commonCountryDao.getAll(), playerGUID), disease = disease)
         gameState.countries = countryDao.getAllGameCountries(playerGUID)
         gameState.disease = diseaseDao.getDisease(playerGUID)
-        gameState.initialize()
+       // gameState.initialize()
         return gameState
     }
 
