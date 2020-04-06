@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic;
 
+import com.demo.app.ncov2020.data.room_data.CommonCountry;
+import com.demo.app.ncov2020.data.room_data.GameCountry;
 import com.demo.app.ncov2020.data.room_data.GameState;
 import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Disease;
@@ -9,9 +11,9 @@ import com.demo.app.ncov2020.logic.Disease.TypeAbility;
 import com.demo.app.ncov2020.logic.Disease.TypeTrans;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-import io.realm.RealmList;
 
 public class GameModel implements EverydayAble {
     public static GameModel instance;
@@ -30,8 +32,8 @@ public class GameModel implements EverydayAble {
     }
 
     @Override
-    public void pastOneUnit() {
-        for (Country country: Objects.requireNonNull(gameState.getCountries())) {
+    public void pastOneTimeUnit() {
+        for (GameCountry country: Objects.requireNonNull(gameState.getCountries())) {
             Objects.requireNonNull(gameState.getDisease()).acceptCountry(country);
         }
         if(getDeadPeople()==gameState.getAmountOfPeople()) System.out.println("You won the game");
@@ -44,7 +46,9 @@ public class GameModel implements EverydayAble {
 
     public long getDeadPeople() {
         long deadPeople = 0;
-        for (Country country: Objects.requireNonNull(gameState.getCountries())) {
+        for (GameCountry country: Objects.requireNonNull(gameState.getCountries())) {
+            if(country.getDeadPeople() ==  null)
+                continue;
             deadPeople+=country.getDeadPeople();
         }
         return deadPeople;
@@ -52,7 +56,9 @@ public class GameModel implements EverydayAble {
 
     public long getInfectedPeople() {
         long infectedPeople=0;
-        for (Country country: Objects.requireNonNull(gameState.getCountries())) {
+        for (GameCountry country: Objects.requireNonNull(gameState.getCountries())) {
+            if(country.getInfectedPeople() ==  null)
+                continue;
             infectedPeople+=country.getInfectedPeople();
         }
         return infectedPeople;
@@ -79,7 +85,7 @@ public class GameModel implements EverydayAble {
     }
 
     static public void testGameModel(){
-        RealmList<Country> countries = new RealmList<>();
+        List<Country> countries = new ArrayList<>();
         Country ukraine =new Country("Ukraine",42_000_000,false,true,true).beginInfection();
         Country italy = new Country("Italy",60_000_000,true,true,true);
         Country china= new Country("China",1_400_000_000,false,true,true);
@@ -98,7 +104,7 @@ public class GameModel implements EverydayAble {
         GameModel gameModel = new GameModel(new GameState(1,"1",countries,disease));
         for (int i=0;i<100;i++) {
             System.out.println(gameModel);
-            gameModel.pastOneUnit();
+            gameModel.pastOneTimeUnit();
         }
         System.out.println(gameModel);
     }

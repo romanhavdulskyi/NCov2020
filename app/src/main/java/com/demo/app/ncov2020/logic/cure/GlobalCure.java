@@ -10,7 +10,7 @@ public class GlobalCure implements EverydayAble {
     private long timeToEnd=90;
 
     @Override
-    public void pastOneUnit() {
+    public void pastOneTimeUnit() {
         long tempTime = gameModel.getInfectedPeople()/100000;
         timeToEnd--;
     }
