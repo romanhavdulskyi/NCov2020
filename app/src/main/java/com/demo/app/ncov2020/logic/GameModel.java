@@ -71,6 +71,7 @@ public class GameModel implements EverydayAble {
         if(getGlobalCure().isCureCreated()) {
             System.out.println("You lose the game");
         }
+        callback.callingBack("stateChanged");
     }
 
     public long getDeadPeople() {
@@ -119,6 +120,7 @@ public class GameModel implements EverydayAble {
         disease.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.GROUND));
         disease.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.WATER));
         GameModel gameModel = new GameModel(1,"1",countries,disease,new GlobalCure());
+        gameModel.setCallback(new ConcreateCallback());
         for (int i=0;i<50;i++) {
             System.out.println(gameModel);
             gameModel.pastOneTimeUnit();
