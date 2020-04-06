@@ -20,17 +20,19 @@ public class Country  {
     private boolean openGround =true;
     private boolean openSchool = true;
     private boolean knowAboutVirus=false;
+    private Climate climate = Climate.NORMAL;
     private boolean infected = false;
     private double cureKoef = 0;
     private List<Country> pathsAir;
     private List<Country> pathsSea;
     private List<Country> pathsGround;
 
-    public Country(String name, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport) {
+    public Country(String name, long amountOfPeople, boolean rich,Climate climate, boolean openAirport, boolean openSeaport) {
         this.name = name;
         this.amountOfPeople = amountOfPeople;
         this.healthyPeople = amountOfPeople;
         this.rich = rich;
+        this.climate=climate;
         this.openAirport = openAirport;
         this.openSeaport = openSeaport;
         this.pathsAir = new ArrayList<>();
@@ -140,6 +142,14 @@ public class Country  {
         this.openSchool = openSchool;
     }
 
+    public Climate getClimate() {
+        return climate;
+    }
+
+    public void setClimate(Climate climate) {
+        this.climate = climate;
+    }
+
     public boolean isInfected() {
         return infected;
     }
@@ -183,16 +193,19 @@ public class Country  {
                 ", amountOfPeople=" + amountOfPeople +
                 ", deadPeople=" + deadPeople +
                 ", infectedPeople=" + infectedPeople +
-                ", heathyPeople=" + healthyPeople +
+                ", healthyPeople=" + healthyPeople +
                 ", rich=" + rich +
                 ", openAirport=" + openAirport +
                 ", openSeaport=" + openSeaport +
+                ", openGround=" + openGround +
                 ", openSchool=" + openSchool +
+                ", knowAboutVirus=" + knowAboutVirus +
+                ", climate=" + climate +
                 ", infected=" + infected +
-                ", cureCoef=" + cureKoef +
-                ", pathsAir=" + pathsAir +
-                ", pathsSea=" + pathsSea +
-                ", pathsGround=" + pathsGround +
+                ", cureKoef=" + cureKoef +
+                ", pathsAir=" + pathsAir.size() +
+                ", pathsSea=" + pathsSea.size() +
+                ", pathsGround=" + pathsGround.size() +
                 '}';
     }
 }

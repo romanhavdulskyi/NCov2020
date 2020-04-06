@@ -4,6 +4,7 @@ import com.demo.app.ncov2020.logic.BaseHandler;
 import com.demo.app.ncov2020.logic.Country;
 
 public class HandlerWater extends BaseHandler {
+    @Override
     public void handle(Country country) {
         if(country.isOpenSeaport()){
             double luck = Math.random();
@@ -22,7 +23,7 @@ public class HandlerWater extends BaseHandler {
 
     public void infectAnotherCountryByWater(Country baseCountry){
         baseCountry.shufflePathSea();
-        for(Country country: baseCountry.getPathsGround()){
+        for(Country country: baseCountry.getPathsSea()){
             if(country.isOpenSeaport() && !country.isInfected()){
                 country.beginInfection();
                 baseCountry.removePathSea(country);

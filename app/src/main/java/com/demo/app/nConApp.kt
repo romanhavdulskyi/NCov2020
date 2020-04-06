@@ -14,6 +14,7 @@ import timber.log.Timber.DebugTree
 class nConApp : Application() {
 
     override fun onCreate() {
+        GameModel.testGameModel();
         super.onCreate()
         AppDatabase.create(this)
         AssetsAppDatabase.create(this)
@@ -21,6 +22,6 @@ class nConApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
-        var gameModel = GameModel.testGameModel();
+
     }
 }
