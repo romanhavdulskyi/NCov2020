@@ -1,9 +1,7 @@
 package com.demo.app.ncov2020.logic.Transsmission;
 
 import com.demo.app.ncov2020.logic.BaseHandler;
-import com.demo.app.ncov2020.logic.Country;
-
-import java.util.Collections;
+import com.demo.app.ncov2020.logic.MainPart.Country;
 
 public class HandlerAIR extends BaseHandler {
     @Override

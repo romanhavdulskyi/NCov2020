@@ -1,6 +1,6 @@
 package com.demo.app.ncov2020.logic.Disease;
 
-import com.demo.app.ncov2020.logic.Country;
+import com.demo.app.ncov2020.logic.MainPart.Country;
 import com.demo.app.ncov2020.logic.Handler;
 
 import java.util.ArrayList;
@@ -85,5 +85,20 @@ public class Disease  implements Diseaseable{
 
     public long getLethality() {
         return lethality;
+    }
+
+    @Override
+    public String toString() {
+        return "Disease{" +
+                "name='" + name + '\'' +
+                ", infectivity=" + infectivity +
+                ", severity=" + severity +
+                ", lethality=" + lethality +
+                ", symptoms=" + symptoms +
+                ", transmissions=" + transmissions +
+                ", abilities=" + abilities +
+                ", handTrans=" + handTrans +
+                ", handAbilit=" + handAbilit +
+                '}';
     }
 }

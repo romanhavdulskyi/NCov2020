@@ -1,7 +1,4 @@
-package com.demo.app.ncov2020.logic;
-
-import com.demo.app.ncov2020.logic.Disease.Disease;
-import com.demo.app.ncov2020.logic.Disease.TypeTrans;
+package com.demo.app.ncov2020.logic.MainPart;
 
 import java.util.ArrayList;
 import java.util.Collections;

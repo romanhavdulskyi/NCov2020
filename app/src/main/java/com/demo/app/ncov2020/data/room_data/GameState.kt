@@ -2,9 +2,6 @@ package com.demo.app.ncov2020.data.room_data
 
 import androidx.room.Entity
 import androidx.room.Ignore
-import com.demo.app.ncov2020.logic.Country
-import com.demo.app.ncov2020.logic.Disease.Disease
-import java.lang.IllegalStateException
 
 @Entity(tableName = "game_states")
 data class GameState(@androidx.room.PrimaryKey(autoGenerate = true) var id : Int? = 0,
