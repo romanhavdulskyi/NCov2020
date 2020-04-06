@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
@@ -33,16 +34,11 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
         val mapView: MapView = viewLayout.findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { mapboxMap ->
-            mapboxMap.setMaxZoomPreference(3.0)
-            mapboxMap.setMinZoomPreference(1.0)
-            mapboxMap.uiSettings.isRotateGesturesEnabled = false
-            mapboxMap.addMarker(MarkerOptions()
-                    .position(LatLng(48.85819, 2.29458))
-                    .title("Eiffel Tower"))
-            mapboxMap.setStyle(Style.DARK) {
-                model.loadMap(it)
-                //end
+            mapboxMap.addOnMapClickListener { point ->
+                model.onMapClicked(point)
+                true
             }
+            model.loadMap(mapboxMap)
         }
     }
 }
