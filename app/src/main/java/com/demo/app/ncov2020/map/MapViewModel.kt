@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.demo.app.ncov2020.common.offlinegeocoder.GeocodeKey
 import com.demo.app.ncov2020.common.offlinegeocoder.ReverseGeocodingCountry
+import com.demo.app.ncov2020.game.GameProvider
+import com.demo.app.ncov2020.game.GameProviderImpl
 import com.mapbox.geojson.Point
 import com.mapbox.geojson.Polygon
 import com.mapbox.mapboxsdk.Mapbox
@@ -35,9 +37,10 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     private var  fillLayer : FillLayer? = null
     private var mapBoxMap: MapboxMap? = null
     private val JSON_CHARSET = "UTF-8"
+    private var gameProvider : GameProvider ? = null
     private val JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME"
     init {
-        Mapbox.getInstance(getApplication(), "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
+        gameProvider = GameProviderImpl.INSTANCE
         val map = Map(0, false)
         mapLiveData.value =  map
     }
@@ -49,9 +52,6 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         mapboxMap.setMaxZoomPreference(3.0)
         mapboxMap.setMinZoomPreference(1.0)
         mapboxMap.uiSettings.isRotateGesturesEnabled = false
-        mapboxMap.addMarker(MarkerOptions()
-                .position(LatLng(48.85819, 2.29458))
-                .title("Eiffel Tower"))
         mapboxMap.setStyle(Style.DARK) {
             this.style = it
             val offlineManager: OfflineManager? = OfflineManager.getInstance(getApplication())

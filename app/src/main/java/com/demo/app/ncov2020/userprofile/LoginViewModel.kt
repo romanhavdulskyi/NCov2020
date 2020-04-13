@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.demo.app.ncov2020.common.GameNavigatorImpl
-import com.demo.app.ncov2020.data.CurrentUserRepository
 import com.demo.app.ncov2020.userprofile.login.Login
 import com.demo.app.ncov2020.userprofile.login.LoginStates
 import com.demo.app.ncov2020.userprofile.login.UserProfileAuthenticator

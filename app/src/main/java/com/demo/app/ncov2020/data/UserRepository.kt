@@ -1,36 +1,15 @@
 package com.demo.app.ncov2020.data
 
-
-import com.demo.app.ncov2020.data.dao.CurrentUserProfileDao
-import com.demo.app.ncov2020.data.dao.UserProfileDao
 import com.demo.app.ncov2020.data.room_data.UserProfile
 import java.util.*
 
-class UserRepository(private val userProfileDao: UserProfileDao) {
+interface UserRepository {
 
-    fun getProfileByName(username: String): UserProfile? {
-        return userProfileDao.getUserProfileByName(username)
-    }
+    fun getProfileByName(username: String): UserProfile?
 
-    fun getProfile(GUID: String): UserProfile? {
-        return userProfileDao.getUserProfile(GUID)
-    }
+    fun getProfile(GUID: String): UserProfile?
 
-    fun saveProfile(userProfile: UserProfile) {
-        userProfileDao.insert(userProfile)
-    }
+    fun saveProfile(userProfile: UserProfile)
 
-    fun createProfile(username: String): UserProfile {
-        val userProfile = UserProfile(username = username, playerGUID = UUID.randomUUID().toString())
-        userProfileDao.insert(userProfile)
-        return userProfile
-    }
-
-    private object HOLDER {
-        val INSTANCE = UserRepository(AppDatabase.getInstance()!!.UserProfileDao())
-    }
-
-    companion object {
-        val instance: UserRepository by lazy { HOLDER.INSTANCE }
-    }
+    fun createProfile(username: String): UserProfile
 }
