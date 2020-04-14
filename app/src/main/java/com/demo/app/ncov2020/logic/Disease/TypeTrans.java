@@ -6,19 +6,10 @@ import com.demo.app.ncov2020.logic.Transsmission.HandlerGround;
 import com.demo.app.ncov2020.logic.Transsmission.HandlerWater;
 
 public enum TypeTrans {
-    AIR(new HandlerAIR()),
-    WATER(new HandlerWater()),
-    GROUND(new HandlerGround());
+    AIR(),
+    WATER(),
+    GROUND();
 
-    private Handler handler;
-
-    TypeTrans(Handler handler) {
-        this.handler=handler;
-    }
-
-    public Handler getHandler(){
-        return handler;
-    }
     public static TypeTrans getRandom() {
         return values()[(int) (Math.random() * values().length)];
     }

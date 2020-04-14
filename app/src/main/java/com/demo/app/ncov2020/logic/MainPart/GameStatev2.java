@@ -1,14 +1,15 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
+import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Disease.Disease;
-import com.demo.app.ncov2020.logic.EverydayAble;
-import com.demo.app.ncov2020.logic.MainPart.Country;
+import com.demo.app.ncov2020.logic.Disease.Transmission;
+import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 import java.util.List;
 import java.util.Objects;
 
-public class GameStatev2 implements EverydayAble {
+public class GameStatev2 {
     private final int id;
     private final String playerGUID;
     private long amountOfPeople;
@@ -21,7 +22,9 @@ public class GameStatev2 implements EverydayAble {
 
     private boolean timePassed=false;
 
-    public GameStatev2(int id, String playerGUID, List<Country> countries, Disease disease, GlobalCure globalCure) {
+    private static GameStatev2 instance;
+
+    private GameStatev2(int id, String playerGUID, List<Country> countries, Disease disease, GlobalCure globalCure) {
         this.id = id;
         this.playerGUID = playerGUID;
         this.countries = countries;
@@ -34,28 +37,70 @@ public class GameStatev2 implements EverydayAble {
             healthyPeople+=country.getHealthyPeople();
         }
     }
+    public static GameStatev2 init(int id, String playerGUID, List<Country> countries, Disease disease, GlobalCure globalCure) {
+        GameStatev2 gameStatev2 = new GameStatev2(id, playerGUID, countries, disease, globalCure);
+        instance=gameStatev2;
+        return instance;
+    }
 
-    @Override
-    public void pastOneTimeUnit() {
+    public static GameStatev2 getInstance(){
+        if(instance==null) throw new RuntimeException("Create one object through init");
+        return instance;
+    }
+
+    public CallbackType pastOneTimeUnit() {
         timePassed=true;
         for (Country country: Objects.requireNonNull(getCountries())) {
-            Objects.requireNonNull(getDisease()).acceptCountry(country);
+            applyDiseaseOnCountry(country);
         }
         if(getInfectedPeople()>100_000)
             getGlobalCure().startWorkOnCure();
-        getGlobalCure().pastOneTimeUnit();
+        passOneTimeUnitCure();
 
         if(getDeadPeople()==getAmountOfPeople()){
             System.out.println("You won the game");
-            return;
+            return CallbackType.ENDGAMEWIN;
         }
         if(getInfectedPeople()==0) {
             System.out.println("You lose the game");
+            return CallbackType.ENDGAMELOSE;
         }
         if(getGlobalCure().isCureCreated()) {
             System.out.println("You lose the game");
+            return CallbackType.ENDGAMELOSE;
         }
         System.out.println(this);
+        return CallbackType.TIMEPASS;
+    }
+
+    private void applyDiseaseOnCountry(Country country){
+        if (!country.isInfected()) return;
+        //TODO: double thisCountryMedicineFight=disease.getInfectivity()-country.getCureKoef(); //country has a chance to cure
+        calcInfectedPeople(country);
+        calcDeadPeople(country);
+        calcHealthyPeople(country);
+
+        for (Transmission transmission : disease.getTransmissions()){
+            transmission.getHandler().handle(country);
+        }
+    }
+
+    private void calcInfectedPeople(Country country){
+        long perTimeUnitInfected =(long) Math.min(Math.ceil(disease.getInfectivity()*country.getInfectedPeople()), country.getHealthyPeople());
+        country.setInfectedPeople(country.getInfectedPeople()+perTimeUnitInfected);
+    }
+    private void calcDeadPeople(Country country){
+        long perTimeUnitDead =(long) Math.min(Math.ceil(disease.getLethality() * country.getInfectedPeople()), country.getInfectedPeople());
+        country.setDeadPeople(country.getDeadPeople()+perTimeUnitDead);
+    }
+    private void calcHealthyPeople(Country country){
+        country.setHealthyPeople(country.getAmountOfPeople()-country.getInfectedPeople()-country.getDeadPeople());
+    }
+
+    private void passOneTimeUnitCure(){
+        if (!globalCure.isStartedWork()) return;
+        long tempTime = getInfectedPeople()/1000000;
+        globalCure.setTimeToEnd(globalCure.getTimeToEnd()-tempTime-1);
     }
 
     public void addCountry(Country country){

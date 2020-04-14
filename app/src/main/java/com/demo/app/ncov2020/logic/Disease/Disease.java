@@ -1,21 +1,18 @@
 package com.demo.app.ncov2020.logic.Disease;
 
-import com.demo.app.ncov2020.logic.MainPart.Country;
-import com.demo.app.ncov2020.logic.Handler;
+import com.demo.app.ncov2020.logic.Country.Country;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Disease  implements Diseaseable{
+public class Disease{
     private String name;
     private double infectivity;
     private long severity;
-    private long lethality;
+    private double lethality;
     private List<Symptom> symptoms;
     private List<Transmission> transmissions;
     private List<Ability> abilities;
-    private Handler handTrans;
-    private Handler handAbilit;
 
     public Disease(String name) {
         this.name = name;
@@ -30,24 +27,6 @@ public class Disease  implements Diseaseable{
         severity+=symptom.getSeverity();
         lethality+=symptom.getLethality();
     }
-
-    @Override
-    public void acceptCountry(Country country){
-        if (!country.isInfected()) return;
-        double thisCountryMedicineFight=getInfectivity()-country.getCureKoef(); //country has a chance to cure
-
-        long perUnitInfected = (long) Math.min((thisCountryMedicineFight * country.getInfectedPeople() + 1), country.getHealthyPeople());
-        long perUnitDead = lethality;
-        country.setHealthyPeople(Math.max(country.getHealthyPeople() - perUnitInfected, 0));
-        country.setInfectedPeople(country.getInfectedPeople() + perUnitInfected);
-        country.setDeadPeople(country.getDeadPeople()+ Math.min(perUnitDead, country.getInfectedPeople()));
-        country.setInfectedPeople(country.getInfectedPeople() - Math.min(perUnitDead, country.getInfectedPeople()));
-
-        for (Transmission transmission : transmissions){
-            transmission.getType().getHandler().handle(country);
-        }
-    }
-
 
     public boolean containsSymptom(Symptom symptom){
         return symptoms.contains(symptom);
@@ -83,8 +62,20 @@ public class Disease  implements Diseaseable{
         return severity;
     }
 
-    public long getLethality() {
+    public double getLethality() {
         return lethality;
+    }
+
+    public List<Symptom> getSymptoms() {
+        return symptoms;
+    }
+
+    public List<Transmission> getTransmissions() {
+        return transmissions;
+    }
+
+    public List<Ability> getAbilities() {
+        return abilities;
     }
 
     @Override
@@ -97,8 +88,6 @@ public class Disease  implements Diseaseable{
                 ", symptoms=" + symptoms +
                 ", transmissions=" + transmissions +
                 ", abilities=" + abilities +
-                ", handTrans=" + handTrans +
-                ", handAbilit=" + handAbilit +
                 '}';
     }
 }
