@@ -1,6 +1,6 @@
 package com.demo.app.ncov2020.logic;
 
-import com.demo.app.ncov2020.logic.MainPart.Country;
+import com.demo.app.ncov2020.logic.Country.Country;
 
 public abstract class BaseHandler implements Handler {
     private Handler next;

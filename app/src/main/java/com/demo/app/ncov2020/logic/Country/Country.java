@@ -1,4 +1,7 @@
-package com.demo.app.ncov2020.logic.MainPart;
+package com.demo.app.ncov2020.logic.Country;
+
+import com.demo.app.ncov2020.logic.Country.State.BaseCountryState;
+import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,29 +15,60 @@ public class Country  {
     private long infectedPeople = 0;
     private long healthyPeople;
     private final boolean rich;
-    private boolean openAirport;
-    private boolean openSeaport;
+    private boolean openAirport=true;
+    private boolean openSeaport=true;
     private boolean openGround =true;
     private boolean openSchool = true;
     private boolean knowAboutVirus=false;
-    private Climate climate = Climate.NORMAL;
+    private Climate climate;
+    private final MedicineLevel medicineLevel;
     private boolean infected = false;
-    private double cureKoef = 0;
+    private double slowInfect = 0;
+    private Hronology hronology;
     private List<Country> pathsAir;
     private List<Country> pathsSea;
     private List<Country> pathsGround;
+    private BaseCountryState state = new CountryStateUndiscovered();
 
-    public Country(String name, long amountOfPeople, boolean rich,Climate climate, boolean openAirport, boolean openSeaport) {
+    public Country(String name, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport, boolean openGround, boolean openSchool, boolean knowAboutVirus, Climate climate, MedicineLevel medicineLevel, boolean infected, double slowInfect, Hronology hronology, List<Country> pathsAir, List<Country> pathsSea, List<Country> pathsGround) {
+        this.name = name;
+        this.amountOfPeople = amountOfPeople;
+        this.healthyPeople = amountOfPeople;
+        this.rich = rich;
+        this.openAirport = openAirport;
+        this.openSeaport = openSeaport;
+        this.openGround = openGround;
+        this.openSchool = openSchool;
+        this.knowAboutVirus = knowAboutVirus;
+        this.climate = climate;
+        this.medicineLevel = medicineLevel;
+        this.infected = infected;
+        this.slowInfect = slowInfect;
+        this.hronology = hronology;
+        this.pathsAir = pathsAir;
+        this.pathsSea = pathsSea;
+        this.pathsGround = pathsGround;
+    }
+
+    public Country(String name, long amountOfPeople, boolean rich, Climate climate, MedicineLevel medicineLevel, Hronology hronology) {
         this.name = name;
         this.amountOfPeople = amountOfPeople;
         this.healthyPeople = amountOfPeople;
         this.rich = rich;
         this.climate=climate;
-        this.openAirport = openAirport;
-        this.openSeaport = openSeaport;
+        this.medicineLevel=medicineLevel;
         this.pathsAir = new ArrayList<>();
         this.pathsSea = new ArrayList<>();
         this.pathsGround = new ArrayList<>();
+        this.hronology = hronology;
+    }
+
+    public void passOneTimeUnit(){
+        hronology.setAmountOfUnlocked((int) (hronology.getUrls().size()*(infectedPeople/amountOfPeople)));
+        state.checkIfNeedChangeState();
+        if(hronology.isAvailable()){
+            //TODO:Notify User that available Mem
+        }
     }
 
     public Country beginInfection(){
@@ -73,6 +107,15 @@ public class Country  {
     }
     public void addPathsGround(Country country) {
         pathsGround.add(country);
+    }
+
+
+    public Hronology getHronology() {
+        return hronology;
+    }
+
+    public void setHronology(Hronology hronology) {
+        this.hronology = hronology;
     }
 
     public double getPercentOfInfectedPeople(){
@@ -151,16 +194,16 @@ public class Country  {
         return infected;
     }
 
-    public void setInfected(boolean infected) {
-        this.infected = infected;
+//    public void setInfected(boolean infected) {
+//        this.infected = infected;
+//    }
+
+    public double getSlowInfect() {
+        return slowInfect;
     }
 
-    public double getCureKoef() {
-        return cureKoef;
-    }
-
-    public void setCureKoef(double cureKoef) {
-        this.cureKoef = cureKoef;
+    public void setSlowInfect(double slowInfect) {
+        this.slowInfect = slowInfect;
     }
 
     public boolean isOpenGround() {
@@ -169,6 +212,18 @@ public class Country  {
 
     public void setOpenGround(boolean openGround) {
         this.openGround = openGround;
+    }
+
+    public void setPathsAir(List<Country> pathsAir) {
+        this.pathsAir = pathsAir;
+    }
+
+    public void setPathsSea(List<Country> pathsSea) {
+        this.pathsSea = pathsSea;
+    }
+
+    public void setPathsGround(List<Country> pathsGround) {
+        this.pathsGround = pathsGround;
     }
 
     public List<Country> getPathsAir() {
@@ -181,6 +236,27 @@ public class Country  {
 
     public List<Country> getPathsGround() {
         return pathsGround;
+    }
+
+    public MedicineLevel getMedicineLevel() {
+        return medicineLevel;
+    }
+
+    public BaseCountryState getState() {
+        return state;
+    }
+
+    public void setState(BaseCountryState state) {
+        this.state = state;
+        state.applyState();
+    }
+
+    public boolean isKnowAboutVirus() {
+        return knowAboutVirus;
+    }
+
+    public void setKnowAboutVirus(boolean knowAboutVirus) {
+        this.knowAboutVirus = knowAboutVirus;
     }
 
     @Override
@@ -198,11 +274,14 @@ public class Country  {
                 ", openSchool=" + openSchool +
                 ", knowAboutVirus=" + knowAboutVirus +
                 ", climate=" + climate +
+                ", medicineLevel=" + medicineLevel +
                 ", infected=" + infected +
-                ", cureKoef=" + cureKoef +
-                ", pathsAir=" + pathsAir.size() +
-                ", pathsSea=" + pathsSea.size() +
-                ", pathsGround=" + pathsGround.size() +
+                ", slowInfect=" + slowInfect +
+                ", hronology=" + hronology +
+                ", pathsAir=" + pathsAir +
+                ", pathsSea=" + pathsSea +
+                ", pathsGround=" + pathsGround +
+                ", state=" + state +
                 '}';
     }
 }

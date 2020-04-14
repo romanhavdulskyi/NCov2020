@@ -1,7 +1,7 @@
 package com.demo.app.ncov2020.logic.Transsmission;
 
 import com.demo.app.ncov2020.logic.BaseHandler;
-import com.demo.app.ncov2020.logic.MainPart.Country;
+import com.demo.app.ncov2020.logic.Country.Country;
 
 public class HandlerAIR extends BaseHandler {
     @Override
@@ -14,7 +14,7 @@ public class HandlerAIR extends BaseHandler {
             else if (country.getPercentOfInfectedPeople()>0.5 && luck>0.5) {
                 infectAnotherCountryByAir(country);
             }
-            else if (country.getPercentOfInfectedPeople()>0.3 && luck>0.8) {
+            else if (country.getPercentOfInfectedPeople()>0.2 && luck>0.8) {
                 infectAnotherCountryByAir(country);
             }
         }

@@ -4,5 +4,7 @@ public enum CallbackType {
     TIMEPASS,
     SYMPTOMADD,
     TRANSADD,
-    ABILITYADD
+    ABILITYADD,
+    ENDGAMEWIN,
+    ENDGAMELOSE
 }

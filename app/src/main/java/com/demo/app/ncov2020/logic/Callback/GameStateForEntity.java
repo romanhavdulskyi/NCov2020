@@ -1,7 +1,7 @@
 package com.demo.app.ncov2020.logic.Callback;
 
 import com.demo.app.ncov2020.logic.Disease.Disease;
-import com.demo.app.ncov2020.logic.MainPart.Country;
+import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.MainPart.GameStatev2;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 

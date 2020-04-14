@@ -1,14 +1,18 @@
 package com.demo.app.ncov2020.logic.Disease;
 
+import com.demo.app.ncov2020.logic.Handler;
+
 public class Ability {
     private final String name;
     private final String description;
     private final TypeAbility typeAbility;
+    private Handler handler;
 
-    public Ability(String name, String description, TypeAbility typeAbility) {
+    public Ability(String name, String description, TypeAbility typeAbility, Handler handler) {
         this.name = name;
         this.description = description;
         this.typeAbility = typeAbility;
+        this.handler = handler;
     }
 
     public String getName() {
@@ -21,5 +25,13 @@ public class Ability {
 
     public TypeAbility getTypeAbility() {
         return typeAbility;
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
     }
 }
