@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.demo.app.basics.mvvm.BaseAndroidViewModel
 import com.demo.app.ncov2020.common.offlinegeocoder.GeocodeKey
 import com.demo.app.ncov2020.common.offlinegeocoder.ReverseGeocodingCountry
 import com.demo.app.ncov2020.game.GameProvider
@@ -30,7 +31,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-class MapViewModel(application: Application) : AndroidViewModel(application) {
+class MapViewModel(application: Application) : BaseAndroidViewModel(application) {
     var mapLiveData : MutableLiveData<Map> = MutableLiveData()
     var style: Style? = null
     private var geoJsonSource : GeoJsonSource? = null
@@ -54,8 +55,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         mapboxMap.uiSettings.isRotateGesturesEnabled = false
         mapboxMap.setStyle(Style.DARK) {
             this.style = it
-            val offlineManager: OfflineManager? = OfflineManager.getInstance(getApplication())
-            val context = getApplication<Application>()
+            val offlineManager: OfflineManager? = OfflineManager.getInstance(application)
+            val context = application
 
             val latLngBounds = LatLngBounds.Builder()
                     .include(LatLng(37.7897, -119.5073)) // Northeast
@@ -127,7 +128,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onMapClicked(point : LatLng)
     {
-        val decoder = ReverseGeocodingCountry(getApplication())
+        val decoder = ReverseGeocodingCountry(application)
         val result = decoder.getCountry(GeocodeKey.KEY_NAME, point.latitude, point.longitude)
         Toast.makeText(getApplication(), String.format("User clicked at: %s", result), Toast.LENGTH_LONG).show()
         mapBoxMap?.let {

@@ -20,7 +20,7 @@ class CurrentSessionManager(private val facade: GameRepositoryFacade) {
     }
 
     private object HOLDER {
-        val INSTANCE = CurrentSessionManager(GameRepositoryFacade.INSTANCE)
+        val INSTANCE = CurrentSessionManager(GameRepositoryFacade.getInstance())
     }
 
     companion object {

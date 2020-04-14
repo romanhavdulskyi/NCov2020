@@ -2,7 +2,6 @@ package com.demo.app
 
 import android.app.Application
 import com.demo.app.ncov2020.BuildConfig
-import com.demo.app.ncov2020.common.ViewModelFactoryImpl
 import com.demo.app.ncov2020.common.ViewModelProvider
 import com.demo.app.ncov2020.logic.MainPart.GameModel
 import com.demo.app.ncov2020.data.AppDatabase

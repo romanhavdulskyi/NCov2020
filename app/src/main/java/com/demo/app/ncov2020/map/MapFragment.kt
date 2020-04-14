@@ -1,11 +1,8 @@
 package com.demo.app.ncov2020.map
 
-import android.app.Application
 import android.os.Bundle
 import android.view.*
-import androidx.lifecycle.ViewModelProviders
 import com.demo.app.basics.mvvm.BaseFragment
-import com.demo.app.ncov2020.common.ViewModelFactoryImpl
 import com.demo.app.ncov2020.common.ViewModelProvider
 
 class MapFragment : BaseFragment() {

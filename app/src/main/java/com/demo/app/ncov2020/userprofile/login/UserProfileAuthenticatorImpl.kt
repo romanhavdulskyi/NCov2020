@@ -59,7 +59,7 @@ class UserProfileAuthenticatorImpl(private val facade: GameRepositoryFacade) : U
     }
 
     private object HOLDER {
-        val INSTANCE = UserProfileAuthenticatorImpl(GameRepositoryFacade.INSTANCE)
+        val INSTANCE = UserProfileAuthenticatorImpl(GameRepositoryFacade.getInstance())
     }
 
     companion object {

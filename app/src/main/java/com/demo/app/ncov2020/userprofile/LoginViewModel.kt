@@ -4,13 +4,14 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.demo.app.basics.mvvm.BaseAndroidViewModel
 import com.demo.app.ncov2020.common.GameNavigatorImpl
 import com.demo.app.ncov2020.userprofile.login.Login
 import com.demo.app.ncov2020.userprofile.login.LoginStates
 import com.demo.app.ncov2020.userprofile.login.UserProfileAuthenticator
 import com.demo.app.ncov2020.userprofile.login.UserProfileAuthenticatorImpl
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel(application: Application) : BaseAndroidViewModel(application) {
     var loginLiveData : MutableLiveData<Login> = MutableLiveData()
     var  authenticator : UserProfileAuthenticator? = null;
 

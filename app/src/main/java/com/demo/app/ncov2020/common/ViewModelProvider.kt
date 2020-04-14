@@ -4,28 +4,34 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import com.demo.app.basics.ViewModelFactory
+import com.demo.app.basics.mvvm.BaseAndroidViewModel
+import com.demo.app.basics.mvvm.BaseViewModel
 import java.util.*
+import kotlin.jvm.internal.Reflection
 
 
 class ViewModelProvider private constructor(application: Application) {
-    private val viewModelFactory: ViewModelFactory
-    private val androidViewModelFactory: ViewModelFactory
-    private val cache: HashMap<Class<*>, ViewModel> = HashMap()
-    fun getViewModel(className: Class<*>?): ViewModel? {
+    private val baseViewModelFactoryImpl : ViewModelFactory = BaseViewModelFactoryImpl()
+    private val androidViewModelFactory: ViewModelFactory = AndroidViewModelFactoryImpl(application)
+    private val cache: HashMap<Class<*>, com.demo.app.basics.mvvm.ViewModel> = HashMap()
+
+    fun getViewModel(className: Class<*>?): com.demo.app.basics.mvvm.ViewModel? {
         var viewModel = cache[className]
         if (viewModel == null) {
             viewModel = when {
-                AndroidViewModel::class.java.isAssignableFrom(className!!) -> {
+                BaseAndroidViewModel::class.java.isAssignableFrom(className!!) -> {
                     androidViewModelFactory.createViewModel(className)
                 }
-                ViewModel::class.java.isAssignableFrom(className) -> {
-                    viewModelFactory.createViewModel(className)
+                BaseViewModel::class.java.isAssignableFrom(className) -> {
+                    baseViewModelFactoryImpl.createViewModel(className)
                 }
                 else -> {
                     throw IllegalStateException("Class is not inherited from ViewModel!")
                 }
             }
+            cache[className] = viewModel!!
         }
+
         return viewModel
     }
 
@@ -43,8 +49,4 @@ class ViewModelProvider private constructor(application: Application) {
         }
     }
 
-    init {
-        viewModelFactory = ViewModelFactoryImpl()
-        androidViewModelFactory = AndroidViewModelFactoryImpl(application)
-    }
 }

@@ -1,6 +1,6 @@
 package com.demo.app.basics;
 
-import androidx.lifecycle.ViewModel;
+import com.demo.app.basics.mvvm.ViewModel;
 
 public interface ViewModelFactory {
     ViewModel createViewModel(Class className);
