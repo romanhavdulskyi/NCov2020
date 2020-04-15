@@ -1,6 +1,7 @@
 package com.demo.app.basics.mvvm;
 
 import android.view.View;
+
 public class BaseView {
     protected View viewLayout ;
 

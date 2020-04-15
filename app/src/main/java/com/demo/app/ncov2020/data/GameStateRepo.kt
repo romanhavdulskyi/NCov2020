@@ -33,14 +33,14 @@ class GameStateRepo(private var commonCountryDao: CommonCountryDao, private var 
     override fun createState(playerGUID : String, virusName : String) : GameState
     {
         val disease = Disease(diseaseName = virusName, playerGUID = playerGUID, transmissionsIds = null, abilitiesIds = null, symptomsIds = null)
-        val gameState =  GameState(playerGUID = playerGUID, countries = countryConverter(commonCountryDao.getAll(), playerGUID), disease = disease)
+        val gameState =  GameState(playerGUID = playerGUID, countries = convertCountry(commonCountryDao.getAll(), playerGUID), disease = disease)
         gameState.countries = countryDao.getAllGameCountries(playerGUID)
         gameState.disease = diseaseDao.getDisease(playerGUID)
        // gameState.initialize()
         return gameState
     }
 
-    private fun countryConverter(commonCountry: List<CommonCountry>, playerGUID: String) : List<GameCountry>
+    private fun convertCountry(commonCountry: List<CommonCountry>, playerGUID: String) : List<GameCountry>
     {
         val converter = ListConverter()
         val gameCountriesList = mutableListOf<GameCountry>()
@@ -54,11 +54,11 @@ class GameStateRepo(private var commonCountryDao: CommonCountryDao, private var 
         return gameCountriesList
     }
 
-    private object HOLDER {
-        val INSTANCE = GameStateRepo(AssetsAppDatabase.getInstance()!!.CommonCountryDao(), AppDatabase.getInstance()!!.GameCountryDao(), AppDatabase.getInstance()!!.GameStateDao(), AppDatabase.getInstance()!!.DiseaseDao())
-    }
 
     companion object {
-        val instance: GameStateRepo by lazy { HOLDER.INSTANCE }
+        var INSTANCE : GameStateRepo =  GameStateRepo(AssetsAppDatabase.getInstance()!!.CommonCountryDao(),
+                AppDatabase.getInstance()!!.GameCountryDao(),
+                AppDatabase.getInstance()!!.GameStateDao(),
+                AppDatabase.getInstance()!!.DiseaseDao())
     }
 }

@@ -4,11 +4,10 @@ import com.demo.app.ncov2020.data.room_data.CurrentUserProfile
 import com.demo.app.ncov2020.data.room_data.GameState
 import com.demo.app.ncov2020.data.room_data.UserProfile
 
-class GameRepositoryFacade(
-        appDatabase: AppDatabase)  : BaseRepository(appDatabase) {
+class GameRepositoryFacade private constructor() : BaseRepository() {
     private val userProfileRepo: UserRepo = UserRepo.INSTANCE
     private val currentUserRepo: CurrentUserRepo = CurrentUserRepo.INSTANCE
-    private val gameStateRepo: GameStateRepo = GameStateRepo.instance
+    private val gameStateRepo: GameStateRepo = GameStateRepo.INSTANCE
 
      fun clearProfile() {
         currentUserRepo.clearProfile()
@@ -58,12 +57,16 @@ class GameRepositoryFacade(
         return gameStateRepo.createState(playerGUID, virusName)
     }
 
-    private object HOLDER {
-        val INSTANCE = GameRepositoryFacade(AppDatabase.getInstance()!!)
-    }
-
     companion object {
-        val INSTANCE: GameRepositoryFacade by lazy { HOLDER.INSTANCE }
+        var INSTANCE : GameRepositoryFacade? = null
+
+        @Synchronized
+        fun getInstance(): GameRepositoryFacade
+        {
+            if(INSTANCE == null)
+                INSTANCE = GameRepositoryFacade()
+            return INSTANCE!!
+        }
     }
 
 }

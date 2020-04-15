@@ -1,11 +1,9 @@
 package com.demo.app.ncov2020.map
 
-import android.app.Application
 import android.os.Bundle
 import android.view.*
-import androidx.lifecycle.ViewModelProviders
 import com.demo.app.basics.mvvm.BaseFragment
-import com.demo.app.ncov2020.common.ViewModelFactoryImpl
+import com.demo.app.ncov2020.common.ViewModelProvider
 
 class MapFragment : BaseFragment() {
 
@@ -17,7 +15,7 @@ class MapFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelFactoryImpl.getInstance((activity!!.applicationContext as Application?)!!)?.createViewModel(MapViewModel::class.java) as MapViewModel
+        viewModel = ViewModelProvider.getInstance()?.getViewModel(MapViewModel::class.java) as MapViewModel
         val mapView = MapView(activity, this, inflater, container, viewModel, savedInstanceState)
         return mapView.viewLayout
     }
