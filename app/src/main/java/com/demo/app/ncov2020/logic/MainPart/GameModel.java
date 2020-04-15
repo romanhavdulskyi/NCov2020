@@ -26,15 +26,10 @@ import java.util.ArrayList;
 
 
 public class GameModel implements EverydayAble {
-    GameStatev2 gameStatev2;
+    private GameStatev2 gameStatev2;
 
     private Callback callback;
     public static GameModel instance;
-
-    private GameModel(GameStatev2 gameStatev2) {
-        this.gameStatev2 = gameStatev2;
-        instance = this;
-    }
 
     private GameModel(GameStatev2 gameStatev2, Callback callback) {
         this.gameStatev2 = gameStatev2;
@@ -42,13 +37,6 @@ public class GameModel implements EverydayAble {
         instance = this;
     }
 
-    public static GameModel init(GameStatev2 gameStatev2){
-        if (instance != null){
-            throw new AssertionError("You already initialized me");
-        }
-        instance = new GameModel(gameStatev2);
-        return instance;
-    }
     public static GameModel init(GameStatev2 gameStatev2, Callback callback){
         if (instance != null){
             throw new AssertionError("You already initialized me");

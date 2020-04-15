@@ -30,7 +30,7 @@ public class Country  {
     private List<Country> pathsGround;
     private BaseCountryState state = new CountryStateUndiscovered();
 
-    public Country(String name, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport, boolean openGround, boolean openSchool, boolean knowAboutVirus, Climate climate, MedicineLevel medicineLevel, boolean infected, double slowInfect, Hronology hronology, List<Country> pathsAir, List<Country> pathsSea, List<Country> pathsGround) {
+    public Country(String name, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport, boolean openGround, boolean openSchool, boolean knowAboutVirus, Climate climate, MedicineLevel medicineLevel, boolean infected, double slowInfect, Hronology hronology, List<Country> pathsAir, List<Country> pathsSea, List<Country> pathsGround,BaseCountryState state) {
         this.name = name;
         this.amountOfPeople = amountOfPeople;
         this.healthyPeople = amountOfPeople;
@@ -48,6 +48,7 @@ public class Country  {
         this.pathsAir = pathsAir;
         this.pathsSea = pathsSea;
         this.pathsGround = pathsGround;
+        this.state=state;
     }
 
     public Country(String name, long amountOfPeople, boolean rich, Climate climate, MedicineLevel medicineLevel, Hronology hronology) {
