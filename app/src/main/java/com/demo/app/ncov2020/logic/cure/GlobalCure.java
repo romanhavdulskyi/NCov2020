@@ -1,8 +1,5 @@
 package com.demo.app.ncov2020.logic.cure;
 
-import com.demo.app.ncov2020.logic.EverydayAble;
-import com.demo.app.ncov2020.logic.MainPart.GameModel;
-
 public class GlobalCure{
     private boolean startedWork;
     private long timeToEnd=90;

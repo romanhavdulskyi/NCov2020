@@ -4,13 +4,13 @@ import com.demo.app.ncov2020.logic.Abilities.HandlerAntibiotics1;
 import com.demo.app.ncov2020.logic.Callback.Callback;
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Callback.ConcreateCallback;
+import com.demo.app.ncov2020.logic.Country.CountryComposite;
 import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.Disease.TypeAbility;
 import com.demo.app.ncov2020.logic.Disease.TypeTrans;
-import com.demo.app.ncov2020.logic.EverydayAble;
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity;
 import com.demo.app.ncov2020.logic.Country.Climate;
 import com.demo.app.ncov2020.logic.Country.Country;
@@ -25,54 +25,52 @@ import com.demo.app.ncov2020.logic.cure.GlobalCure;
 import java.util.ArrayList;
 
 
-public class GameModel implements EverydayAble {
-    private GameStatev2 gameStatev2;
-
+public class GameStateCallbackDecorator extends BaseDecorator {
     private Callback callback;
-    public static GameModel instance;
+    public static GameStateCallbackDecorator instance;
 
-    private GameModel(GameStatev2 gameStatev2, Callback callback) {
-        this.gameStatev2 = gameStatev2;
+    public GameStateCallbackDecorator(ComponentDec componentDec, Callback callback) {
+        super(componentDec);
         this.callback = callback;
         instance = this;
     }
-
-    public static GameModel init(GameStatev2 gameStatev2, Callback callback){
+/*This part can be deleted */
+    public static GameStateCallbackDecorator init(ComponentDec gameStateReali, Callback callback){
         if (instance != null){
             throw new AssertionError("You already initialized me");
         }
-        instance = new GameModel(gameStatev2,callback);
+        instance = new GameStateCallbackDecorator(gameStateReali,callback);
         return instance;
     }
 
-    public static GameModel getInstance(){
+    public static GameStateCallbackDecorator getInstance(){
         if(instance==null) throw new RuntimeException("Create one object through init");
         return instance;
     }
 
-    @Override
-    public void pastOneTimeUnit() {
-        CallbackType callbackType = gameStatev2.pastOneTimeUnit();
-        callback.callingBack(new GameStateForEntity(gameStatev2), callbackType);
+    public CallbackType pastOneTimeUnit() {
+        CallbackType callbackType = super.pastOneTimeUnit();
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()), callbackType);
+        return callbackType;
     }
 
     public void addSymptom(Symptom symptom){
-        gameStatev2.getDisease().addSymptom(symptom);
-        callback.callingBack(new GameStateForEntity(gameStatev2),CallbackType.SYMPTOMADD);
+        super.addSymptom(symptom);
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.SYMPTOMADD);
     }
 
     public void addTransmission(Transmission transmission){
-        gameStatev2.getDisease().addTransmission(transmission);
-        callback.callingBack(new GameStateForEntity(gameStatev2),CallbackType.TRANSADD);
+        super.addTransmission(transmission);
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.TRANSADD);
     }
 
     public void addAbility(Ability ability){
-        gameStatev2.getDisease().addAbility(ability);
-        callback.callingBack(new GameStateForEntity(gameStatev2),CallbackType.ABILITYADD);
+        super.addAbility(ability);
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.ABILITYADD);
     }
 
     static public void testGameModel(){
-        ArrayList<Country> countries = new ArrayList<>();
+        CountryComposite countryComposite= new CountryComposite();
         Country ukraine = new CountryBuilder()
                 .setName("Ukraine")
                 .setAmountOfPeople(42_000_000)
@@ -108,47 +106,32 @@ public class GameModel implements EverydayAble {
         ukraine.addPathSea(italy);
         china.addPathSea(japan);
 
-        countries.add(ukraine);
-        countries.add(italy);
-        countries.add(china);
+        countryComposite.addComponent(ukraine);
+        countryComposite.addComponent(italy);
+        countryComposite.addComponent(china);
         Disease disease = new Disease("nCov2019");
-        GameModel gameModel = init(GameStatev2.init(1,"1",countries,disease,new GlobalCure(1000000)),new ConcreateCallback());
-        gameModel.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
-        gameModel.addSymptom(new Symptom("Cough","A-a-a-pchi",2,4,0));
-        gameModel.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1, new HandlerAntibiotics1()));
-        gameModel.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR,new HandlerAIR()));
-        gameModel.addTransmission(new Transmission("Tourist transmission","You will be able to infect by tourists", TypeTrans.GROUND,new HandlerGround()));
-        gameModel.addTransmission(new Transmission("Ship transmission","You will be able to infect by ships", TypeTrans.WATER,new HandlerWater()));
+        BaseDecorator baseDecorator = new GameStateLogDecorator(GameStateCallbackDecorator.init(GameStateReali.init(1,"1",countryComposite,disease,new GlobalCure(1000000)),new ConcreateCallback()));
+        baseDecorator.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
+        baseDecorator.addSymptom(new Symptom("Cough","A-a-a-pchi",2,4,0));
+        baseDecorator.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1, new HandlerAntibiotics1()));
+        baseDecorator.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR,new HandlerAIR()));
+        baseDecorator.addTransmission(new Transmission("Tourist transmission","You will be able to infect by tourists", TypeTrans.GROUND,new HandlerGround()));
+        baseDecorator.addTransmission(new Transmission("Ship transmission","You will be able to infect by ships", TypeTrans.WATER,new HandlerWater()));
         ukraine.beginInfection();
         for (int i=0;i<50;i++) {
-            System.out.println(gameModel);
-            gameModel.pastOneTimeUnit();
+            System.out.println(baseDecorator);
+            baseDecorator.pastOneTimeUnit();
         }
         disease.addSymptom(new Symptom("Kill all","People started dying",2,4,2));
         for (int i=0;i<100;i++) {
-            System.out.println(gameModel);
-            gameModel.pastOneTimeUnit();
+            System.out.println(baseDecorator);
+            baseDecorator.pastOneTimeUnit();
         }
-        System.out.println(gameModel);
+        System.out.println(baseDecorator);
     }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
 
-    public GameStatev2 getGameStatev2() {
-        return gameStatev2;
-    }
-
-    public void setGameStatev2(GameStatev2 gameStatev2) {
-        this.gameStatev2 = gameStatev2;
-    }
-
-    @Override
-    public String toString() {
-        return "GameModel{" +
-                "gameStatev2=" + gameStatev2 +
-                ", callback=" + callback +
-                '}';
-    }
 }

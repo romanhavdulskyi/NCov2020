@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class Country  {
+public class Country implements Component {
     private final String name;
     private final long amountOfPeople;
     private long deadPeople = 0;
@@ -64,6 +64,7 @@ public class Country  {
         this.hronology = hronology;
     }
 
+    @Override
     public void passOneTimeUnit(){
         hronology.setAmountOfUnlocked((int) (hronology.getUrls().size()*(infectedPeople/amountOfPeople)));
         state.checkIfNeedChangeState();

@@ -1,57 +1,57 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
+import com.demo.app.ncov2020.logic.Country.Component;
+import com.demo.app.ncov2020.logic.Country.CountryComposite;
+import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Disease;
+import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
-import java.util.List;
-import java.util.Objects;
-
-public class GameStatev2 {
+public class GameStateReali implements ComponentDec {
     private final int id;
     private final String playerGUID;
     private long amountOfPeople;
     private long deadPeople = 0;
     private long infectedPeople = 0;
     private long healthyPeople = 0;
-    private List<Country> countries;
+    private CountryComposite countryComposite;
     private Disease disease;
     private GlobalCure globalCure;
 
     private boolean timePassed=false;
 
-    private static GameStatev2 instance;
+    private static GameStateReali instance;
 
-    private GameStatev2(int id, String playerGUID, List<Country> countries, Disease disease, GlobalCure globalCure) {
+    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure) {
         this.id = id;
         this.playerGUID = playerGUID;
-        this.countries = countries;
+        this.countryComposite = countryComposite;
         this.disease = disease;
         this.globalCure = globalCure;
-        for(Country country :countries){
-            amountOfPeople+=country.getAmountOfPeople();
-            deadPeople+=country.getDeadPeople();
-            infectedPeople+=country.getInfectedPeople();
-            healthyPeople+=country.getHealthyPeople();
-        }
+        amountOfPeople+=countryComposite.getAmountOfPeople();
+        deadPeople+=countryComposite.getDeadPeople();
+        healthyPeople+=countryComposite.getHealthyPeople();
+        infectedPeople+=countryComposite.getInfectedPeople();
     }
-    public static GameStatev2 init(int id, String playerGUID, List<Country> countries, Disease disease, GlobalCure globalCure) {
-        GameStatev2 gameStatev2 = new GameStatev2(id, playerGUID, countries, disease, globalCure);
-        instance=gameStatev2;
+
+    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure) {
+        GameStateReali gameStateReali = new GameStateReali(id, playerGUID, countryComposite, disease, globalCure);
+        instance= gameStateReali;
         return instance;
     }
 
-    public static GameStatev2 getInstance(){
+    public static GameStateReali getInstance(){
         if(instance==null) throw new RuntimeException("Create one object through init");
         return instance;
     }
 
     public CallbackType pastOneTimeUnit() {
         timePassed=true;
-        for (Country country: Objects.requireNonNull(getCountries())) {
-            applyDiseaseOnCountry(country);
+        for (Component country: countryComposite.getComponents()) {
+            applyDiseaseOnCountry((Country) country);
         }
         if(getInfectedPeople()>100_000)
             getGlobalCure().startWorkOnCure();
@@ -85,6 +85,18 @@ public class GameStatev2 {
         }
     }
 
+    public void addSymptom(Symptom symptom){
+        getDisease().addSymptom(symptom);
+    }
+
+    public void addTransmission(Transmission transmission){
+        getDisease().addTransmission(transmission);
+    }
+
+    public void addAbility(Ability ability){
+        getDisease().addAbility(ability);
+    }
+
     private void calcInfectedPeople(Country country){
         long perTimeUnitInfected =(long) Math.min(Math.ceil(disease.getInfectivity()*country.getInfectedPeople()), country.getHealthyPeople());
         country.setInfectedPeople(country.getInfectedPeople()+perTimeUnitInfected);
@@ -101,10 +113,6 @@ public class GameStatev2 {
         if (!globalCure.isStartedWork()) return;
         long tempTime = getInfectedPeople()/1000000;
         globalCure.setTimeToEnd(globalCure.getTimeToEnd()-tempTime-1);
-    }
-
-    public void addCountry(Country country){
-        Objects.requireNonNull(getCountries()).add(country);
     }
 
     public long getDeadPeople() {
@@ -126,14 +134,9 @@ public class GameStatev2 {
     }
 
     public void reCalcPeople(){
-        healthyPeople =0;
-        infectedPeople=0;
-        deadPeople = 0;
-        for (Country country: countries) {
-            healthyPeople +=country.getHealthyPeople();
-            deadPeople+=country.getDeadPeople();
-            infectedPeople+=country.getInfectedPeople();
-        }
+        healthyPeople =countryComposite.getHealthyPeople();
+        infectedPeople=countryComposite.getInfectedPeople();
+        deadPeople = countryComposite.getDeadPeople();
     }
 
     public int getId() {
@@ -164,12 +167,12 @@ public class GameStatev2 {
         this.healthyPeople = healthyPeople;
     }
 
-    public List<Country> getCountries() {
-        return countries;
+    public CountryComposite getCountryComposite() {
+        return countryComposite;
     }
 
-    public void setCountries(List<Country> countries) {
-        this.countries = countries;
+    public void setCountryComposite(CountryComposite countryComposite) {
+        this.countryComposite = countryComposite;
     }
 
     public Disease getDisease() {
@@ -197,7 +200,7 @@ public class GameStatev2 {
                 ", deadPeople=" + deadPeople +
                 ", infectedPeople=" + infectedPeople +
                 ", healthyPeople=" + healthyPeople +
-                ", countries=" + countries +
+                ", countryComposite=" + countryComposite +
                 ", disease=" + disease +
                 ", globalCure=" + globalCure +
                 ", timePassed=" + timePassed +

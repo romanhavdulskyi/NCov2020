@@ -3,7 +3,7 @@ package com.demo.app
 import android.app.Application
 import com.demo.app.ncov2020.BuildConfig
 import com.demo.app.ncov2020.common.ViewModelProvider
-import com.demo.app.ncov2020.logic.MainPart.GameModel
+import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
 import com.demo.app.ncov2020.data.AppDatabase
 import com.demo.app.ncov2020.data.AssetsAppDatabase
 import com.demo.app.ncov2020.userprofile.login.CurrentSessionManager
@@ -14,7 +14,7 @@ import timber.log.Timber.DebugTree
 class nConApp : Application() {
 
     override fun onCreate() {
-        GameModel.testGameModel();
+        GameStateCallbackDecorator.testGameModel();
         super.onCreate()
         Mapbox.getInstance(this, "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
         AppDatabase.create(this)
