@@ -11,7 +11,7 @@ class GameProviderImpl(private val gameStateCallbackDecorator: GameStateCallback
     }
 
     override fun infectCountry(country: Country) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    //    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun addSymptom(symptom: Symptom) {

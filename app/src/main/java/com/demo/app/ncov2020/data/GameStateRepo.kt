@@ -10,7 +10,7 @@ import com.demo.app.ncov2020.data.room_data.GameCountry
 import com.demo.app.ncov2020.data.room_data.GameState
 
 
-class GameStateRepo(private var commonCountryDao: CommonCountryDao, private var countryDao: GameCountryDao, private var gameStateDao: GameStateDao, private var diseaseDao: DiseaseDao) : GameStateRepository {
+class GameStateRepo private constructor(private var commonCountryDao: CommonCountryDao, private var countryDao: GameCountryDao, private var gameStateDao: GameStateDao, private var diseaseDao: DiseaseDao) : GameStateRepository {
     override fun getState(playerGUID : String) : GameState?
     {
         val gameState =  gameStateDao.getGameState(playerGUID)

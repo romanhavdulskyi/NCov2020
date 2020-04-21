@@ -6,7 +6,6 @@ import com.demo.app.ncov2020.data.room_data.GameState
 interface GameStateRepository {
     fun getState(playerGUID : String) : GameState?
 
-
     fun saveState(gameState: GameState)
 
 

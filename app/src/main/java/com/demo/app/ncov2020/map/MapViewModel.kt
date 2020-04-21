@@ -1,20 +1,14 @@
 package com.demo.app.ncov2020.map
 
-import android.R.style
 import android.app.Application
 import android.graphics.Color
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.demo.app.basics.mvvm.BaseAndroidViewModel
-import com.demo.app.ncov2020.common.offlinegeocoder.GeocodeKey
-import com.demo.app.ncov2020.common.offlinegeocoder.ReverseGeocodingCountry
+import com.demo.app.ncov2020.common.offlinegeocoder.GeoDataFactory
 import com.demo.app.ncov2020.game.GameProvider
 import com.demo.app.ncov2020.game.GameProviderImpl
 import com.mapbox.geojson.Point
 import com.mapbox.geojson.Polygon
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.geometry.LatLngBounds
 import com.mapbox.mapboxsdk.maps.MapboxMap
@@ -34,8 +28,8 @@ import kotlin.math.roundToInt
 class MapViewModel(application: Application) : BaseAndroidViewModel(application) {
     var mapLiveData : MutableLiveData<Map> = MutableLiveData()
     var style: Style? = null
-    private var geoJsonSource : GeoJsonSource? = null
-    private var  fillLayer : FillLayer? = null
+    private var geoJsonSource : MutableList<GeoJsonSource?> = mutableListOf()
+    private var  fillLayer : MutableList<FillLayer?>  = mutableListOf()
     private var mapBoxMap: MapboxMap? = null
     private val JSON_CHARSET = "UTF-8"
     private var gameProvider : GameProvider ? = null
@@ -128,25 +122,48 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
 
     fun onMapClicked(point : LatLng)
     {
-        val decoder = ReverseGeocodingCountry(application)
-        val result = decoder.getCountry(GeocodeKey.KEY_NAME, point.latitude, point.longitude)
-        Toast.makeText(getApplication(), String.format("User clicked at: %s", result), Toast.LENGTH_LONG).show()
+//        val result = decoder.getCountry(GeocodeKey.KEY_NAME, point.latitude, point.longitude)
+//        Toast.makeText(getApplication(), String.format("User clicked at: %s", result), Toast.LENGTH_LONG).show()
         mapBoxMap?.let {
             mapboxMap ->
             try {
                 val POINTS = mutableListOf<List<Point>>()
 
-                geoJsonSource?.let { style?.removeSource(geoJsonSource!!) }
-                fillLayer?.let { style?.removeLayer(it) }
+                try {
+                    for (item in geoJsonSource) {
+                        geoJsonSource.let { style?.removeSource(item!!) }
+                    }
+                    geoJsonSource.clear()
+                } catch (e : java.lang.Exception)
+                {
+                    e.printStackTrace()
+                }
 
-                val uuid = UUID.randomUUID().toString()
-                POINTS.add(decoder.getCountryCoordinates(GeocodeKey.KEY_NAME, point.latitude, point.longitude))
-                geoJsonSource = GeoJsonSource(uuid, Polygon.fromLngLats(POINTS))
-                style?.addSource(geoJsonSource!!)
-                fillLayer = FillLayer("layer-id", uuid).withProperties(
-                        fillColor(Color.parseColor("#3bb2d0")))
-                style?.addLayerBelow(fillLayer!!, "settlement-label"
-                )
+                try {
+                    for (item in fillLayer) {
+                        item?.let { style?.removeLayer(it) }
+                    }
+                    fillLayer.clear()
+                }catch (e : Exception)
+                {
+                    e.printStackTrace()
+                }
+
+                val data = GeoDataFactory.getPolygon(point)
+                if(data.getPolygons()!!.isNotEmpty()) {
+                        POINTS.clear()
+                    for(item in data.getPolygons()!!)
+                        POINTS.add(item!!.points)
+
+                        val uuid = UUID.randomUUID().toString()
+                        geoJsonSource.add(GeoJsonSource(uuid, Polygon.fromLngLats(POINTS)))
+                        style?.addSource(geoJsonSource.last()!!)
+                        fillLayer.add(FillLayer("layer-id", uuid).withProperties(
+                                fillColor(Color.parseColor("#8B0000"))))
+                        style?.addLayerBelow(fillLayer.last()!!, "settlement-label"
+                        )
+
+                }
             }catch (e : Exception)
             {
                 e.printStackTrace()
