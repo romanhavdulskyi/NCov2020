@@ -3,7 +3,7 @@ package com.demo.app.ncov2020.data
 import com.demo.app.ncov2020.data.room_data.CurrentUserProfile
 import com.demo.app.ncov2020.data.room_data.UserProfile
 
-interface CurrentUserRepository{
+interface CurrentUserRepository {
 
     fun clearProfile()
 

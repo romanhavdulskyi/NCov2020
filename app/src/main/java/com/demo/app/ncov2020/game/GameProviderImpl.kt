@@ -3,9 +3,9 @@ package com.demo.app.ncov2020.game
 import com.demo.app.ncov2020.data.AppDatabase
 import com.demo.app.ncov2020.data.CurrentUserRepo
 import com.demo.app.ncov2020.logic.Callback.ConcreateCallback
+import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.logic.Disease.Ability
 import com.demo.app.ncov2020.logic.Disease.Symptom
-import com.demo.app.ncov2020.logic.MainPart.Country
 import com.demo.app.ncov2020.logic.MainPart.GameModel
 
 class GameProviderImpl(private val gameModel: GameModel) : GameProvider {

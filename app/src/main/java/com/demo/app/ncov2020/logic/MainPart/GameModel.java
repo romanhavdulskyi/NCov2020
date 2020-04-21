@@ -36,7 +36,7 @@ public class GameModel implements EverydayAble {
         instance = this;
     }
 
-    private GameModel(GameStatev2 gameStatev2, Callback callback) {
+    public GameModel(GameStatev2 gameStatev2, Callback callback) {
         this.gameStatev2 = gameStatev2;
         this.callback = callback;
         instance = this;

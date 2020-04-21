@@ -3,6 +3,7 @@ package com.demo.app
 import android.app.Application
 import com.demo.app.ncov2020.BuildConfig
 import com.demo.app.ncov2020.common.ViewModelProvider
+import com.demo.app.ncov2020.common.offlinegeocoder.ReverseGeocodingCountry
 import com.demo.app.ncov2020.logic.MainPart.GameModel
 import com.demo.app.ncov2020.data.AppDatabase
 import com.demo.app.ncov2020.data.AssetsAppDatabase
@@ -21,6 +22,7 @@ class nConApp : Application() {
         AssetsAppDatabase.create(this)
         ViewModelProvider.init(this)
         CurrentSessionManager.instance.initCurrent()
+        ReverseGeocodingCountry.init(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
