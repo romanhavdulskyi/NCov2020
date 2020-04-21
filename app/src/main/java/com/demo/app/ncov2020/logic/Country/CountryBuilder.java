@@ -1,5 +1,8 @@
 package com.demo.app.ncov2020.logic.Country;
 
+import com.demo.app.ncov2020.logic.Country.State.BaseCountryState;
+import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class CountryBuilder {
     private List<Country> pathsAir=new ArrayList<>();
     private List<Country> pathsSea=new ArrayList<>();
     private List<Country> pathsGround= new ArrayList<>();
+    private BaseCountryState state = new CountryStateUndiscovered();
 
     public CountryBuilder setName(String name) {
         this.name = name;
@@ -101,7 +105,11 @@ public class CountryBuilder {
         return this;
     }
 
+    public void setState(BaseCountryState state) {
+        this.state = state;
+    }
+
     public Country buildCountry() {
-        return new Country(name, amountOfPeople, rich, openAirport, openSeaport, openGround, openSchool, knowAboutVirus, climate, medicineLevel, infected, cureKoef, hronology, pathsAir, pathsSea, pathsGround);
+        return new Country(name, amountOfPeople, rich, openAirport, openSeaport, openGround, openSchool, knowAboutVirus, climate, medicineLevel, infected, cureKoef, hronology, pathsAir, pathsSea, pathsGround,state);
     }
 }
