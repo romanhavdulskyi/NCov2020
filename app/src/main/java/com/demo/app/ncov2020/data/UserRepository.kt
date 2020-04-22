@@ -1,7 +1,6 @@
 package com.demo.app.ncov2020.data
 
 import com.demo.app.ncov2020.data.room_data.UserProfile
-import java.util.*
 
 interface UserRepository {
 

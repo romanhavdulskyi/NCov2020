@@ -16,7 +16,6 @@ class GameStateRepo private constructor(private var commonCountryDao: CommonCoun
         val gameState =  gameStateDao.getGameState(playerGUID)
         gameState?.countries = countryDao.getAllGameCountries(playerGUID)
         gameState?.disease = diseaseDao.getDisease(playerGUID)
-        //gameState?.initialize()
         return gameState
     }
 
@@ -36,7 +35,6 @@ class GameStateRepo private constructor(private var commonCountryDao: CommonCoun
         val gameState =  GameState(playerGUID = playerGUID, countries = convertCountry(commonCountryDao.getAll(), playerGUID), disease = disease)
         gameState.countries = countryDao.getAllGameCountries(playerGUID)
         gameState.disease = diseaseDao.getDisease(playerGUID)
-       // gameState.initialize()
         return gameState
     }
 

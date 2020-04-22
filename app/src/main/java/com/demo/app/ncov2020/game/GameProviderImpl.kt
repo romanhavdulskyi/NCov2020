@@ -23,7 +23,7 @@ class GameProviderImpl(private val gameStateCallbackDecorator: GameStateCallback
     }
 
     private object HOLDER {
-        val INSTANCE = GameProviderImpl(GameStateCallbackDecorator.init(null, null))
+        val INSTANCE = GameProviderImpl(GameStateCallbackDecorator.getInstance())
     }
 
     companion object {
