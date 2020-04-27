@@ -6,5 +6,6 @@ public enum CallbackType {
     TRANSADD,
     ABILITYADD,
     ENDGAMEWIN,
-    ENDGAMELOSE
+    ENDGAMELOSE,
+    BEGININFECTION
 }

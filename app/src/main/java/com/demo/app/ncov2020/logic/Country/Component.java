@@ -13,6 +13,8 @@ public interface Component {
 
     long getInfectedPeople();
 
+    List<Component> getAllChildren();
+
     List<String> getHardLevelInfectedCountry();
 
     List<String> getMediumLevelInfectedCountry();

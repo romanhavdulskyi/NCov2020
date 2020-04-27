@@ -32,6 +32,12 @@ public abstract class BaseDecorator implements ComponentDec {
         wrappee.addAbility(ability);
     }
 
+    @Override
+    public void infectComponentByName(String name) {
+        wrappee.infectComponentByName(name);
+    }
+
+
     public ComponentDec getWrappee() {
         return wrappee;
     }

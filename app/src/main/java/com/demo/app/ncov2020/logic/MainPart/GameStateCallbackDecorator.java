@@ -5,6 +5,7 @@ import com.demo.app.ncov2020.logic.Callback.Callback;
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Callback.ConcreateCallback;
 import com.demo.app.ncov2020.logic.Country.CountryComposite;
+import com.demo.app.ncov2020.logic.Country.IIterator;
 import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
@@ -69,8 +70,14 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.ABILITYADD);
     }
 
+    @Override
+    public void infectComponentByName(String name) {
+        super.infectComponentByName(name);
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.BEGININFECTION);
+    }
+
     static public void testGameModel(){
-        CountryComposite countryComposite= new CountryComposite();
+        CountryComposite countryComposite= new CountryComposite("Root");
         Country ukraine = new CountryBuilder()
                 .setName("Ukraine")
                 .setAmountOfPeople(42_000_000)
@@ -117,7 +124,11 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         baseDecorator.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR,new HandlerAIR()));
         baseDecorator.addTransmission(new Transmission("Tourist transmission","You will be able to infect by tourists", TypeTrans.GROUND,new HandlerGround()));
         baseDecorator.addTransmission(new Transmission("Ship transmission","You will be able to infect by ships", TypeTrans.WATER,new HandlerWater()));
-        ukraine.beginInfection();
+        baseDecorator.infectComponentByName("Ukraine");
+        IIterator iterator = countryComposite.getIterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
         for (int i=0;i<50;i++) {
             System.out.println(baseDecorator);
             baseDecorator.pastOneTimeUnit();

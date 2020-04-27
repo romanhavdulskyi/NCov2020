@@ -1,10 +1,6 @@
 package com.demo.app.ncov2020.game
 
-import com.demo.app.basics.concurrency.Fault
-import com.demo.app.basics.concurrency.TaskCallback
-import com.demo.app.ncov2020.data.CommonCountryRepo
 import com.demo.app.ncov2020.data.GameRepositoryFacade
-import com.demo.app.ncov2020.data.room_data.CommonCountry
 import com.demo.app.ncov2020.data.room_data.GameCountry
 import com.demo.app.ncov2020.data.room_data.GameState
 import com.demo.app.ncov2020.logic.Abilities.HandlerAntibiotics1
@@ -19,8 +15,6 @@ import com.demo.app.ncov2020.logic.Transsmission.HandlerAIR
 import com.demo.app.ncov2020.logic.Transsmission.HandlerGround
 import com.demo.app.ncov2020.logic.Transsmission.HandlerWater
 import com.demo.app.ncov2020.logic.cure.GlobalCure
-import java.lang.Exception
-import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -77,14 +71,14 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
                 }
 
                 gameState?.countries?.clear()
-                for (item in gameStateForEntity.countryComposite.components) {
-                    if (item is Country) {
-                        val gameCountry = GameCountry(playerUUID = guid, amountOfPeople = item.amountOfPeople, healthyPeople = item.amountOfPeople,
-                                name = item.name, countryUUID = item.countryGUID, rich = item.isRich, slowInfect = item.slowInfect,
-                                pathsAir = convertCountry(item.pathsAir), pathsGround = convertCountry(item.pathsGround), pathsSea = convertCountry(item.pathsSea),
-                                urls = item.hronology.urls, climate = item.climate.ordinal, medicineLevel = item.medicineLevel.ordinal, knowAboutVirus = item.isKnowAboutVirus, state = convertStateToInt(item.state))
-                        gameState?.countries?.add(gameCountry)
-                    }
+                val iterator = gameStateForEntity.countryComposite.iterator
+                while (iterator?.hasNext()!!){
+                    val item =iterator?.next() as Country
+                    val gameCountry = GameCountry(playerUUID = guid, amountOfPeople = item.amountOfPeople, healthyPeople = item.amountOfPeople,
+                            name = item.name, countryUUID = item.countryGUID, rich = item.isRich, slowInfect = item.slowInfect,
+                            pathsAir = convertCountry(item.pathsAir), pathsGround = convertCountry(item.pathsGround), pathsSea = convertCountry(item.pathsSea),
+                            urls = item.hronology.urls, climate = item.climate.ordinal, medicineLevel = item.medicineLevel.ordinal, knowAboutVirus = item.isKnowAboutVirus, state = convertStateToInt(item.state))
+                    gameState?.countries?.add(gameCountry)
                 }
 
                 gameState?.let { gameRepositoryFacade.updateState(it) }
@@ -135,7 +129,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
             for (item in savedDisease.transmissionsIds!!)
                 disease.transmissions.add(transmissionMap[item])
 
-            val countryComposite = CountryComposite()
+            val countryComposite = CountryComposite("Root")
             if (result != null) {
                 for (item in result) {
                     val newItem = CountryBuilder()
@@ -190,7 +184,8 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
             gameStateCallbackDecorator.addTransmission(Transmission("Plains transmission", "You will be able to infect by plains", TypeTrans.AIR, HandlerAIR()))
             gameStateCallbackDecorator.addTransmission(Transmission("Tourist transmission", "You will be able to infect by tourists", TypeTrans.GROUND, HandlerGround()))
             gameStateCallbackDecorator.addTransmission(Transmission("Ship transmission", "You will be able to infect by ships", TypeTrans.WATER, HandlerWater()))
-            countryMap["Ukraine"]?.beginInfection()
+            gameStateCallbackDecorator.infectComponentByName("Ukraine");
+//            countryMap["Ukraine"]?.beginInfection()
 
             scheduledExecutor = Executors.newSingleThreadScheduledExecutor()
             scheduledExecutor.schedule(execTask, 5L, TimeUnit.SECONDS)

@@ -50,7 +50,7 @@ public class GameStateReali implements ComponentDec {
 
     public CallbackType pastOneTimeUnit() {
         timePassed=true;
-        for (Component country: countryComposite.getComponents()) {
+        for (Component country: countryComposite.getAllChildren()) {
             applyDiseaseOnCountry((Country) country);
         }
         if(getInfectedPeople()>100_000)
@@ -95,6 +95,11 @@ public class GameStateReali implements ComponentDec {
 
     public void addAbility(Ability ability){
         getDisease().addAbility(ability);
+    }
+
+    @Override
+    public void infectComponentByName(String name) {
+        countryComposite.infectComponent(name);
     }
 
     private void calcInfectedPeople(Country country){

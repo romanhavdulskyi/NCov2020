@@ -17,6 +17,7 @@ class NConApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        GameStateCallbackDecorator.testGameModel();
         AppDatabase.create(this)
         ViewModelProvider.init(this)
         CurrentSessionManager.instance.initCurrent()

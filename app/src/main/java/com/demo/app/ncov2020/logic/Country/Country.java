@@ -5,6 +5,7 @@ import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -151,6 +152,13 @@ public class Country implements Component {
 
     public long getInfectedPeople() {
         return infectedPeople;
+    }
+
+    @Override
+    public List<Component> getAllChildren() {
+        List <Component> children= new LinkedList<>();
+        children.add(this);
+        return children;
     }
 
     @Override

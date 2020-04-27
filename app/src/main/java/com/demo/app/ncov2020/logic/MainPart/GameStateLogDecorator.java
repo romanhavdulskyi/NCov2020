@@ -26,11 +26,8 @@ import java.util.ArrayList;
 
 
 public class GameStateLogDecorator extends BaseDecorator {
-    public static GameStateLogDecorator instance;
-
     public GameStateLogDecorator(ComponentDec componentDec) {
         super(componentDec);
-        instance = this;
     }
 
     public CallbackType pastOneTimeUnit() {
@@ -52,6 +49,12 @@ public class GameStateLogDecorator extends BaseDecorator {
     public void addAbility(Ability ability){
         super.addAbility(ability);
         System.out.println(CallbackType.ABILITYADD.name());
+    }
+
+    @Override
+    public void infectComponentByName(String name) {
+        super.infectComponentByName(name);
+        System.out.println(CallbackType.BEGININFECTION.name());
     }
 
 }
