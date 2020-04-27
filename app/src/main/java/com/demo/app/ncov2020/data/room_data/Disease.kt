@@ -10,9 +10,9 @@ data class Disease (@PrimaryKey(autoGenerate = true) val id: Int? = 0,
                     var diseaseName: String?,
                     var infectivity: Double? = 0.0,
                     var severity: Long? = 0,
-                    var lethality: Long? = 0,
-                    var symptomsIds: List<String?>?,
-                    var transmissionsIds: List<String?>? ,
-                    var abilitiesIds: List<String?>?
+                    var lethality: Double? = 0.0,
+                    var symptomsIds: MutableList<String?>?,
+                    var transmissionsIds: MutableList<String?>? ,
+                    var abilitiesIds: MutableList<String?>?
                     ) {
 }

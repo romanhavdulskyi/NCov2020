@@ -8,6 +8,7 @@ import java.util.List;
 
 public class CountryBuilder {
     private String name="CountryName";
+    private String guid;
     private long amountOfPeople=0;
     private boolean rich=false;
     private boolean openAirport=true;
@@ -105,11 +106,16 @@ public class CountryBuilder {
         return this;
     }
 
+    public CountryBuilder setCountryGUID(String guid) {
+        this.guid = guid;
+        return this;
+    }
+
     public void setState(BaseCountryState state) {
         this.state = state;
     }
 
     public Country buildCountry() {
-        return new Country(name, amountOfPeople, rich, openAirport, openSeaport, openGround, openSchool, knowAboutVirus, climate, medicineLevel, infected, cureKoef, hronology, pathsAir, pathsSea, pathsGround,state);
+        return new Country(name, guid, amountOfPeople, rich, openAirport, openSeaport, openGround, openSchool, knowAboutVirus, climate, medicineLevel, infected, cureKoef, hronology, pathsAir, pathsSea, pathsGround,state);
     }
 }

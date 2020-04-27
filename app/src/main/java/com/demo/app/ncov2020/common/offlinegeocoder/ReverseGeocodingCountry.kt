@@ -98,12 +98,14 @@ class ReverseGeocodingCountry private constructor(context: Context) {
                 val polygons = geometry.getJSONArray("coordinates")
                 for (j in 0 until polygons.length()) {
                     val polygon = polygons.getJSONArray(j).getJSONArray(0)
+                    multipolygon.clear()
                     multipolygon.add(convertJSONToLatLng(polygon))
-                    for (pointList in multipolygon) {
-                        geocodeDataMapBox.addPolygon(Polygon(pointList))
-                        return geocodeDataMapBox
-                    }
+                        for (pointList in multipolygon) {
+                            geocodeDataMapBox.addPolygon(Polygon(pointList))
+                        }
                 }
+                return geocodeDataMapBox;
+
             }
         }
         return null

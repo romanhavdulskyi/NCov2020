@@ -6,8 +6,14 @@ import com.demo.app.ncov2020.data.room_data.GameCountry
 @Dao
 interface GameCountryDao {
 
+    @Update
+    fun update(gameCountries: GameCountry)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(gameCountries: List<GameCountry>)
+    fun insert(gameCountries: GameCountry)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(gameCountries: MutableList<GameCountry?>?)
 
     @Delete
     fun delete(gameCountry : GameCountry)

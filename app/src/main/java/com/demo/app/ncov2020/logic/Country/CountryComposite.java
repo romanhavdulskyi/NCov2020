@@ -50,6 +50,30 @@ public class CountryComposite implements Component {
         return infectedPeople;
     }
 
+    @Override
+    public List<String> getHardLevelInfectedCountry() {
+        List<String> list = new ArrayList<>();
+        for(Component component : components)
+            list.addAll(component.getHardLevelInfectedCountry());
+        return list;
+    }
+
+    @Override
+    public List<String> getMediumLevelInfectedCountry() {
+        List<String> list = new ArrayList<>();
+        for(Component component : components)
+            list.addAll(component.getMediumLevelInfectedCountry());
+        return list;
+    }
+
+    @Override
+    public List<String> getLowLevelInfectedCountry() {
+        List<String> list = new ArrayList<>();
+        for(Component component : components)
+            list.addAll(component.getLowLevelInfectedCountry());
+        return list;
+    }
+
     public void addComponent(Component component){
         components.add(component);
     }

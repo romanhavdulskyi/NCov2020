@@ -10,16 +10,17 @@ import java.util.List;
 
 public class Country implements Component {
     private final String name;
+    private final String countryGUID;
     private final long amountOfPeople;
     private long deadPeople = 0;
     private long infectedPeople = 0;
     private long healthyPeople;
     private final boolean rich;
-    private boolean openAirport=true;
-    private boolean openSeaport=true;
-    private boolean openGround =true;
+    private boolean openAirport = true;
+    private boolean openSeaport = true;
+    private boolean openGround = true;
     private boolean openSchool = true;
-    private boolean knowAboutVirus=false;
+    private boolean knowAboutVirus = false;
     private Climate climate;
     private final MedicineLevel medicineLevel;
     private boolean infected = false;
@@ -30,8 +31,9 @@ public class Country implements Component {
     private List<Country> pathsGround;
     private BaseCountryState state = new CountryStateUndiscovered();
 
-    public Country(String name, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport, boolean openGround, boolean openSchool, boolean knowAboutVirus, Climate climate, MedicineLevel medicineLevel, boolean infected, double slowInfect, Hronology hronology, List<Country> pathsAir, List<Country> pathsSea, List<Country> pathsGround,BaseCountryState state) {
+    public Country(String name, String countryGUID, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport, boolean openGround, boolean openSchool, boolean knowAboutVirus, Climate climate, MedicineLevel medicineLevel, boolean infected, double slowInfect, Hronology hronology, List<Country> pathsAir, List<Country> pathsSea, List<Country> pathsGround, BaseCountryState state) {
         this.name = name;
+        this.countryGUID = countryGUID;
         this.amountOfPeople = amountOfPeople;
         this.healthyPeople = amountOfPeople;
         this.rich = rich;
@@ -48,16 +50,17 @@ public class Country implements Component {
         this.pathsAir = pathsAir;
         this.pathsSea = pathsSea;
         this.pathsGround = pathsGround;
-        this.state=state;
+        this.state = state;
     }
 
-    public Country(String name, long amountOfPeople, boolean rich, Climate climate, MedicineLevel medicineLevel, Hronology hronology) {
+    public Country(String name, String countryGUID, long amountOfPeople, boolean rich, Climate climate, MedicineLevel medicineLevel, Hronology hronology) {
         this.name = name;
+        this.countryGUID = countryGUID;
         this.amountOfPeople = amountOfPeople;
         this.healthyPeople = amountOfPeople;
         this.rich = rich;
-        this.climate=climate;
-        this.medicineLevel=medicineLevel;
+        this.climate = climate;
+        this.medicineLevel = medicineLevel;
         this.pathsAir = new ArrayList<>();
         this.pathsSea = new ArrayList<>();
         this.pathsGround = new ArrayList<>();
@@ -65,38 +68,42 @@ public class Country implements Component {
     }
 
     @Override
-    public void passOneTimeUnit(){
-        hronology.setAmountOfUnlocked((int) (hronology.getUrls().size()*(infectedPeople/amountOfPeople)));
+    public void passOneTimeUnit() {
+        hronology.setAmountOfUnlocked((int) (hronology.getUrls().size() * (infectedPeople / amountOfPeople)));
         state.checkIfNeedChangeState();
-        if(hronology.isAvailable()){
+        if (hronology.isAvailable()) {
             //TODO:Notify User that available Mem
         }
     }
 
-    public Country beginInfection(){
-        infected=true;
+    public Country beginInfection() {
+        infected = true;
         healthyPeople--;
-        infectedPeople=1;
+        infectedPeople = 1;
         return this;
     }
 
-    public void shufflePathAir(){
+    public void shufflePathAir() {
         Collections.shuffle(pathsAir);
     }
-    public void shufflePathSea(){
+
+    public void shufflePathSea() {
         Collections.shuffle(pathsSea);
     }
-    public void shufflePathGround(){
+
+    public void shufflePathGround() {
         Collections.shuffle(pathsGround);
     }
 
-    public void removePathAir(Country country){
+    public void removePathAir(Country country) {
         pathsAir.remove(country);
     }
-    public void removePathSea(Country country){
+
+    public void removePathSea(Country country) {
         pathsSea.remove(country);
     }
-    public void removePathGround(Country country){
+
+    public void removePathGround(Country country) {
         pathsGround.remove(country);
     }
 
@@ -104,9 +111,11 @@ public class Country implements Component {
     public void addPathAir(Country country) {
         pathsAir.add(country);
     }
+
     public void addPathSea(Country country) {
         pathsSea.add(country);
     }
+
     public void addPathsGround(Country country) {
         pathsGround.add(country);
     }
@@ -120,8 +129,8 @@ public class Country implements Component {
         this.hronology = hronology;
     }
 
-    public double getPercentOfInfectedPeople(){
-        return (double) infectedPeople/ healthyPeople;
+    public double getPercentOfInfectedPeople() {
+        return (double) infectedPeople / healthyPeople;
     }
 
     public String getName() {
@@ -142,6 +151,30 @@ public class Country implements Component {
 
     public long getInfectedPeople() {
         return infectedPeople;
+    }
+
+    @Override
+    public List<String> getHardLevelInfectedCountry() {
+        List<String> list = new ArrayList<>();
+        if (isInfected() && (amountOfPeople == 0 || ((double) infectedPeople / amountOfPeople) >= 0.5 ))
+            list.add(name);
+        return list;
+    }
+
+    @Override
+    public List<String> getMediumLevelInfectedCountry() {
+        List<String> list = new ArrayList<>();
+        if (isInfected() && ((((double) infectedPeople / amountOfPeople) < 0.5) && ( (double) infectedPeople / amountOfPeople) >= 0.01 ))
+            list.add(name);
+        return list;
+    }
+
+    @Override
+    public List<String> getLowLevelInfectedCountry() {
+        List<String> list = new ArrayList<>();
+        if (isInfected() && ((double) infectedPeople / amountOfPeople) < 0.01)
+            list.add(name);
+        return list;
     }
 
     public void setInfectedPeople(long infectedPeople) {
@@ -285,5 +318,9 @@ public class Country implements Component {
                 ", pathsGround=" + pathsGround +
                 ", state=" + state +
                 '}';
+    }
+
+    public String getCountryGUID() {
+        return countryGUID;
     }
 }

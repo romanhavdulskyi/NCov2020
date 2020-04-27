@@ -6,7 +6,7 @@ import androidx.room.Ignore
 @Entity(tableName = "game_states")
 data class GameState(@androidx.room.PrimaryKey(autoGenerate = true) var id : Int? = 0,
                      var playerGUID : String?,
-                     @Ignore var countries: List<GameCountry?>?,
+                     @Ignore var countries: MutableList<GameCountry?>?,
                      @Ignore var disease: com.demo.app.ncov2020.data.room_data.Disease?) {
     constructor() : this(0,"", null, null)
 

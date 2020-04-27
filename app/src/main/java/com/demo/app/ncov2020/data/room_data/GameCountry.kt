@@ -17,11 +17,18 @@ data class GameCountry(@PrimaryKey(autoGenerate = true)
                        var rich: Boolean?,
                        var openAirport: Boolean? = true,
                        var openSeaport: Boolean? = true,
+                       var openGround: Boolean? = true,
                        var openSchool : Boolean? = true,
                        var infected : Boolean? = false,
                        var cureKoef : Double? = 0.0,
+                       var slowInfect: Double? = 0.0,
+                       var knowAboutVirus: Boolean,
                        var pathsAir: List<String>?,
                        var pathsSea: List<String>?,
-                       var pathsGround: List<String>?) {
+                       var pathsGround: List<String>?,
+                       var urls : List<String>?,
+                       var medicineLevel: Int,
+                       var climate : Int,
+                       var state : Int) {
 
 }

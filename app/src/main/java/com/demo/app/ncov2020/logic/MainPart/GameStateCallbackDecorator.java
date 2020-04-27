@@ -122,7 +122,7 @@ public class GameStateCallbackDecorator extends BaseDecorator {
             System.out.println(baseDecorator);
             baseDecorator.pastOneTimeUnit();
         }
-        disease.addSymptom(new Symptom("Kill all","People started dying",2,4,2));
+        baseDecorator.addSymptom(new Symptom("Kill all","People started dying",2,4,2));
         for (int i=0;i<100;i++) {
             System.out.println(baseDecorator);
             baseDecorator.pastOneTimeUnit();

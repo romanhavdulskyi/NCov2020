@@ -6,10 +6,11 @@ import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 
 public interface ComponentDec {
-    public CallbackType pastOneTimeUnit();
-    public void addSymptom(Symptom symptom);
+    CallbackType pastOneTimeUnit();
+    void addSymptom(Symptom symptom);
 
-    public void addTransmission(Transmission transmission);
+    void addTransmission(Transmission transmission);
 
-    public void addAbility(Ability ability);
+    void addAbility(Ability ability);
+
 }

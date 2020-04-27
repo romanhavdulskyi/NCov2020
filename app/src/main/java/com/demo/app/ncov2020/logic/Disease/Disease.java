@@ -66,6 +66,14 @@ public class Disease{
         return lethality;
     }
 
+    public void setLethality(double lethality) {
+        this.lethality = lethality;
+    }
+
+    public void setSeverity(long severity) {
+        this.severity = severity;
+    }
+
     public List<Symptom> getSymptoms() {
         return symptoms;
     }

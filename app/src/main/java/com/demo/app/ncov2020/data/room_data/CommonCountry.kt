@@ -10,9 +10,12 @@ data class CommonCountry(@PrimaryKey(autoGenerate = true)
                          val id:Int? = 0,
                          val countryUUID : String?,
                          val name: String?,
-                         val amountOfPeople: Long?,
-                         var rich: Boolean?,
-                         var pathsAir: String?,
-                         var pathsSea: String?,
-                         var pathsGround: String?) {
+                         val amountOfPeople: Long,
+                         var rich: Boolean,
+                         var pathsAir: List<String>?,
+                         var pathsSea: List<String>?,
+                         var pathsGround: List<String>?,
+                         var urls : List<String>?,
+                         var medicineLevel: Int,
+                         var climate : Int) {
 }

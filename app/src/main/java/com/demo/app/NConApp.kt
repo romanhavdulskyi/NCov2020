@@ -1,6 +1,7 @@
 package com.demo.app
 
 import android.app.Application
+import android.content.Context
 import com.demo.app.ncov2020.BuildConfig
 import com.demo.app.ncov2020.common.ViewModelProvider
 import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
@@ -12,14 +13,11 @@ import com.mapbox.mapboxsdk.Mapbox
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-class nConApp : Application() {
+class NConApp : Application() {
 
     override fun onCreate() {
-        GameStateCallbackDecorator.testGameModel();
         super.onCreate()
-        Mapbox.getInstance(this, "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
         AppDatabase.create(this)
-        AssetsAppDatabase.create(this)
         ViewModelProvider.init(this)
         CurrentSessionManager.instance.initCurrent()
         ReverseGeocodingCountry.init(this)
@@ -27,5 +25,11 @@ class nConApp : Application() {
             Timber.plant(DebugTree())
         }
 
+        context = this
+
+    }
+
+    companion object {
+        var context:Context? = null
     }
 }

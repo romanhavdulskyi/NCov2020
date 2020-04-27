@@ -1,13 +1,22 @@
 package com.demo.app.ncov2020.logic.Country;
 
+import java.util.List;
+
 public interface Component {
-    public void passOneTimeUnit();
+    void passOneTimeUnit();
 
-    public long getAmountOfPeople();
+    long getAmountOfPeople();
 
-    public long getDeadPeople();
+    long getDeadPeople();
 
-    public long getHealthyPeople();
+    long getHealthyPeople();
 
-    public long getInfectedPeople();
+    long getInfectedPeople();
+
+    List<String> getHardLevelInfectedCountry();
+
+    List<String> getMediumLevelInfectedCountry();
+
+    List<String> getLowLevelInfectedCountry();
+
 }

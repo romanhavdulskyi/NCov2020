@@ -8,4 +8,8 @@
     <color name="colorRed">#9b0000</color>
     <color name="colorWhite">#FFFFFF</color>
 
+    <color name="hardInfected">#8B0000</color>
+    <color name="mediumInfected">#D10909</color>
+    <color name="lowInfected">#EF4040</color>
+
 </resources>
