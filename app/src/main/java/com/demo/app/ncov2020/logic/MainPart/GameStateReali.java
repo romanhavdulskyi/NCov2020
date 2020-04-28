@@ -2,17 +2,16 @@ package com.demo.app.ncov2020.logic.MainPart;
 
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Country.Component;
+import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.Country.CountryComposite;
 import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
-import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 public class GameStateReali implements ComponentDec {
@@ -27,7 +26,7 @@ public class GameStateReali implements ComponentDec {
     private Disease disease;
     private GlobalCure globalCure;
     private Calendar calendar;
-    private int upgradePoints;
+    private int upgradePoints = 0; //TODO: add point when user watches mem and when infects country and when countries changes state
 
     private boolean timePassed=false;
 
@@ -234,7 +233,7 @@ public class GameStateReali implements ComponentDec {
 
     @Override
     public String toString() {
-        return "GameStatev2{" +
+        return "GameStateReali{" +
                 "id=" + id +
                 ", playerGUID='" + playerGUID + '\'' +
                 ", amountOfPeople=" + amountOfPeople +
@@ -242,8 +241,11 @@ public class GameStateReali implements ComponentDec {
                 ", infectedPeople=" + infectedPeople +
                 ", healthyPeople=" + healthyPeople +
                 ", countryComposite=" + countryComposite +
+                ", infectedCountries=" + infectedCountries +
                 ", disease=" + disease +
                 ", globalCure=" + globalCure +
+                ", calendar=" + calendar +
+                ", upgradePoints=" + upgradePoints +
                 ", timePassed=" + timePassed +
                 '}';
     }
