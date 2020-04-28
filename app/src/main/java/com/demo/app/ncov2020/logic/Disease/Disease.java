@@ -1,11 +1,13 @@
 package com.demo.app.ncov2020.logic.Disease;
 
+import androidx.annotation.NonNull;
+
 import com.demo.app.ncov2020.logic.Country.Country;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Disease implements Cloneable{
+public class Disease implements Cloneable {
     private String name;
     private double infectivity;
     private long severity;
@@ -21,35 +23,35 @@ public class Disease implements Cloneable{
         abilities = new ArrayList<>();
     }
 
-    public void addSymptom(Symptom symptom){
+    public void addSymptom(Symptom symptom) {
         symptoms.add(symptom);
-        infectivity+=symptom.getInfectivity();
-        severity+=symptom.getSeverity();
-        lethality+=symptom.getLethality();
+        infectivity += symptom.getInfectivity();
+        severity += symptom.getSeverity();
+        lethality += symptom.getLethality();
     }
 
-    public boolean containsSymptom(Symptom symptom){
+    public boolean containsSymptom(Symptom symptom) {
         return symptoms.contains(symptom);
     }
 
-    public void addTransmission(Transmission transmission){
+    public void addTransmission(Transmission transmission) {
         transmissions.add(transmission);
     }
 
-    public boolean containsTransByType(TypeTrans typeTrans){
-        for (Transmission transmission : transmissions){
-            if(transmission.getType()==typeTrans) return true;
+    public boolean containsTransByType(TypeTrans typeTrans) {
+        for (Transmission transmission : transmissions) {
+            if (transmission.getType() == typeTrans) return true;
         }
         return false;
     }
 
-    public void addAbility(Ability ability){
+    public void addAbility(Ability ability) {
         abilities.add(ability);
     }
 
-    public boolean containsAbilityByType(TypeAbility typeAbility){
-        for (Ability ability : abilities){
-            if(ability.getTypeAbility()==typeAbility) return true;
+    public boolean containsAbilityByType(TypeAbility typeAbility) {
+        for (Ability ability : abilities) {
+            if (ability.getTypeAbility() == typeAbility) return true;
         }
         return false;
     }
@@ -97,5 +99,18 @@ public class Disease implements Cloneable{
                 ", transmissions=" + transmissions +
                 ", abilities=" + abilities +
                 '}';
+    }
+
+    @NonNull
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Disease disease = (Disease) super.clone();
+        List<Symptom> symptomsCopy = new ArrayList<>(symptoms);
+        List<Transmission> transmissionsCopy = new ArrayList<>(transmissions);
+        List<Ability> abilitiesCopy = new ArrayList<>(abilities);
+        disease.symptoms = symptomsCopy;
+        disease.abilities = abilitiesCopy;
+        disease.transmissions = transmissionsCopy;
+        return disease;
     }
 }
