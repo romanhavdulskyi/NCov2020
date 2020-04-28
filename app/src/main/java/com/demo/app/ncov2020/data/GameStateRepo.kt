@@ -45,8 +45,30 @@ class GameStateRepo private constructor(private var countryDao: GameCountryDao, 
     }
 
     override fun createState(playerGUID: String, virusName: String): GameState {
+        val commonCountries: MutableList<CommonCountry> = fetchCommonCountries()
+        val disease = Disease(diseaseName = virusName, playerGUID = playerGUID, transmissionsIds = null, abilitiesIds = null, symptomsIds = null)
+        val gameState = GameState(playerGUID = playerGUID, countries = convertCountry(commonCountries, playerGUID), disease = disease)
+        countryDao.insertAll(gameState.countries)
+        diseaseDao.insert(disease)
+        return gameState
+    }
+
+    private fun convertCountry(commonCountry: List<CommonCountry>, playerGUID: String): MutableList<GameCountry?>? {
+        val gameCountriesList = HashMap<String, GameCountry>()
+        for (item in commonCountry) {
+            val gameCountry = GameCountry(playerUUID = playerGUID, amountOfPeople = item.amountOfPeople, healthyPeople = item.amountOfPeople,
+                    name = item.name, countryUUID = UUID.nameUUIDFromBytes((item.countryUUID + "-" + playerGUID).toByteArray()).toString(), rich = item.rich, pathsAir = item.pathsAir,
+                    pathsGround = item.pathsGround, pathsSea = item.pathsSea, urls = item.urls, climate = item.climate,
+                    medicineLevel = item.medicineLevel, state = 0, knowAboutVirus = false, cureKoef = 0.0)
+            gameCountriesList[item.name!!] = gameCountry
+        }
+        return gameCountriesList.values.toMutableList()
+    }
+
+    private fun fetchCommonCountries() :  MutableList<CommonCountry>
+    {
         val listConverter = CSVConverter()
-        val commonCountries: MutableList<CommonCountry> = ArrayList()
+        val commonCountries = mutableListOf<CommonCountry>()
         val dataBaseHelper = DataBaseHelper(context)
         try {
             dataBaseHelper.createDatabase()
@@ -71,24 +93,7 @@ class GameStateRepo private constructor(private var countryDao: GameCountryDao, 
                 commonCountries.add(commonCountry)
             } while (cur.moveToNext())
         }
-
-        val disease = Disease(diseaseName = virusName, playerGUID = playerGUID, transmissionsIds = null, abilitiesIds = null, symptomsIds = null)
-        val gameState = GameState(playerGUID = playerGUID, countries = convertCountry(commonCountries, playerGUID), disease = disease)
-        countryDao.insertAll(gameState.countries)
-        diseaseDao.insert(disease)
-        return gameState
-    }
-
-    private fun convertCountry(commonCountry: List<CommonCountry>, playerGUID: String): MutableList<GameCountry?>? {
-        val gameCountriesList = HashMap<String, GameCountry>()
-        for (item in commonCountry) {
-            val gameCountry = GameCountry(playerUUID = playerGUID, amountOfPeople = item.amountOfPeople, healthyPeople = item.amountOfPeople,
-                    name = item.name, countryUUID = UUID.nameUUIDFromBytes((item.countryUUID + "-" + playerGUID).toByteArray()).toString(), rich = item.rich, pathsAir = item.pathsAir,
-                    pathsGround = item.pathsGround, pathsSea = item.pathsSea, urls = item.urls, climate = item.climate,
-                    medicineLevel = item.medicineLevel, state = 0, knowAboutVirus = false, cureKoef = 0.0)
-            gameCountriesList[item.name!!] = gameCountry
-        }
-        return gameCountriesList.values.toMutableList()
+        return commonCountries
     }
 
 

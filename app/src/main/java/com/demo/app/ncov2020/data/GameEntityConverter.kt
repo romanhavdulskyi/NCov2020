@@ -44,10 +44,11 @@ object GameEntityConverter {
         }
 
         gameState.countries?.clear()
-        var iterator = gameStateForEntity.countryComposite.iterator;
+        val iterator = gameStateForEntity.countryComposite.iterator;
             while(iterator.hasNext()) {
-                var item = iterator.next() as Country
-                val gameCountry = GameCountry(playerUUID = gameState.playerGUID, amountOfPeople = item.amountOfPeople, healthyPeople = item.healthyPeople, infected = item.isInfected, infectedPeople =  item.infectedPeople, deadPeople = item.deadPeople,
+                val item = iterator.next() as Country
+                val gameCountry = GameCountry(playerUUID = gameState.playerGUID, amountOfPeople = item.amountOfPeople, healthyPeople = item.healthyPeople,
+                        infected = item.isInfected, infectedPeople =  item.infectedPeople, deadPeople = item.deadPeople,
                         name = item.name, countryUUID = item.countryGUID, rich = item.isRich, slowInfect = item.slowInfect, openAirport = item.isOpenAirport,
                         openGround = item.isOpenGround, openSchool = item.isOpenSchool, openSeaport = item.isOpenSeaport,
                         pathsAir = convertCountry(item.pathsAir), pathsGround = convertCountry(item.pathsGround), pathsSea = convertCountry(item.pathsSea),
@@ -87,33 +88,10 @@ object GameEntityConverter {
         val countryComposite = CountryComposite("Root")
         if (result != null) {
             for (item in result) {
-                val newItem = CountryBuilder()
-                        .setName(item?.name)
-                        .setAmountOfPeople(item?.amountOfPeople!!)
-                        .setOpenGround(item.openGround!!)
-                        .setOpenAirport(item.openAirport!!)
-                        .setOpenSchool(item.openSchool!!)
-                        .setOpenSeaport(item.openSeaport!!)
-                        .setRich(item.rich!!)
-                        .setClimate(Climate.valueOf(item.climate))
-                        .setMedicineLevel(MedicineLevel.valueOf(item.medicineLevel))
-                        .setHronology(Hronology(item.urls))
-                        .setCureKoef(item.cureKoef!!)
-                        .setInfected(item.infected!!)
-                        .buildCountry()
-
-                newItem.setIsInfected( item.infected!!)
-                newItem.slowInfect = item.slowInfect!!
-                newItem.healthyPeople = item.healthyPeople!!
-                newItem.infectedPeople = item.infectedPeople!!
-                newItem.deadPeople = item.deadPeople!!
-                newItem.isKnowAboutVirus = item.knowAboutVirus
-                val state =  convertIntToState(item.state)
-                state?.country = newItem
-                newItem.state = state
-                newItem.countryGUID = item.countryUUID
-                countryMap[item.name!!] = newItem
+                val newItem = item?.let { buildCountry(it) }
+                countryMap[newItem?.name!!] = newItem
                 countryComposite.addComponent(newItem)
+
             }
         }
         if (result != null) {
@@ -134,6 +112,36 @@ object GameEntityConverter {
             }
         }
        return GameStateReali.init(1, "1", countryComposite, disease, GlobalCure(1000000), GregorianCalendar(2019, 12, 31))
+    }
+
+    private fun buildCountry(item : GameCountry) : Country
+    {
+        val newItem =  CountryBuilder()
+                .setName(item.name)
+                .setAmountOfPeople(item.amountOfPeople!!)
+                .setOpenGround(item.openGround!!)
+                .setOpenAirport(item.openAirport!!)
+                .setOpenSchool(item.openSchool!!)
+                .setOpenSeaport(item.openSeaport!!)
+                .setRich(item.rich!!)
+                .setClimate(Climate.valueOf(item.climate))
+                .setMedicineLevel(MedicineLevel.valueOf(item.medicineLevel))
+                .setHronology(Hronology(item.urls))
+                .setCureKoef(item.cureKoef!!)
+                .setInfected(item.infected!!)
+                .buildCountry()
+
+        newItem.setIsInfected( item.infected!!)
+        newItem.slowInfect = item.slowInfect!!
+        newItem.healthyPeople = item.healthyPeople!!
+        newItem.infectedPeople = item.infectedPeople!!
+        newItem.deadPeople = item.deadPeople!!
+        newItem.isKnowAboutVirus = item.knowAboutVirus
+        val state =  convertIntToState(item.state)
+        state?.country = newItem
+        newItem.state = state
+        newItem.countryGUID = item.countryUUID
+        return newItem
     }
 
     private fun convertStateToInt(baseCountryState: BaseCountryState): Int {
