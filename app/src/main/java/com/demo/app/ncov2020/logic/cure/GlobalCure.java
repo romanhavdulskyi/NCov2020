@@ -1,6 +1,8 @@
 package com.demo.app.ncov2020.logic.cure;
 
-public class GlobalCure{
+import java.io.Serializable;
+
+public class GlobalCure implements Serializable {
     private boolean startedWork;
     private long timeToEnd=90;
 

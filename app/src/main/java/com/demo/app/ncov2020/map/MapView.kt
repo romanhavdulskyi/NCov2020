@@ -144,8 +144,8 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
             geoJsonSource.add(source)
             style?.addSource(source)
             Timber.e("Added source")
-            val layer = FillLayer(uuid, uuid).withProperties(
-                    PropertyFactory.fillColor(color))
+            val layer = FillLayer(uuid, uuid).withProperties(PropertyFactory.fillColor(color))
+
             fillLayer.add(layer)
             style?.addLayerBelow(layer, "settlement-label")
             Timber.e("Added layer")

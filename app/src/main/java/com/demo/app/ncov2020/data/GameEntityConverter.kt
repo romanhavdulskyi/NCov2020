@@ -17,6 +17,7 @@ object GameEntityConverter {
 
     fun applyChangesToEntity(gameStateForEntity : GameStateForEntity, gameState: GameState) : GameState
     {
+        gameState.globalCure = gameStateForEntity.globalCure
         gameState.disease?.infectivity = gameStateForEntity.disease.infectivity
         gameState.disease?.lethality = gameStateForEntity.disease.lethality
         gameState.disease?.severity = gameStateForEntity.disease.severity
@@ -111,7 +112,7 @@ object GameEntityConverter {
                 }
             }
         }
-       return GameStateReali.init(1, "1", countryComposite, disease, GlobalCure(1000000), GregorianCalendar(2019, 12, 31))
+       return GameStateReali.init(1, "1", countryComposite, disease, gameState.globalCure, GregorianCalendar(2019, 12, 31))
     }
 
     private fun buildCountry(item : GameCountry) : Country

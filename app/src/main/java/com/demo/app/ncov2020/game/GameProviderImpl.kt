@@ -46,8 +46,6 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
         }
     }
 
-
-
     override fun initGame(guid: String) {
         this.guid = guid
         executor.execute {
@@ -97,6 +95,10 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
 
     override fun addClient(client: GameProvider.Client) {
         this.client = client
+    }
+
+    override fun removeClient() {
+        this.client = null
     }
 
     private object HOLDER {

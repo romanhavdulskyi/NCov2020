@@ -13,6 +13,7 @@ interface GameProvider {
     fun addAbility(ability : Ability)
     fun addTransmission(transmission: Transmission)
     fun addClient(client: Client)
+    fun removeClient()
 
     interface Client {
         fun onChanged(state : Game)
