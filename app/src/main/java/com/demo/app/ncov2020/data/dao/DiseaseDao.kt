@@ -11,6 +11,9 @@ interface DiseaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(disease: Disease)
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun update(disease: Disease)
+
     @Delete
     fun delete(disease: Disease)
 

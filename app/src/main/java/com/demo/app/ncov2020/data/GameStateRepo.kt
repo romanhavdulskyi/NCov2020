@@ -38,10 +38,10 @@ class GameStateRepo private constructor(private var countryDao: GameCountryDao, 
     }
 
     override fun updateState(gameState: GameState) {
-        gameStateDao.insert(gameState)
+        gameStateDao.update(gameState)
         for (item in gameState.countries!!)
-            item?.let { countryDao.insert(it) }
-        diseaseDao.insert(gameState.disease!!)
+            item?.let { countryDao.update(it) }
+        diseaseDao.update(gameState.disease!!)
     }
 
     override fun createState(playerGUID: String, virusName: String): GameState {
@@ -83,7 +83,7 @@ class GameStateRepo private constructor(private var countryDao: GameCountryDao, 
         val gameCountriesList = HashMap<String, GameCountry>()
         for (item in commonCountry) {
             val gameCountry = GameCountry(playerUUID = playerGUID, amountOfPeople = item.amountOfPeople, healthyPeople = item.amountOfPeople,
-                    name = item.name, countryUUID = item.countryUUID, rich = item.rich, pathsAir = item.pathsAir,
+                    name = item.name, countryUUID = UUID.nameUUIDFromBytes((item.countryUUID + "-" + playerGUID).toByteArray()).toString(), rich = item.rich, pathsAir = item.pathsAir,
                     pathsGround = item.pathsGround, pathsSea = item.pathsSea, urls = item.urls, climate = item.climate,
                     medicineLevel = item.medicineLevel, state = 0, knowAboutVirus = false, cureKoef = 0.0)
             gameCountriesList[item.name!!] = gameCountry
