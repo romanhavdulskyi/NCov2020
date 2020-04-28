@@ -358,7 +358,7 @@ public class Country implements Component, Cloneable {
 
     @NonNull
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         List<Country> pathsAirCopy = new ArrayList<>(pathsAir);
         List<Country> pathsSeaCopy = new ArrayList<>(pathsSea);
         List<Country> pathsGroundCopy = new ArrayList<>(pathsGround);

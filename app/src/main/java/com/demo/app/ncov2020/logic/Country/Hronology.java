@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic.Country;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class Hronology implements Cloneable{
@@ -56,5 +58,11 @@ public class Hronology implements Cloneable{
 
     public void setCurrMem(int currMem) {
         this.currMem = currMem;
+    }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

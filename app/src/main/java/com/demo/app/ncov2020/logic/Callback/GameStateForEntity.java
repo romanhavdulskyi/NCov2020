@@ -137,7 +137,7 @@ public class GameStateForEntity implements Cloneable{
 
     @NonNull
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         HashMap<String, Country> infectedCountriesCopy = new HashMap<>(infectedCountries);
         Object copy =  super.clone();
         ((GameStateForEntity)copy).infectedCountries = infectedCountriesCopy;

@@ -22,4 +22,5 @@ public enum Climate implements Cloneable{
 
         return null;
     }
+
 }

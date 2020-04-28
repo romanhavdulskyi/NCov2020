@@ -155,7 +155,7 @@ public class CountryComposite implements Component, IterCollection {
 
     @NonNull
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         HashMap<String, Component> componentCopy = new HashMap<>(components);
         Object copy = super.clone();
         ((CountryComposite)copy).components = componentCopy;

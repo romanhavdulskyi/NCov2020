@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic.Country.State;
 
+import androidx.annotation.NonNull;
+
 import com.demo.app.ncov2020.logic.Country.Country;
 
 public abstract class BaseCountryState implements CountryState, Cloneable {
@@ -22,5 +24,11 @@ public abstract class BaseCountryState implements CountryState, Cloneable {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

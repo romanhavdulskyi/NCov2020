@@ -43,7 +43,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     var callback = Callback { gameStateForEntity, callbackType ->
         run {
             executor.execute {
-                lastSnapshot = gameStateForEntity
+                lastSnapshot = gameStateForEntity.clone() as GameStateForEntity
                 client?.onChanged(Game(gameStateForEntity, callbackType))
                 gameState = GameEntityConverter.applyChangesToEntity(gameStateForEntity, gameState!!)
                 gameState?.let { gameRepositoryFacade.updateState(it) }
