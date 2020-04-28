@@ -13,7 +13,7 @@ public interface Component {
 
     long getInfectedPeople();
 
-    List<Component> getAllChildren();
+    List<Component> getAllLeaves();
 
     List<String> getHardLevelInfectedCountry();
 

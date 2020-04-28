@@ -1,6 +1,7 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
+import com.demo.app.ncov2020.logic.Callback.GameStateForEntity;
 import com.demo.app.ncov2020.logic.Country.Component;
 import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.Country.CountryComposite;
@@ -9,12 +10,11 @@ import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class GameStateReali implements ComponentDec {
+public class GameStateReali implements ComponentDec, Memento<GameStateForEntity> {
     private final int id;
     private final String playerGUID;
     private long amountOfPeople;
@@ -58,7 +58,7 @@ public class GameStateReali implements ComponentDec {
 
     public CallbackType pastOneTimeUnit() {
         timePassed=true;
-        for (Component country: countryComposite.getAllChildren()) {
+        for (Component country: countryComposite.getAllLeaves()) {
             applyDiseaseOnCountry((Country) country);
         }
         if(getInfectedPeople()>100_000)
@@ -171,6 +171,26 @@ public class GameStateReali implements ComponentDec {
         infectedCountries.put(country.getName(),country);
     }
 
+    @Override
+    public GameStateForEntity makeSnapshot() {
+        return new GameStateForEntity(this);
+    }
+
+    @Override
+    public void loadSnapshot(GameStateForEntity snapshot) {
+        this.amountOfPeople =  snapshot.getAmountOfPeople();
+        this.deadPeople =  snapshot.getDeadPeople();
+        this.infectedPeople =  snapshot.getInfectedPeople();
+        this.healthyPeople =  snapshot.getHealthyPeople();
+        this.countryComposite =  snapshot.getCountryComposite();
+        this.infectedCountries =  snapshot.getInfectedCountries();
+        this.disease =  snapshot.getDisease();
+        this.globalCure =  snapshot.getGlobalCure();
+        this.calendar = Calendar.getInstance();
+        this.calendar.setTime(snapshot.getDate());
+        this.upgradePoints =  snapshot.getUpgradePoints();
+    }
+
     public int getId() {
         return id;
     }
@@ -231,6 +251,24 @@ public class GameStateReali implements ComponentDec {
         this.infectedCountries = infectedCountries;
     }
 
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public int getUpgradePoints() {
+        return upgradePoints;
+    }
+
+    public void setUpgradePoints(int upgradePoints) {
+        this.upgradePoints = upgradePoints;
+    }
+
+
+
     @Override
     public String toString() {
         return "GameStateReali{" +
@@ -249,4 +287,6 @@ public class GameStateReali implements ComponentDec {
                 ", timePassed=" + timePassed +
                 '}';
     }
+
+
 }
