@@ -91,10 +91,10 @@ public class CountryComposite implements Component, IterCollection {
     }
 
     @Override
-    public List<Component> getAllChildren() {
+    public List<Component> getAllLeaves() {
         List <Component> children= new LinkedList<>();
         for (Component component:components.values()){
-            children.addAll(component.getAllChildren());
+            children.addAll(component.getAllLeaves());
         }
         return children;
     }
@@ -120,7 +120,7 @@ public class CountryComposite implements Component, IterCollection {
 
     @Override
     public IIterator getIterator() {
-        return new CountryIterator(getAllChildren());
+        return new CountryIterator(getAllLeaves());
     }
 
     private class CountryIterator implements IIterator<Component>{

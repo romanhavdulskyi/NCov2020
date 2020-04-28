@@ -1,6 +1,7 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
+import com.demo.app.ncov2020.logic.Callback.GameStateForEntity;
 import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
@@ -37,6 +38,15 @@ public abstract class BaseDecorator implements ComponentDec {
         wrappee.infectComponentByName(name);
     }
 
+    @Override
+    public GameStateForEntity makeSnapshot() {
+        return wrappee.makeSnapshot();
+    }
+
+    @Override
+    public void loadSnapshot(GameStateForEntity snapshot) {
+        wrappee.loadSnapshot(snapshot);
+    }
 
     public ComponentDec getWrappee() {
         return wrappee;

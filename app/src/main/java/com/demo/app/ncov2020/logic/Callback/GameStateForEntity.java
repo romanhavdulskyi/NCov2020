@@ -2,12 +2,17 @@ package com.demo.app.ncov2020.logic.Callback;
 
 import com.demo.app.ncov2020.game.Game;
 import com.demo.app.ncov2020.game.GameProvider;
+import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.Country.CountryComposite;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 public class GameStateForEntity{
     private final int id;
@@ -17,19 +22,65 @@ public class GameStateForEntity{
     private long infectedPeople = 0;
     private long healthyPeople = 0;
     private CountryComposite countryComposite;
+    private HashMap<String, Country> infectedCountries = new HashMap<>();
     private Disease disease;
     private GlobalCure globalCure;
+    private Date date;
+    private int upgradePoints = 0; //TODO: add point when user watches mem and when infects country and when countries changes state
 
     public GameStateForEntity(GameStateReali gameStateReali) {
         this.id = gameStateReali.getId();
-        this.playerGUID = gameStateReali.getPlayerGUID();
-        this.countryComposite = gameStateReali.getCountryComposite();
-        this.disease = gameStateReali.getDisease();
-        this.globalCure = gameStateReali.getGlobalCure();
-        amountOfPeople += gameStateReali.getAmountOfPeople();
-        deadPeople += gameStateReali.getDeadPeople();
-        infectedPeople += gameStateReali.getInfectedPeople();
-        healthyPeople += gameStateReali.getHealthyPeople();
+        this.playerGUID =  gameStateReali.getPlayerGUID();
+        this.amountOfPeople =  gameStateReali.getAmountOfPeople();
+        this.deadPeople =  gameStateReali.getDeadPeople();
+        this.infectedPeople =  gameStateReali.getInfectedPeople();
+        this.healthyPeople =  gameStateReali.getHealthyPeople();
+        this.countryComposite =  gameStateReali.getCountryComposite();
+        this.infectedCountries =  gameStateReali.getInfectedCountries();
+        this.disease =  gameStateReali.getDisease();
+        this.globalCure =  gameStateReali.getGlobalCure();
+        this.date =  gameStateReali.getCalendar().getTime();
+        this.upgradePoints =  gameStateReali.getUpgradePoints();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getPlayerGUID() {
+        return playerGUID;
+    }
+
+    public long getAmountOfPeople() {
+        return amountOfPeople;
+    }
+
+    public void setAmountOfPeople(long amountOfPeople) {
+        this.amountOfPeople = amountOfPeople;
+    }
+
+    public long getDeadPeople() {
+        return deadPeople;
+    }
+
+    public void setDeadPeople(long deadPeople) {
+        this.deadPeople = deadPeople;
+    }
+
+    public long getInfectedPeople() {
+        return infectedPeople;
+    }
+
+    public void setInfectedPeople(long infectedPeople) {
+        this.infectedPeople = infectedPeople;
+    }
+
+    public long getHealthyPeople() {
+        return healthyPeople;
+    }
+
+    public void setHealthyPeople(long healthyPeople) {
+        this.healthyPeople = healthyPeople;
     }
 
     public CountryComposite getCountryComposite() {
@@ -38,6 +89,14 @@ public class GameStateForEntity{
 
     public void setCountryComposite(CountryComposite countryComposite) {
         this.countryComposite = countryComposite;
+    }
+
+    public HashMap<String, Country> getInfectedCountries() {
+        return infectedCountries;
+    }
+
+    public void setInfectedCountries(HashMap<String, Country> infectedCountries) {
+        this.infectedCountries = infectedCountries;
     }
 
     public Disease getDisease() {
@@ -56,43 +115,19 @@ public class GameStateForEntity{
         this.globalCure = globalCure;
     }
 
-    public long getHealthyPeople() {
-        return healthyPeople;
+    public Date getDate() {
+        return date;
     }
 
-    public void setHealthyPeople(long healthyPeople) {
-        this.healthyPeople = healthyPeople;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public long getInfectedPeople() {
-        return infectedPeople;
+    public int getUpgradePoints() {
+        return upgradePoints;
     }
 
-    public void setInfectedPeople(long infectedPeople) {
-        this.infectedPeople = infectedPeople;
-    }
-
-    public long getDeadPeople() {
-        return deadPeople;
-    }
-
-    public void setDeadPeople(long deadPeople) {
-        this.deadPeople = deadPeople;
-    }
-
-    public long getAmountOfPeople() {
-        return amountOfPeople;
-    }
-
-    public void setAmountOfPeople(long amountOfPeople) {
-        this.amountOfPeople = amountOfPeople;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getPlayerGUID() {
-        return playerGUID;
+    public void setUpgradePoints(int upgradePoints) {
+        this.upgradePoints = upgradePoints;
     }
 }

@@ -57,4 +57,17 @@ public class GameStateLogDecorator extends BaseDecorator {
         System.out.println(CallbackType.BEGININFECTION.name());
     }
 
+    @Override
+    public GameStateForEntity makeSnapshot() {
+        GameStateForEntity gameStateForEntity = super.makeSnapshot();
+        System.out.println(CallbackType.MAKEDSNAPSHOT.name());
+        return gameStateForEntity;
+    }
+
+    @Override
+    public void loadSnapshot(GameStateForEntity snapshot) {
+        super.loadSnapshot(snapshot);
+        System.out.println(CallbackType.LOADSNAPSHOT.name());
+    }
+
 }

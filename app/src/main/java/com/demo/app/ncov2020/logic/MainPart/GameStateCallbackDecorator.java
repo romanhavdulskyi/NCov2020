@@ -77,6 +77,19 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.BEGININFECTION);
     }
 
+    @Override
+    public GameStateForEntity makeSnapshot() {
+        GameStateForEntity gameStateForEntity = super.makeSnapshot();
+        callback.callingBack(gameStateForEntity,CallbackType.MAKEDSNAPSHOT);
+        return gameStateForEntity;
+    }
+
+    @Override
+    public void loadSnapshot(GameStateForEntity snapshot) {
+        super.loadSnapshot(snapshot);
+        callback.callingBack(snapshot,CallbackType.LOADSNAPSHOT);
+    }
+
     static public void testGameModel(){
         CountryComposite countryComposite= new CountryComposite("Root");
         Country ukraine = new CountryBuilder()

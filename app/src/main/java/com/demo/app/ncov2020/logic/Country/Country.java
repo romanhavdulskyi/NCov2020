@@ -168,7 +168,7 @@ public class Country implements Component {
     }
 
     @Override
-    public List<Component> getAllChildren() {
+    public List<Component> getAllLeaves() {
         List <Component> children= new LinkedList<>();
         children.add(this);
         return children;
