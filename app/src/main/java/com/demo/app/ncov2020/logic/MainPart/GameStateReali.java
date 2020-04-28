@@ -65,6 +65,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         for (Component country: countryComposite.getAllLeaves()) {
             applyDiseaseOnCountry((Country) country);
         }
+        countryComposite.passOneTimeUnit();
         if(getInfectedPeople()>100_000)
             getGlobalCure().startWorkOnCure();
         passOneTimeUnitCure();
@@ -83,8 +84,8 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         }
 //        System.out.println(this);
         calendar.add(Calendar.DATE,1);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(simpleDateFormat.format(calendar.getTime()));
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        System.out.println(simpleDateFormat.format(calendar.getTime()));
         return CallbackType.TIMEPASS;
     }
 

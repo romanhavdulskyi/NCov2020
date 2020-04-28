@@ -3,14 +3,12 @@ package com.demo.app.ncov2020.data
 import com.demo.app.ncov2020.data.GameProperties.abilityMap
 import com.demo.app.ncov2020.data.GameProperties.symptomMap
 import com.demo.app.ncov2020.data.GameProperties.transmissionMap
-import com.demo.app.ncov2020.data.room_data.Disease
 import com.demo.app.ncov2020.data.room_data.GameCountry
 import com.demo.app.ncov2020.data.room_data.GameState
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
 import com.demo.app.ncov2020.logic.Country.*
 import com.demo.app.ncov2020.logic.Country.State.*
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali
-import com.demo.app.ncov2020.logic.cure.GlobalCure
 import java.util.*
 
 object GameEntityConverter {
@@ -54,7 +52,7 @@ object GameEntityConverter {
                         openGround = item.isOpenGround, openSchool = item.isOpenSchool, openSeaport = item.isOpenSeaport,
                         pathsAir = convertCountry(item.pathsAir), pathsGround = convertCountry(item.pathsGround), pathsSea = convertCountry(item.pathsSea),
                         urls = item.hronology.urls, climate = item.climate.ordinal, medicineLevel = item.medicineLevel.ordinal,
-                        knowAboutVirus = item.isKnowAboutVirus, state = convertStateToInt(item.state))
+                        knowAboutVirus = item.isKnowAboutVirus, state = convertStateToInt(item.state as BaseCountryState))
                 gameState.countries?.add(gameCountry)
             }
         return gameState
@@ -138,7 +136,7 @@ object GameEntityConverter {
         newItem.infectedPeople = item.infectedPeople!!
         newItem.deadPeople = item.deadPeople!!
         newItem.isKnowAboutVirus = item.knowAboutVirus
-        val state =  convertIntToState(item.state)
+        val state =  convertIntToState(item.state,newItem)
         state?.country = newItem
         newItem.state = state
         newItem.countryGUID = item.countryUUID
@@ -159,12 +157,12 @@ object GameEntityConverter {
         return countries.map { it.name }
     }
 
-    private fun convertIntToState(index: Int): BaseCountryState? {
+    private fun convertIntToState(index: Int, newItem: Country): BaseCountryState? {
         return when (index) {
-            0 -> CountryStateUndiscovered()
-            1 -> CountryStateDoNotTakeActions()
-            2 -> CountryStateCarantine()
-            else -> CountryStateCloseAll()
+            0 -> CountryStateUndiscovered(newItem)
+            1 -> CountryStateDoNotTakeActions(newItem)
+            2 -> CountryStateCarantine(newItem)
+            else -> CountryStateCloseAll(newItem)
         }
     }
 }

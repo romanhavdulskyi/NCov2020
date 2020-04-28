@@ -143,10 +143,17 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         while (iterator.hasNext()){
             System.out.println(iterator.next());
         }
+        GameStateForEntity gameStateSnapshot = baseDecorator.makeSnapshot();
+        System.out.println(gameStateSnapshot);
+        System.out.println(GameStateReali.getInstance());
         for (int i=0;i<50;i++) {
-            System.out.println(baseDecorator);
+//            System.out.println(baseDecorator);
             baseDecorator.pastOneTimeUnit();
         }
+        System.out.println(gameStateSnapshot);
+        System.out.println(GameStateReali.getInstance());
+        GameStateReali.getInstance().loadSnapshot(gameStateSnapshot);
+        System.out.println(GameStateReali.getInstance());
         baseDecorator.addSymptom(new Symptom("Kill all","People started dying",2,4,2));
         for (int i=0;i<100;i++) {
             System.out.println(baseDecorator);

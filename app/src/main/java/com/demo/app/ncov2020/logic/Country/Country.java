@@ -36,7 +36,7 @@ public class Country implements Component, Cloneable {
     private List<Country> pathsAir;
     private List<Country> pathsSea;
     private List<Country> pathsGround;
-    private CountryState state = new CountryStateUndiscovered();
+    private CountryState state;
 
 
     public Country(String name, String countryGUID, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport, boolean openGround, boolean openSchool, boolean knowAboutVirus, Climate climate, MedicineLevel medicineLevel, boolean infected, double slowInfect, Hronology hronology, List<Country> pathsAir, List<Country> pathsSea, List<Country> pathsGround, BaseCountryState state) {
@@ -58,8 +58,7 @@ public class Country implements Component, Cloneable {
         this.pathsAir = pathsAir;
         this.pathsSea = pathsSea;
         this.pathsGround = pathsGround;
-        this.state = state;
-        state.applyState();
+        this.state = (state==null)? new CountryStateUndiscovered(this):state;
     }
 
     public Country(String name, String countryGUID, long amountOfPeople, boolean rich, Climate climate, MedicineLevel medicineLevel, Hronology hronology) {
@@ -74,6 +73,7 @@ public class Country implements Component, Cloneable {
         this.pathsSea = new ArrayList<>();
         this.pathsGround = new ArrayList<>();
         this.hronology = hronology;
+        this.state = new CountryStateUndiscovered(this);
     }
 
     @Override

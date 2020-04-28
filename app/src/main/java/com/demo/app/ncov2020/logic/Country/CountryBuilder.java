@@ -24,7 +24,7 @@ public class CountryBuilder {
     private List<Country> pathsAir=new ArrayList<>();
     private List<Country> pathsSea=new ArrayList<>();
     private List<Country> pathsGround= new ArrayList<>();
-    private BaseCountryState state = new CountryStateUndiscovered();
+    private BaseCountryState state;
 
     public CountryBuilder setName(String name) {
         this.name = name;

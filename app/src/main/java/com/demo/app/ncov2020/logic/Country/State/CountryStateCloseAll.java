@@ -3,6 +3,10 @@ package com.demo.app.ncov2020.logic.Country.State;
 import com.demo.app.ncov2020.logic.Country.Country;
 
 public class CountryStateCloseAll extends BaseCountryState {
+    public CountryStateCloseAll(Country country) {
+        super(country);
+    }
+
     @Override
     public void applyState(){
         country.setOpenAirport(false);
@@ -15,5 +19,10 @@ public class CountryStateCloseAll extends BaseCountryState {
     @Override
     public void checkIfNeedChangeState() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "CountryStateCloseAll{}";
     }
 }

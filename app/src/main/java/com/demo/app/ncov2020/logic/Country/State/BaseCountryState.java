@@ -7,6 +7,10 @@ import com.demo.app.ncov2020.logic.Country.Country;
 public abstract class BaseCountryState implements CountryState, Cloneable {
     protected Country country;
 
+    public BaseCountryState(Country country) {
+        this.country = country;
+    }
+
     @Override
     public void changeState(CountryState countryState) {
         country.setState(countryState);

@@ -161,4 +161,12 @@ public class CountryComposite implements Component, IterCollection {
         ((CountryComposite)copy).components = componentCopy;
         return copy;
     }
+
+    @Override
+    public String toString() {
+        return "CountryComposite{" +
+                "name='" + name + '\'' +
+                ", components=" + components +
+                '}';
+    }
 }

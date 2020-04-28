@@ -151,4 +151,23 @@ public class GameStateForEntity implements Memento, Cloneable{
     public Date getSnaphotDate() {
         return date;
     }
+
+    @Override
+    public String toString() {
+        return "GameStateForEntity{" +
+                "id=" + id +
+                ", playerGUID='" + playerGUID + '\'' +
+                ", amountOfPeople=" + amountOfPeople +
+                ", deadPeople=" + deadPeople +
+                ", infectedPeople=" + infectedPeople +
+                ", healthyPeople=" + healthyPeople +
+                ", countryComposite=" + countryComposite +
+                ", infectedCountries=" + infectedCountries +
+                ", disease=" + disease +
+                ", globalCure=" + globalCure +
+                ", date=" + date +
+                ", upgradePoints=" + upgradePoints +
+                ", snapshotDate=" + snapshotDate +
+                '}';
+    }
 }
