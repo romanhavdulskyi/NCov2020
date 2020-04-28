@@ -3,6 +3,7 @@ package com.demo.app.ncov2020.map
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.demo.app.basics.mvvm.BaseAndroidViewModel
+import com.demo.app.ncov2020.common.TimeUtils
 import com.demo.app.ncov2020.common.offlinegeocoder.GeoDataFactory
 import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
@@ -33,7 +34,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     init {
         Mapbox.getInstance(application, "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
 
-        val map = Map(0, false)
+        val map = Map(0, false, currDate = "")
         mapLiveData.value = map
         gameProvider.addClient(object : GameProvider.Client {
             override fun onChanged(state: Game) {
@@ -42,6 +43,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
                 mapValue?.hardInfectedPoints?.clear()
                 mapValue?.mediumInfectedPoints?.clear()
                 mapValue?.lowInfectedPoints?.clear()
+
                 if (state.hardLevelInfectedCountry.isNotEmpty())
                     for (item in state.hardLevelInfectedCountry)
                         mapValue?.hardInfectedPoints?.add(getPointsForCountry(item))
@@ -54,6 +56,8 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
                 if (state.lowLevelInfectedCountry.isNotEmpty())
                     for (item in state.lowLevelInfectedCountry)
                         mapValue?.lowInfectedPoints?.add(getPointsForCountry(item))
+
+                mapValue?.currDate = state.dateTime?.let { TimeUtils.formatDate(it) }.toString()
 
                 mapLiveData.postValue(mapValue)
             }

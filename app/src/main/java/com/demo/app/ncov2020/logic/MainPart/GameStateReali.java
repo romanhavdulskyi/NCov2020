@@ -1,5 +1,6 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
+import com.demo.app.ncov2020.common.TimeUtils;
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity;
 import com.demo.app.ncov2020.logic.Country.Component;
@@ -46,8 +47,7 @@ public class GameStateReali implements ComponentDec, Memento<GameStateForEntity>
     }
 
     public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar) {
-        GameStateReali gameStateReali = new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar);
-        instance= gameStateReali;
+        instance= new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar);
         return instance;
     }
 
@@ -58,6 +58,8 @@ public class GameStateReali implements ComponentDec, Memento<GameStateForEntity>
 
     public CallbackType pastOneTimeUnit() {
         timePassed=true;
+        calendar.add(Calendar.DATE,1);
+        System.out.println(TimeUtils.INSTANCE.formatDate(calendar.getTime()));
         for (Component country: countryComposite.getAllLeaves()) {
             applyDiseaseOnCountry((Country) country);
         }
@@ -77,10 +79,7 @@ public class GameStateReali implements ComponentDec, Memento<GameStateForEntity>
             System.out.println("You lose the game");
             return CallbackType.ENDGAMELOSE;
         }
-//        System.out.println(this);
-        calendar.add(Calendar.DATE,1);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(simpleDateFormat.format(calendar.getTime()));
+
         return CallbackType.TIMEPASS;
     }
 

@@ -112,7 +112,7 @@ object GameEntityConverter {
                 }
             }
         }
-       return GameStateReali.init(1, "1", countryComposite, disease, gameState.globalCure, GregorianCalendar(2019, 12, 31))
+       return GameStateReali.init(1, "1", countryComposite, disease, gameState.globalCure, Calendar.getInstance())
     }
 
     private fun buildCountry(item : GameCountry) : Country
