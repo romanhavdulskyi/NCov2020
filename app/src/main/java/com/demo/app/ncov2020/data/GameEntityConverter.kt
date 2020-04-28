@@ -145,8 +145,8 @@ object GameEntityConverter {
         return newItem
     }
 
-    private fun convertStateToInt(baseCountryState: BaseCountryState): Int {
-        return when (baseCountryState) {
+    private fun convertStateToInt(countryState: BaseCountryState): Int {
+        return when (countryState) {
             is CountryStateUndiscovered -> 0
             is CountryStateDoNotTakeActions -> 1
             is CountryStateCarantine -> 2

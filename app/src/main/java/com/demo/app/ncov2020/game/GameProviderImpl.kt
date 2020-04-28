@@ -14,7 +14,6 @@ import com.demo.app.ncov2020.logic.Disease.Symptom
 import com.demo.app.ncov2020.logic.Disease.Transmission
 import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateLogDecorator
-import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -27,7 +26,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     private val executor = Executors.newSingleThreadExecutor()
     private lateinit var scheduledExecutor: ScheduledExecutorService
     private var gameState: GameState? = null
-    private var snapshot: GameStateForEntity? = null
+    private var snapshotFromMakeSnapshot: GameStateForEntity? = null
     private var lastSnapshot: GameStateForEntity? = null
 
     private var execTask: Runnable = object : Runnable {
@@ -108,14 +107,14 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     }
 
     override fun loadSnapshot() {
-        if (snapshot == null)
+        if (snapshotFromMakeSnapshot == null)
             gameStateCallbackDecorator.loadSnapshot(lastSnapshot)
         else
-            gameStateCallbackDecorator.loadSnapshot(snapshot)
+            gameStateCallbackDecorator.loadSnapshot(snapshotFromMakeSnapshot)
     }
 
     override fun makeSnapshot() {
-        snapshot = gameStateCallbackDecorator.makeSnapshot()
+        snapshotFromMakeSnapshot = gameStateCallbackDecorator.makeSnapshot()
     }
 
     private object HOLDER {

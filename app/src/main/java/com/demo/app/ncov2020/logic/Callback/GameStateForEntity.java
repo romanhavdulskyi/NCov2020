@@ -8,6 +8,7 @@ import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.Country.CountryComposite;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
+import com.demo.app.ncov2020.logic.MainPart.Memento;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class GameStateForEntity implements Cloneable{
+public class GameStateForEntity implements Memento, Cloneable{
     private final int id;
     private final String playerGUID;
     private long amountOfPeople;
@@ -31,6 +32,7 @@ public class GameStateForEntity implements Cloneable{
     private GlobalCure globalCure;
     private Date date;
     private int upgradePoints = 0; //TODO: add point when user watches mem and when infects country and when countries changes state
+    private Date snapshotDate;
 
     public GameStateForEntity(GameStateReali gameStateReali) {
         this.id = gameStateReali.getId();
@@ -45,6 +47,7 @@ public class GameStateForEntity implements Cloneable{
         this.globalCure =  gameStateReali.getGlobalCure();
         this.date =  gameStateReali.getCalendar().getTime();
         this.upgradePoints =  gameStateReali.getUpgradePoints();
+        snapshotDate = new Date();
     }
 
     public int getId() {
@@ -142,5 +145,10 @@ public class GameStateForEntity implements Cloneable{
         Object copy =  super.clone();
         ((GameStateForEntity)copy).infectedCountries = infectedCountriesCopy;
         return copy;
+    }
+
+    @Override
+    public Date getSnaphotDate() {
+        return date;
     }
 }

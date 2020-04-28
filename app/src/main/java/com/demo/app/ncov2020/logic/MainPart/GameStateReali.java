@@ -11,10 +11,14 @@ import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
-public class GameStateReali implements ComponentDec, Memento<GameStateForEntity> {
+import androidx.annotation.NonNull;
+
+public class GameStateReali implements ComponentDec, Originator<GameStateForEntity>, Cloneable {
     private final int id;
     private final String playerGUID;
     private long amountOfPeople;
@@ -173,7 +177,12 @@ public class GameStateReali implements ComponentDec, Memento<GameStateForEntity>
 
     @Override
     public GameStateForEntity makeSnapshot() {
-        return new GameStateForEntity(this);
+        try {
+            return new GameStateForEntity((GameStateReali) this.clone());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -189,6 +198,7 @@ public class GameStateReali implements ComponentDec, Memento<GameStateForEntity>
         this.calendar = Calendar.getInstance();
         this.calendar.setTime(snapshot.getDate());
         this.upgradePoints =  snapshot.getUpgradePoints();
+        this.timePassed=true;
     }
 
     public int getId() {
@@ -267,7 +277,14 @@ public class GameStateReali implements ComponentDec, Memento<GameStateForEntity>
         this.upgradePoints = upgradePoints;
     }
 
-
+    @NonNull
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        GameStateReali gameStateRealiCopy = (GameStateReali) super.clone();
+        HashMap<String,Country> infectedCountriesCopy = new HashMap<>(infectedCountries);
+        gameStateRealiCopy.setInfectedCountries(infectedCountriesCopy);
+        return gameStateRealiCopy;
+    }
 
     @Override
     public String toString() {

@@ -4,6 +4,7 @@ import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 
 public class CountryStateDoNotTakeActions extends BaseCountryState {
+    @Override
     public void applyState(){
         country.setOpenAirport(true);
         country.setOpenSeaport(true);

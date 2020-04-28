@@ -36,7 +36,7 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         this.callback = callback;
         instance = this;
     }
-/*This part can be deleted */
+/*This function down can be deleted */
     public static GameStateCallbackDecorator init(ComponentDec gameStateReali, Callback callback){
         if (instance != null){
             throw new AssertionError("You already initialized me");

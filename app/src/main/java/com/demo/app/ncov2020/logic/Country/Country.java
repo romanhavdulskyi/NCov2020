@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.demo.app.ncov2020.data.room_data.GameState;
 import com.demo.app.ncov2020.logic.Country.State.BaseCountryState;
+import com.demo.app.ncov2020.logic.Country.State.CountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 
@@ -35,7 +36,7 @@ public class Country implements Component, Cloneable {
     private List<Country> pathsAir;
     private List<Country> pathsSea;
     private List<Country> pathsGround;
-    private BaseCountryState state = new CountryStateUndiscovered();
+    private CountryState state = new CountryStateUndiscovered();
 
 
     public Country(String name, String countryGUID, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport, boolean openGround, boolean openSchool, boolean knowAboutVirus, Climate climate, MedicineLevel medicineLevel, boolean infected, double slowInfect, Hronology hronology, List<Country> pathsAir, List<Country> pathsSea, List<Country> pathsGround, BaseCountryState state) {
@@ -58,6 +59,7 @@ public class Country implements Component, Cloneable {
         this.pathsSea = pathsSea;
         this.pathsGround = pathsGround;
         this.state = state;
+        state.applyState();
     }
 
     public Country(String name, String countryGUID, long amountOfPeople, boolean rich, Climate climate, MedicineLevel medicineLevel, Hronology hronology) {
@@ -309,13 +311,13 @@ public class Country implements Component, Cloneable {
         return medicineLevel;
     }
 
-    public BaseCountryState getState() {
+    public CountryState getState() {
         return state;
     }
 
-    public void setState(BaseCountryState state) {
-        this.state = state;
-        state.applyState();
+    public void setState(CountryState countryState) {
+        this.state = countryState;
+        countryState.applyState();
     }
 
     public boolean isKnowAboutVirus() {

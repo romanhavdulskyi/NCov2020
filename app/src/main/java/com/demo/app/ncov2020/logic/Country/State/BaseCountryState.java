@@ -8,15 +8,11 @@ public abstract class BaseCountryState implements CountryState, Cloneable {
     protected Country country;
 
     @Override
-    public void changeState(BaseCountryState baseCountryState) {
-        country.setState(baseCountryState);
-        baseCountryState.applyState();
+    public void changeState(CountryState countryState) {
+        country.setState(countryState);
+        countryState.applyState();
         //TODO: notify that country state changed
     }
-
-    public abstract void applyState();
-
-    public abstract void checkIfNeedChangeState();
 
     public Country getCountry() {
         return country;

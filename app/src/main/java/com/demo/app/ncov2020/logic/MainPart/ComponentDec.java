@@ -6,7 +6,7 @@ import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 
-public interface ComponentDec extends Memento<GameStateForEntity> {
+public interface ComponentDec extends Originator<GameStateForEntity> {
     CallbackType pastOneTimeUnit();
     void addSymptom(Symptom symptom);
 

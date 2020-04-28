@@ -3,6 +3,7 @@ package com.demo.app.ncov2020.logic.Country.State;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 
 public class CountryStateUndiscovered extends BaseCountryState {
+    @Override
     public void applyState(){
         country.setOpenAirport(true);
         country.setOpenSeaport(true);

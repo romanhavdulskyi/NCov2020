@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic.Country.State;
 
 public interface CountryState {
-    public void changeState(BaseCountryState baseCountryState);
+    void changeState(CountryState countryState);
+    void applyState();
+    void checkIfNeedChangeState();
 }

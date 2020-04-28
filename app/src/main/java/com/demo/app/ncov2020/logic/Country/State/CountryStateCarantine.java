@@ -3,6 +3,7 @@ package com.demo.app.ncov2020.logic.Country.State;
 import com.demo.app.ncov2020.logic.Country.Country;
 
 public class CountryStateCarantine extends BaseCountryState {
+    @Override
     public void applyState(){
         country.setOpenAirport(true);
         country.setOpenSeaport(true);

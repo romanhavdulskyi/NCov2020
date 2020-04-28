@@ -126,21 +126,21 @@ public class CountryComposite implements Component, IterCollection {
     }
 
     private class CountryIterator implements IIterator<Component>{
-        int index=0;
-        List <Component> children;
+        private int index=0;
+        private List <Component> leaves;
 
-        public CountryIterator(List<Component> children) {
-            this.children = children;
+        public CountryIterator(List<Component> leaves) {
+            this.leaves = leaves;
         }
 
         @Override
         public boolean hasNext() {
-            return index<children.size();
+            return index< leaves.size();
         }
 
         @Override
         public Component next() {
-            return children.get(index++);
+            return leaves.get(index++);
         }
 
     }
