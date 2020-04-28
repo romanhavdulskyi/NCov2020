@@ -43,7 +43,7 @@ object GameEntityConverter {
         }
 
         gameState.countries?.clear()
-        for (item in gameStateForEntity.countryComposite.components) {
+        for (item in gameStateForEntity.countryComposite.allChildren) {
             if (item is Country) {
                 val gameCountry = GameCountry(playerUUID = gameState.playerGUID, amountOfPeople = item.amountOfPeople, healthyPeople = item.healthyPeople, infected = item.isInfected, infectedPeople =  item.infectedPeople, deadPeople = item.deadPeople,
                         name = item.name, countryUUID = item.countryGUID, rich = item.isRich, slowInfect = item.slowInfect, openAirport = item.isOpenAirport,
@@ -83,7 +83,7 @@ object GameEntityConverter {
         for (item in savedDisease.transmissionsIds!!)
             disease.transmissions.add(transmissionMap[item])
 
-        val countryComposite = CountryComposite()
+        val countryComposite = CountryComposite("Root")
         if (result != null) {
             for (item in result) {
                 val newItem = CountryBuilder()

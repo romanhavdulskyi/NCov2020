@@ -8,7 +8,7 @@ import com.demo.app.ncov2020.logic.Disease.Transmission
 
 interface GameProvider {
     fun initGame(guid : String)
-    fun infectCountry(country: Country)
+    fun infectCountry(countryName: String)
     fun addSymptom(symptom: Symptom)
     fun addAbility(ability : Ability)
     fun addTransmission(transmission: Transmission)
