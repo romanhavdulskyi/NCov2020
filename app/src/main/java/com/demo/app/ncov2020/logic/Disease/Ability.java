@@ -2,7 +2,7 @@ package com.demo.app.ncov2020.logic.Disease;
 
 import com.demo.app.ncov2020.logic.Handler;
 
-public class Ability {
+public class Ability implements Cloneable{
     private final String name;
     private final String description;
     private final TypeAbility typeAbility;

@@ -1,6 +1,6 @@
 package com.demo.app.ncov2020.logic.Disease;
 
-public class Symptom {
+public class Symptom  implements  Cloneable{
     private final String name;
     private final String description;
     private final double infectivity;
