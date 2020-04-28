@@ -108,10 +108,10 @@ public class Disease implements Cloneable {
         List<Symptom> symptomsCopy = new ArrayList<>(symptoms.size());
         for(Symptom symptom : symptoms)
             symptomsCopy.add((Symptom) symptom.clone());
-        List<Transmission> transmissionsCopy = new ArrayList<>(transmissions);
+        List<Transmission> transmissionsCopy = new ArrayList<>(transmissions.size());
         for(Transmission transmission : transmissions)
             transmissionsCopy.add((Transmission) transmission.clone());
-        List<Ability> abilitiesCopy = new ArrayList<>(abilities);
+        List<Ability> abilitiesCopy = new ArrayList<>(abilities.size());
         for(Ability ability : abilities)
             abilitiesCopy.add((Ability) ability.clone());
         disease.symptoms = symptomsCopy;
