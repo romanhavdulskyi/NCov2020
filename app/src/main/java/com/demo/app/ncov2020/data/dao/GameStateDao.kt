@@ -10,6 +10,9 @@ interface GameStateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(gameState: GameState)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun update(gameState: GameState)
+
     @Delete
     fun delete(gameState: GameState)
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Country implements Component {
     private final String name;
-    private final String countryGUID;
+    private  String countryGUID;
     private final long amountOfPeople;
     private long deadPeople = 0;
     private long infectedPeople = 0;
@@ -225,8 +225,17 @@ public class Country implements Component {
         this.climate = climate;
     }
 
+    public void setCountryGUID(String GUID) {
+        this.countryGUID = GUID;
+    }
+
     public boolean isInfected() {
         return infected;
+    }
+
+
+    public void setIsInfected(boolean isInfected) {
+        this.infected =  isInfected;
     }
 
 //    public void setInfected(boolean infected) {
