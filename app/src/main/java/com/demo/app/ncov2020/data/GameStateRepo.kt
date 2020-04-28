@@ -48,7 +48,7 @@ class GameStateRepo private constructor(private var countryDao: GameCountryDao, 
     override fun createState(playerGUID: String, virusName: String): GameState {
         val commonCountries: MutableList<CommonCountry> = fetchCommonCountries()
         val disease = Disease(diseaseName = virusName, playerGUID = playerGUID, transmissionsIds = null, abilitiesIds = null, symptomsIds = null)
-        val gameState = GameState(playerGUID = playerGUID, countries = convertCountry(commonCountries, playerGUID), disease = disease, globalCure = GlobalCure(1000000))
+        val gameState = GameState(playerGUID = playerGUID, countries = convertCountry(commonCountries, playerGUID), disease = disease, globalCure = GlobalCure(1000000), upgradePoints = 0)
         countryDao.insertAll(gameState.countries)
         diseaseDao.insert(disease)
         return gameState

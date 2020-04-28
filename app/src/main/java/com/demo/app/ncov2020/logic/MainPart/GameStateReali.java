@@ -1,5 +1,6 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
+import com.demo.app.ncov2020.common.TimeUtils;
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity;
 import com.demo.app.ncov2020.logic.Country.Component;
@@ -36,7 +37,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
 
     private static GameStateReali instance;
 
-    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar) {
+    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
         this.id = id;
         this.playerGUID = playerGUID;
         this.countryComposite = countryComposite;
@@ -47,11 +48,11 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         healthyPeople+=countryComposite.getHealthyPeople();
         infectedPeople+=countryComposite.getInfectedPeople();
         this.calendar = calendar;
+        this.upgradePoints = upgradePoints;
     }
 
-    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar) {
-        GameStateReali gameStateReali = new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar);
-        instance= gameStateReali;
+    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
+        instance= new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar, upgradePoints);
         return instance;
     }
 
@@ -62,6 +63,8 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
 
     public CallbackType pastOneTimeUnit() {
         timePassed=true;
+        calendar.add(Calendar.DATE,1);
+        //System.out.println(TimeUtils.INSTANCE.formatDate(calendar.getTime()));
         for (Component country: countryComposite.getAllLeaves()) {
             applyDiseaseOnCountry((Country) country);
         }
@@ -82,10 +85,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
             System.out.println("You lose the game");
             return CallbackType.ENDGAMELOSE;
         }
-//        System.out.println(this);
-        calendar.add(Calendar.DATE,1);
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        System.out.println(simpleDateFormat.format(calendar.getTime()));
+
         return CallbackType.TIMEPASS;
     }
 

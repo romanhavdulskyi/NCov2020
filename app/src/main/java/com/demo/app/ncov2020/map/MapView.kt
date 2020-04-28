@@ -84,7 +84,7 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
 
         model.mapLiveData.observe(lifecycleOwner, Observer { mapValue ->
             run {
-                cleanMap()
+                //cleanMap()
 
 
                 if (mapValue.hardInfectedPoints.isNotEmpty()) {
