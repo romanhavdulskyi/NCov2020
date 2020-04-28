@@ -10,9 +10,12 @@ import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 import com.demo.app.ncov2020.logic.MainPart.Memento;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,7 +30,7 @@ public class GameStateForEntity implements Memento, Cloneable{
     private long infectedPeople = 0;
     private long healthyPeople = 0;
     private CountryComposite countryComposite;
-    private HashMap<String, Country> infectedCountries = new HashMap<>();
+    private HashMap<String, Country> infectedCountries;
     private Disease disease;
     private GlobalCure globalCure;
     private Date date;
@@ -141,7 +144,10 @@ public class GameStateForEntity implements Memento, Cloneable{
     @NonNull
     @Override
     public Object clone() throws CloneNotSupportedException {
-        HashMap<String, Country> infectedCountriesCopy = new HashMap<>(infectedCountries);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(infectedCountries);
+        Type type = new TypeToken<HashMap<Integer, Country>>(){}.getType();
+        HashMap<String, Country> infectedCountriesCopy = gson.fromJson(jsonString, type);
         Object copy =  super.clone();
         ((GameStateForEntity)copy).infectedCountries = infectedCountriesCopy;
         return copy;

@@ -105,9 +105,15 @@ public class Disease implements Cloneable {
     @Override
     protected Object clone() throws CloneNotSupportedException {
         Disease disease = (Disease) super.clone();
-        List<Symptom> symptomsCopy = new ArrayList<>(symptoms);
+        List<Symptom> symptomsCopy = new ArrayList<>(symptoms.size());
+        for(Symptom symptom : symptoms)
+            symptomsCopy.add((Symptom) symptom.clone());
         List<Transmission> transmissionsCopy = new ArrayList<>(transmissions);
+        for(Transmission transmission : transmissions)
+            transmissionsCopy.add((Transmission) transmission.clone());
         List<Ability> abilitiesCopy = new ArrayList<>(abilities);
+        for(Ability ability : abilities)
+            abilitiesCopy.add((Ability) ability.clone());
         disease.symptoms = symptomsCopy;
         disease.abilities = abilitiesCopy;
         disease.transmissions = transmissionsCopy;

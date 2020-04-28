@@ -2,6 +2,10 @@ package com.demo.app.ncov2020.logic.Country;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -156,7 +160,10 @@ public class CountryComposite implements Component, IterCollection {
     @NonNull
     @Override
     public Object clone() throws CloneNotSupportedException {
-        HashMap<String, Component> componentCopy = new HashMap<>(components);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(components);
+        Type type = new TypeToken<HashMap<Integer, Component>>(){}.getType();
+        HashMap<String, Component> componentCopy = gson.fromJson(jsonString, type);
         Object copy = super.clone();
         ((CountryComposite)copy).components = componentCopy;
         return copy;

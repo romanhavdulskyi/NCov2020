@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic.Disease;
 
+import androidx.annotation.NonNull;
+
 import com.demo.app.ncov2020.logic.Handler;
 
 public class Ability implements Cloneable{
@@ -33,5 +35,11 @@ public class Ability implements Cloneable{
 
     public void setHandler(Handler handler) {
         this.handler = handler;
+    }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

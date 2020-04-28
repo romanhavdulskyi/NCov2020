@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic.Disease;
 
+import androidx.annotation.NonNull;
+
 public class Symptom  implements  Cloneable{
     private final String name;
     private final String description;
@@ -33,5 +35,11 @@ public class Symptom  implements  Cloneable{
 
     public long getLethality() {
         return lethality;
+    }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

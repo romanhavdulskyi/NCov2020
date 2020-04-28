@@ -11,6 +11,10 @@ import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -282,7 +286,10 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     @Override
     protected Object clone() throws CloneNotSupportedException {
         GameStateReali gameStateRealiCopy = (GameStateReali) super.clone();
-        HashMap<String,Country> infectedCountriesCopy = new HashMap<>(infectedCountries);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(infectedCountries);
+        Type type = new TypeToken<HashMap<Integer, Country>>(){}.getType();
+        HashMap<String,Country> infectedCountriesCopy = gson.fromJson(jsonString, type);
         gameStateRealiCopy.setInfectedCountries(infectedCountriesCopy);
         return gameStateRealiCopy;
     }
