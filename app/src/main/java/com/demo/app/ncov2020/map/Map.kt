@@ -9,4 +9,5 @@ data class Map(
         var hardInfectedPoints: MutableList<MutableList<MutableList<Point>>> = mutableListOf(),
         var mediumInfectedPoints: MutableList<MutableList<MutableList<Point>>> = mutableListOf(),
         var lowInfectedPoints: MutableList<MutableList<MutableList<Point>>> = mutableListOf(),
-        var currDate : String)
+        var currDate : String,
+        var upgradePoints : String)

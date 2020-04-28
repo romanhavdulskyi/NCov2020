@@ -38,8 +38,24 @@
                 android:fontFamily="sans-serif"
                 android:textColor="@color/colorWhite"
                 android:layout_margin="3dp"
-                android:layout_marginStart="10dp"
-                android:text="@{viewModel.mapLiveData.currDate}" />
+                android:paddingStart="20dp"
+                android:text="@{viewModel.mapLiveData.currDate}"
+                tools:ignore="RtlSymmetry" />
+
+
+            <TextView
+                android:id="@+id/pointsView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:gravity="center_vertical|end"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorWhite"
+                android:layout_margin="3dp"
+                android:layout_gravity="end"
+                android:paddingEnd="20dp"
+                android:text="@{viewModel.mapLiveData.upgradePoints}"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
 

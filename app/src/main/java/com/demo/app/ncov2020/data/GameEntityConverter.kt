@@ -25,6 +25,7 @@ object GameEntityConverter {
         gameState.disease?.transmissionsIds?.clear()
         gameState.disease?.abilitiesIds?.clear()
         gameState.disease?.symptomsIds?.clear()
+        gameState.upgradePoints = gameStateForEntity.upgradePoints
 
         for (item in gameStateForEntity.disease.transmissions) {
             val keys = transmissionMap.filterValues { it.name == item.name }.keys
@@ -112,7 +113,7 @@ object GameEntityConverter {
                 }
             }
         }
-       return GameStateReali.init(1, "1", countryComposite, disease, gameState.globalCure, Calendar.getInstance())
+       return GameStateReali.init(1, "1", countryComposite, disease, gameState.globalCure, Calendar.getInstance(), gameState.upgradePoints!!)
     }
 
     private fun buildCountry(item : GameCountry) : Country

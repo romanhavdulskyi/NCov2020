@@ -34,7 +34,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     init {
         Mapbox.getInstance(application, "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
 
-        val map = Map(0, false, currDate = "")
+        val map = Map(0, true, currDate = "", upgradePoints = "0")
         mapLiveData.value = map
         gameProvider.addClient(object : GameProvider.Client {
             override fun onChanged(state: Game) {
@@ -58,6 +58,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
                         mapValue?.lowInfectedPoints?.add(getPointsForCountry(item))
 
                 mapValue?.currDate = state.dateTime?.let { TimeUtils.formatDate(it) }.toString()
+                mapValue?.upgradePoints = state.upgradePoints.toString()
 
                 mapLiveData.postValue(mapValue)
             }
@@ -90,8 +91,6 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
                     object : CreateOfflineRegionCallback {
                         override fun onCreate(offlineRegion: OfflineRegion) {
                             offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE)
-                            // Display the download progress bar
-                            //startProgress()
                             // Monitor the download progress using setObserver
                             offlineRegion.setObserver(object : OfflineRegionObserver {
                                 override fun onStatusChanged(status: OfflineRegionStatus) { // Calculate the download percentage and update the progress bar
@@ -126,7 +125,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         map?.let { value ->
             run {
                 val countryName = GeoDataFactory.getCountryName(point)
-                gameProvider.infectCountry(countryName)
+                countryName?.let { gameProvider.infectCountry(it) }
             }
         }
     }

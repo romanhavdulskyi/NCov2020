@@ -9,6 +9,7 @@ class Game() {
     var mediumLevelInfectedCountry: MutableList<String> = mutableListOf()
     var lowLevelInfectedCountry: MutableList<String> = mutableListOf()
     var dateTime: Date? = null
+    var upgradePoints: Int? = null
 
     constructor(gameStateForEntity: GameStateForEntity,  callbackType : CallbackType) : this()
     {
@@ -16,10 +17,11 @@ class Game() {
         mediumLevelInfectedCountry.addAll(gameStateForEntity.countryComposite.mediumLevelInfectedCountry)
         lowLevelInfectedCountry.addAll(gameStateForEntity.countryComposite.lowLevelInfectedCountry)
         dateTime = gameStateForEntity.date.clone() as Date
+        upgradePoints = gameStateForEntity.upgradePoints
     }
 
     override fun toString(): String {
         return hardLevelInfectedCountry.toString() + " " + mediumLevelInfectedCountry.toString() +
-        " " + lowLevelInfectedCountry.toString() + " " + dateTime
+        " " + lowLevelInfectedCountry.toString() + " " + dateTime + " " + upgradePoints
     }
 }

@@ -33,7 +33,7 @@ public class GameStateReali implements ComponentDec, Memento<GameStateForEntity>
 
     private static GameStateReali instance;
 
-    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar) {
+    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
         this.id = id;
         this.playerGUID = playerGUID;
         this.countryComposite = countryComposite;
@@ -44,10 +44,11 @@ public class GameStateReali implements ComponentDec, Memento<GameStateForEntity>
         healthyPeople+=countryComposite.getHealthyPeople();
         infectedPeople+=countryComposite.getInfectedPeople();
         this.calendar = calendar;
+        this.upgradePoints = upgradePoints;
     }
 
-    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar) {
-        instance= new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar);
+    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
+        instance= new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar, upgradePoints);
         return instance;
     }
 

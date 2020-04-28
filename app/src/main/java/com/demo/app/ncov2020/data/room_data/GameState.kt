@@ -8,8 +8,9 @@ import com.demo.app.ncov2020.logic.cure.GlobalCure
 data class GameState(@androidx.room.PrimaryKey(autoGenerate = true) var id : Int? = 0,
                      var playerGUID : String?,
                      var globalCure: GlobalCure?,
+                     var upgradePoints: Int?,
                      @Ignore var countries: MutableList<GameCountry?>?,
                      @Ignore var disease: Disease?) {
-    constructor() : this(0,"", null, null,  null)
+    constructor() : this(0,"", null,0, null,  null)
 
 }
