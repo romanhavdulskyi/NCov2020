@@ -1,7 +1,6 @@
 package com.demo.app.ncov2020.game
 
 
-import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.logic.Disease.Ability
 import com.demo.app.ncov2020.logic.Disease.Symptom
 import com.demo.app.ncov2020.logic.Disease.Transmission
@@ -14,6 +13,8 @@ interface GameProvider {
     fun addTransmission(transmission: Transmission)
     fun addClient(client: Client)
     fun removeClient()
+    fun loadSnapshot()
+    fun makeSnapshot()
 
     interface Client {
         fun onChanged(state : Game)

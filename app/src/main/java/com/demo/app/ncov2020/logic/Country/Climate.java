@@ -1,6 +1,6 @@
 package com.demo.app.ncov2020.logic.Country;
 
-public enum Climate {
+public enum Climate implements Cloneable{
     HOT,
     NORMAL,
     COLD;

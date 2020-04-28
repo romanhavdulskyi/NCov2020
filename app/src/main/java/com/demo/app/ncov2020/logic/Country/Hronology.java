@@ -2,7 +2,7 @@ package com.demo.app.ncov2020.logic.Country;
 
 import java.util.List;
 
-public class Hronology {
+public class Hronology implements Cloneable{
     private List<String> urls;
     private int currMem=0;
     private int amountOfUnlocked=0;

@@ -2,7 +2,7 @@ package com.demo.app.ncov2020.logic.Country.State;
 
 import com.demo.app.ncov2020.logic.Country.Country;
 
-public abstract class BaseCountryState implements CountryState {
+public abstract class BaseCountryState implements CountryState, Cloneable {
     protected Country country;
 
     @Override

@@ -7,15 +7,18 @@ import com.demo.app.ncov2020.data.GameProperties.transmissionMap
 import com.demo.app.ncov2020.data.GameRepositoryFacade
 import com.demo.app.ncov2020.data.room_data.GameState
 import com.demo.app.ncov2020.logic.Callback.Callback
+import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
 import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.logic.Disease.Ability
 import com.demo.app.ncov2020.logic.Disease.Symptom
 import com.demo.app.ncov2020.logic.Disease.Transmission
 import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateLogDecorator
+import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
+import kotlin.collections.HashMap
 
 class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) : GameProvider {
     private lateinit var gameStateCallbackDecorator: GameStateLogDecorator
@@ -24,6 +27,8 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     private val executor = Executors.newSingleThreadExecutor()
     private lateinit var scheduledExecutor: ScheduledExecutorService
     private var gameState: GameState? = null
+    private var snapshot: GameStateForEntity? = null
+    private var lastSnapshot: GameStateForEntity? = null
 
     private var execTask: Runnable = object : Runnable {
         override fun run() {
@@ -38,6 +43,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     var callback = Callback { gameStateForEntity, callbackType ->
         run {
             executor.execute {
+                lastSnapshot = gameStateForEntity
                 client?.onChanged(Game(gameStateForEntity, callbackType))
                 gameState = GameEntityConverter.applyChangesToEntity(gameStateForEntity, gameState!!)
                 gameState?.let { gameRepositoryFacade.updateState(it) }
@@ -70,7 +76,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
 
 
     override fun infectCountry(countryName: String) {
-        executor.execute{
+        executor.execute {
             gameStateCallbackDecorator.infectComponentByName(countryName)
         }
     }
@@ -99,6 +105,17 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
 
     override fun removeClient() {
         this.client = null
+    }
+
+    override fun loadSnapshot() {
+        if (snapshot == null)
+            gameStateCallbackDecorator.loadSnapshot(lastSnapshot)
+        else
+            gameStateCallbackDecorator.loadSnapshot(snapshot)
+    }
+
+    override fun makeSnapshot() {
+        snapshot = gameStateCallbackDecorator.makeSnapshot()
     }
 
     private object HOLDER {

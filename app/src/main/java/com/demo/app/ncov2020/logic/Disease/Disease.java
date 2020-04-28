@@ -5,7 +5,7 @@ import com.demo.app.ncov2020.logic.Country.Country;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Disease{
+public class Disease implements Cloneable{
     private String name;
     private double infectivity;
     private long severity;

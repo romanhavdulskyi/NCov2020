@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic.Country;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -149,5 +151,14 @@ public class CountryComposite implements Component, IterCollection {
 
     public String getName() {
         return name;
+    }
+
+    @NonNull
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        HashMap<String, Component> componentCopy = new HashMap<>(components);
+        Object copy = super.clone();
+        ((CountryComposite)copy).components = componentCopy;
+        return copy;
     }
 }

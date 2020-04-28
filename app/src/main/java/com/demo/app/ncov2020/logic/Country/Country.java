@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic.Country;
 
+import androidx.annotation.NonNull;
+
 import com.demo.app.ncov2020.data.room_data.GameState;
 import com.demo.app.ncov2020.logic.Country.State.BaseCountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
@@ -12,9 +14,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class Country implements Component {
+public class Country implements Component, Cloneable {
     private final String name;
-    private  String countryGUID;
+    private String countryGUID;
     private final long amountOfPeople;
     private long deadPeople = 0;
     private long infectedPeople = 0;
@@ -169,7 +171,7 @@ public class Country implements Component {
 
     @Override
     public List<Component> getAllLeaves() {
-        List <Component> children= new LinkedList<>();
+        List<Component> children = new LinkedList<>();
         children.add(this);
         return children;
     }
@@ -177,7 +179,7 @@ public class Country implements Component {
     @Override
     public List<String> getHardLevelInfectedCountry() {
         List<String> list = new ArrayList<>();
-        if (isInfected() && (amountOfPeople == 0 || ((double) infectedPeople / amountOfPeople) >= 0.5 ))
+        if (isInfected() && (amountOfPeople == 0 || ((double) infectedPeople / amountOfPeople) >= 0.5))
             list.add(name);
         return list;
     }
@@ -185,7 +187,7 @@ public class Country implements Component {
     @Override
     public List<String> getMediumLevelInfectedCountry() {
         List<String> list = new ArrayList<>();
-        if (isInfected() && ((((double) infectedPeople / amountOfPeople) < 0.5) && ( (double) infectedPeople / amountOfPeople) >= 0.01 ))
+        if (isInfected() && ((((double) infectedPeople / amountOfPeople) < 0.5) && ((double) infectedPeople / amountOfPeople) >= 0.01))
             list.add(name);
         return list;
     }
@@ -256,7 +258,7 @@ public class Country implements Component {
 
 
     public void setIsInfected(boolean isInfected) {
-        this.infected =  isInfected;
+        this.infected = isInfected;
     }
 
 //    public void setInfected(boolean infected) {
@@ -352,5 +354,18 @@ public class Country implements Component {
 
     public String getCountryGUID() {
         return countryGUID;
+    }
+
+    @NonNull
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        List<Country> pathsAirCopy = new ArrayList<>(pathsAir);
+        List<Country> pathsSeaCopy = new ArrayList<>(pathsSea);
+        List<Country> pathsGroundCopy = new ArrayList<>(pathsGround);
+        Country copy = (Country) super.clone();
+        copy.pathsAir = pathsAirCopy;
+        copy.pathsGround = pathsGroundCopy;
+        copy.pathsSea = pathsSeaCopy;
+        return copy;
     }
 }

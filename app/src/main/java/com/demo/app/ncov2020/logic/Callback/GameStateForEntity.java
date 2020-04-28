@@ -1,5 +1,7 @@
 package com.demo.app.ncov2020.logic.Callback;
 
+import androidx.annotation.NonNull;
+
 import com.demo.app.ncov2020.game.Game;
 import com.demo.app.ncov2020.game.GameProvider;
 import com.demo.app.ncov2020.logic.Country.Country;
@@ -13,8 +15,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-public class GameStateForEntity{
+public class GameStateForEntity implements Cloneable{
     private final int id;
     private final String playerGUID;
     private long amountOfPeople;
@@ -129,5 +133,14 @@ public class GameStateForEntity{
 
     public void setUpgradePoints(int upgradePoints) {
         this.upgradePoints = upgradePoints;
+    }
+
+    @NonNull
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        HashMap<String, Country> infectedCountriesCopy = new HashMap<>(infectedCountries);
+        Object copy =  super.clone();
+        ((GameStateForEntity)copy).infectedCountries = infectedCountriesCopy;
+        return copy;
     }
 }
