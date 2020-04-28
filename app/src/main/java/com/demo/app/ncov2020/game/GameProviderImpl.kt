@@ -63,7 +63,6 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
             gameStateCallbackDecorator.addTransmission(transmissionMap["plains"])
             gameStateCallbackDecorator.addTransmission(transmissionMap["tourist"])
             gameStateCallbackDecorator.addTransmission(transmissionMap["ship"]);
-            countryMap["Ukraine"]?.beginInfection()
 
             scheduledExecutor = Executors.newSingleThreadScheduledExecutor()
             scheduledExecutor.schedule(execTask, 5L, TimeUnit.SECONDS)
@@ -72,8 +71,10 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     }
 
 
-    override fun infectCountry(country: Country) {
-        //    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun infectCountry(countryName: String) {
+        executor.execute{
+            gameStateCallbackDecorator.infectComponentByName(countryName)
+        }
     }
 
     override fun addSymptom(symptom: Symptom) {

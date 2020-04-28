@@ -118,18 +118,11 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     }
 
     fun onMapClicked(point: LatLng) {
-        val points = mutableListOf<MutableList<Point>>()
         val map = mapLiveData.value
         map?.let { value ->
             run {
-                val data = GeoDataFactory.getPolygon(point)
-                if (data.getPolygons()!!.isNotEmpty()) {
-                    points.clear()
-                    for (item in data.getPolygons()!!)
-                        points.add(item!!.points as MutableList<Point>)
-                    value.hardInfectedPoints.add(points)
-                    mapLiveData.postValue(value)
-                }
+                val countryName = GeoDataFactory.getCountryName(point)
+                gameProvider.infectCountry(countryName)
             }
         }
     }

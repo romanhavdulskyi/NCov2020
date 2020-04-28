@@ -3,6 +3,7 @@ package com.demo.app.ncov2020.data
 import com.demo.app.ncov2020.data.GameProperties.abilityMap
 import com.demo.app.ncov2020.data.GameProperties.symptomMap
 import com.demo.app.ncov2020.data.GameProperties.transmissionMap
+import com.demo.app.ncov2020.data.room_data.Disease
 import com.demo.app.ncov2020.data.room_data.GameCountry
 import com.demo.app.ncov2020.data.room_data.GameState
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
