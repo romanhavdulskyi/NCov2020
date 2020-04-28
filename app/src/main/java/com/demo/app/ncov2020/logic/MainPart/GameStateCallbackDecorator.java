@@ -24,6 +24,7 @@ import com.demo.app.ncov2020.logic.Transsmission.HandlerWater;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 
 public class GameStateCallbackDecorator extends BaseDecorator {
@@ -117,7 +118,7 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         countryComposite.addComponent(italy);
         countryComposite.addComponent(china);
         Disease disease = new Disease("nCov2019");
-        BaseDecorator baseDecorator = new GameStateLogDecorator(GameStateCallbackDecorator.init(GameStateReali.init(1,"1",countryComposite,disease,new GlobalCure(1000000)),new ConcreateCallback()));
+        BaseDecorator baseDecorator = new GameStateLogDecorator(GameStateCallbackDecorator.init(GameStateReali.init(1,"1",countryComposite,disease,new GlobalCure(1000000),new GregorianCalendar(2019,12,31)),new ConcreateCallback()));
         baseDecorator.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
         baseDecorator.addSymptom(new Symptom("Cough","A-a-a-pchi",2,4,0));
         baseDecorator.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1, new HandlerAntibiotics1()));

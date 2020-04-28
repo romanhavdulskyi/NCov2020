@@ -13,9 +13,10 @@ public class CountryStateUndiscovered extends BaseCountryState {
 
     @Override
     public void checkIfNeedChangeState() {
-        if(GameStateReali.getInstance().getDeadPeople()>10000)  changeState(new CountryStateDoNotTakeActions());
+        if(GameStateReali.getInstance().getDeadPeople()>1000)  changeState(new CountryStateDoNotTakeActions());
         if(GameStateReali.getInstance().getInfectedPeople()>1_000_000)  changeState(new CountryStateDoNotTakeActions());
-        if((double)country.getInfectedPeople()/country.getAmountOfPeople()>0.7) changeState(new CountryStateDoNotTakeActions());
+        if(country.getPercentOfInfectedPeople()>0.7) changeState(new CountryStateDoNotTakeActions());
+        //TODO: Callback suspecios disease
     }
 
 }

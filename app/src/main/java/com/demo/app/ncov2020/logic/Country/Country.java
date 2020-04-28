@@ -1,8 +1,11 @@
 package com.demo.app.ncov2020.logic.Country;
 
+import com.demo.app.ncov2020.data.room_data.GameState;
 import com.demo.app.ncov2020.logic.Country.State.BaseCountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
+import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -31,6 +34,7 @@ public class Country implements Component {
     private List<Country> pathsSea;
     private List<Country> pathsGround;
     private BaseCountryState state = new CountryStateUndiscovered();
+
 
     public Country(String name, String countryGUID, long amountOfPeople, boolean rich, boolean openAirport, boolean openSeaport, boolean openGround, boolean openSchool, boolean knowAboutVirus, Climate climate, MedicineLevel medicineLevel, boolean infected, double slowInfect, Hronology hronology, List<Country> pathsAir, List<Country> pathsSea, List<Country> pathsGround, BaseCountryState state) {
         this.name = name;
@@ -81,7 +85,20 @@ public class Country implements Component {
         infected = true;
         healthyPeople--;
         infectedPeople = 1;
+        GameStateReali.getInstance().addInfectedCountry(this);
         return this;
+    }
+
+    public double getPercentOfInfectedPeople() {
+        return (double) getInfectedPeople() / amountOfPeople;
+    }
+
+    public double getPercentOfHealthyPeople() {
+        return (double) getHealthyPeople() / amountOfPeople;
+    }
+
+    public double getPercentOfDeadPeople() {
+        return (double) getDeadPeople() / amountOfPeople;
     }
 
     public void shufflePathAir() {
@@ -128,10 +145,6 @@ public class Country implements Component {
 
     public void setHronology(Hronology hronology) {
         this.hronology = hronology;
-    }
-
-    public double getPercentOfInfectedPeople() {
-        return (double) infectedPeople / healthyPeople;
     }
 
     public String getName() {

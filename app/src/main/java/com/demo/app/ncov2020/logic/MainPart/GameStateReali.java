@@ -10,6 +10,11 @@ import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+
 public class GameStateReali implements ComponentDec {
     private final int id;
     private final String playerGUID;
@@ -18,14 +23,17 @@ public class GameStateReali implements ComponentDec {
     private long infectedPeople = 0;
     private long healthyPeople = 0;
     private CountryComposite countryComposite;
+    private HashMap<String,Country> infectedCountries = new HashMap<>();
     private Disease disease;
     private GlobalCure globalCure;
+    private Calendar calendar;
+    private int upgradePoints;
 
     private boolean timePassed=false;
 
     private static GameStateReali instance;
 
-    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure) {
+    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar) {
         this.id = id;
         this.playerGUID = playerGUID;
         this.countryComposite = countryComposite;
@@ -35,10 +43,11 @@ public class GameStateReali implements ComponentDec {
         deadPeople+=countryComposite.getDeadPeople();
         healthyPeople+=countryComposite.getHealthyPeople();
         infectedPeople+=countryComposite.getInfectedPeople();
+        this.calendar = calendar;
     }
 
-    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure) {
-        GameStateReali gameStateReali = new GameStateReali(id, playerGUID, countryComposite, disease, globalCure);
+    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar) {
+        GameStateReali gameStateReali = new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar);
         instance= gameStateReali;
         return instance;
     }
@@ -69,7 +78,10 @@ public class GameStateReali implements ComponentDec {
             System.out.println("You lose the game");
             return CallbackType.ENDGAMELOSE;
         }
-        System.out.println(this);
+//        System.out.println(this);
+        calendar.add(Calendar.DATE,1);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(simpleDateFormat.format(calendar.getTime()));
         return CallbackType.TIMEPASS;
     }
 
@@ -144,6 +156,22 @@ public class GameStateReali implements ComponentDec {
         deadPeople = countryComposite.getDeadPeople();
     }
 
+    public double getPercentOfInfectedPeople() {
+        return (double) getInfectedPeople() / amountOfPeople;
+    }
+
+    public double getPercentOfHealthyPeople() {
+        return (double) getHealthyPeople() / amountOfPeople;
+    }
+
+    public double getPercentOfDeadPeople() {
+        return (double) getDeadPeople() / amountOfPeople;
+    }
+
+    public void addInfectedCountry(Country country){
+        infectedCountries.put(country.getName(),country);
+    }
+
     public int getId() {
         return id;
     }
@@ -194,6 +222,14 @@ public class GameStateReali implements ComponentDec {
 
     public void setGlobalCure(GlobalCure globalCure) {
         this.globalCure = globalCure;
+    }
+
+    public HashMap<String, Country> getInfectedCountries() {
+        return infectedCountries;
+    }
+
+    public void setInfectedCountries(HashMap<String, Country> infectedCountries) {
+        this.infectedCountries = infectedCountries;
     }
 
     @Override

@@ -9,6 +9,7 @@ public abstract class BaseCountryState implements CountryState {
     public void changeState(BaseCountryState baseCountryState) {
         country.setState(baseCountryState);
         baseCountryState.applyState();
+        //TODO: notify that country state changed
     }
 
     public abstract void applyState();

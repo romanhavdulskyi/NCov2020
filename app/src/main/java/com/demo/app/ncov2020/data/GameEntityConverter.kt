@@ -3,7 +3,6 @@ package com.demo.app.ncov2020.data
 import com.demo.app.ncov2020.data.GameProperties.abilityMap
 import com.demo.app.ncov2020.data.GameProperties.symptomMap
 import com.demo.app.ncov2020.data.GameProperties.transmissionMap
-import com.demo.app.ncov2020.data.room_data.Disease
 import com.demo.app.ncov2020.data.room_data.GameCountry
 import com.demo.app.ncov2020.data.room_data.GameState
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
@@ -11,6 +10,7 @@ import com.demo.app.ncov2020.logic.Country.*
 import com.demo.app.ncov2020.logic.Country.State.*
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali
 import com.demo.app.ncov2020.logic.cure.GlobalCure
+import java.util.*
 
 object GameEntityConverter {
 
@@ -43,8 +43,9 @@ object GameEntityConverter {
         }
 
         gameState.countries?.clear()
-        for (item in gameStateForEntity.countryComposite.components) {
-            if (item is Country) {
+        var iterator = gameStateForEntity.countryComposite.iterator;
+            while(iterator.hasNext()) {
+                var item = iterator.next() as Country
                 val gameCountry = GameCountry(playerUUID = gameState.playerGUID, amountOfPeople = item.amountOfPeople, healthyPeople = item.healthyPeople, infected = item.isInfected, infectedPeople =  item.infectedPeople, deadPeople = item.deadPeople,
                         name = item.name, countryUUID = item.countryGUID, rich = item.isRich, slowInfect = item.slowInfect, openAirport = item.isOpenAirport,
                         openGround = item.isOpenGround, openSchool = item.isOpenSchool, openSeaport = item.isOpenSeaport,
@@ -53,7 +54,6 @@ object GameEntityConverter {
                         knowAboutVirus = item.isKnowAboutVirus, state = convertStateToInt(item.state))
                 gameState.countries?.add(gameCountry)
             }
-        }
         return gameState
     }
 
@@ -83,7 +83,7 @@ object GameEntityConverter {
         for (item in savedDisease.transmissionsIds!!)
             disease.transmissions.add(transmissionMap[item])
 
-        val countryComposite = CountryComposite()
+        val countryComposite = CountryComposite("Root")
         if (result != null) {
             for (item in result) {
                 val newItem = CountryBuilder()
@@ -132,7 +132,7 @@ object GameEntityConverter {
                 }
             }
         }
-       return GameStateReali.init(1, "1", countryComposite, disease, GlobalCure(1000000))
+       return GameStateReali.init(1, "1", countryComposite, disease, GlobalCure(1000000), GregorianCalendar(2019, 12, 31))
     }
 
     private fun convertStateToInt(baseCountryState: BaseCountryState): Int {
