@@ -2,15 +2,16 @@ package com.demo.app.ncov2020.logic.Country;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Hronology implements Cloneable{
-    private List<String> urls;
+    private List<String> urls = new ArrayList<>();
     private int currMem=0;
     private int amountOfUnlocked=0;
 
     public Hronology(List<String> urls) {
-        this.urls = urls;
+        this.urls = (urls==null)?new ArrayList<>():urls;
     }
 
     String getMemUrl(){
