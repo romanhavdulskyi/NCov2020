@@ -48,7 +48,7 @@ public class GameStateForEntity implements Memento, Cloneable{
         this.infectedCountries =  gameStateReali.getInfectedCountries();
         this.disease =  gameStateReali.getDisease();
         this.globalCure =  gameStateReali.getGlobalCure();
-        this.date =  gameStateReali.getCalendar().getTime();
+        this.date =  (Date) gameStateReali.getCalendar().getTime().clone();
         this.upgradePoints =  gameStateReali.getUpgradePoints();
         snapshotDate = new Date();
     }

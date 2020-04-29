@@ -78,11 +78,23 @@ public class Country implements Component, Cloneable {
 
     @Override
     public void passOneTimeUnit() {
-        hronology.setAmountOfUnlocked((int) (hronology.getUrls().size() * (infectedPeople / amountOfPeople)));
-        state.checkIfNeedChangeState();
-        if (hronology.isAvailable()) {
-            //TODO:Notify User that available Mem
+        try {
+            hronology.setAmountOfUnlocked((int) (hronology.getUrls().size() * (infectedPeople / amountOfPeople)));
+        }catch (Exception e)
+        {
+            e.printStackTrace();
         }
+        try {
+            state.checkIfNeedChangeState();
+            if (hronology.isAvailable()) {
+                //TODO:Notify User that available Mem
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
     }
 
     public Country beginInfection() {
