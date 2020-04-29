@@ -144,12 +144,12 @@ public class GameStateForEntity implements Memento, Cloneable{
     @NonNull
     @Override
     public Object clone() throws CloneNotSupportedException {
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(infectedCountries);
-        Type type = new TypeToken<HashMap<Integer, Country>>(){}.getType();
-        HashMap<String, Country> infectedCountriesCopy = gson.fromJson(jsonString, type);
+//        Gson gson = new Gson();
+//        String jsonString = gson.toJson(infectedCountries);
+//        Type type = new TypeToken<HashMap<Integer, Country>>(){}.getType();
+//        HashMap<String, Country> infectedCountriesCopy = gson.fromJson(jsonString, type);
         Object copy =  super.clone();
-        ((GameStateForEntity)copy).infectedCountries = infectedCountriesCopy;
+        ((GameStateForEntity)copy).infectedCountries = new HashMap<>(infectedCountries);
         return copy;
     }
 

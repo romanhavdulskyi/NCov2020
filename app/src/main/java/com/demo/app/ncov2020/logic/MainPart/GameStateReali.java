@@ -286,10 +286,10 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     @Override
     protected Object clone() throws CloneNotSupportedException {
         GameStateReali gameStateRealiCopy = (GameStateReali) super.clone();
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(infectedCountries);
-        Type type = new TypeToken<HashMap<Integer, Country>>(){}.getType();
-        HashMap<String,Country> infectedCountriesCopy = gson.fromJson(jsonString, type);
+//        Gson gson = new Gson();
+//        String jsonString = gson.toJson(infectedCountries);
+//        Type type = new TypeToken<HashMap<Integer, Country>>(){}.getType();
+        HashMap<String,Country> infectedCountriesCopy = new HashMap<>(infectedCountries);
         gameStateRealiCopy.setInfectedCountries(infectedCountriesCopy);
         return gameStateRealiCopy;
     }

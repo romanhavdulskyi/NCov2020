@@ -160,12 +160,12 @@ public class CountryComposite implements Component, IterCollection {
     @NonNull
     @Override
     public Object clone() throws CloneNotSupportedException {
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(components);
-        Type type = new TypeToken<HashMap<Integer, Component>>(){}.getType();
-        HashMap<String, Component> componentCopy = gson.fromJson(jsonString, type);
+//        Gson gson = new Gson();
+//        String jsonString = gson.toJson(components);
+//        Type type = new TypeToken<HashMap<Integer, Component>>(){}.getType();
+//        HashMap<String, Component> componentCopy = gson.fromJson(jsonString, type);
         Object copy = super.clone();
-        ((CountryComposite)copy).components = componentCopy;
+        ((CountryComposite)copy).components = new HashMap<>(components);
         return copy;
     }
 
