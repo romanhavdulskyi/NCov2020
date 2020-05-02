@@ -90,77 +90,77 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         callback.callingBack(snapshot,CallbackType.LOADSNAPSHOT);
     }
 
-//    static public void testGameModel(){
-//        CountryComposite countryComposite= new CountryComposite("Root");
-//        Country ukraine = new CountryBuilder()
-//                .setName("Ukraine")
-//                .setAmountOfPeople(42_000_000)
-//                .setRich(false)
-//                .setClimate(Climate.NORMAL)
-//                .setMedicineLevel(MedicineLevel.FIRST)
-//                .setHronology(new Hronology(new ArrayList<>()))
-//                .buildCountry();
-//        Country italy = new CountryBuilder()
-//                .setName("Italy")
-//                .setAmountOfPeople(60_000_000)
-//                .setRich(true)
-//                .setClimate(Climate.NORMAL)
-//                .setMedicineLevel(MedicineLevel.SECOND)
-//                .setHronology(new Hronology(new ArrayList<>()))
-//                .buildCountry();
-//        Country china= new CountryBuilder()
-//                .setName("China")
-//                .setAmountOfPeople(1_400_000_000)
-//                .setRich(false)
-//                .setClimate(Climate.HOT)
-//                .setMedicineLevel(MedicineLevel.THIRD)
-//                .setHronology(new Hronology(new ArrayList<>()))
-//                .buildCountry();
-//        Country japan = new CountryBuilder()
-//                .setName("Japan")
-//                .setAmountOfPeople(78_000_000)
-//                .setRich(true)
-//                .setClimate(Climate.NORMAL)
-//                .setMedicineLevel(MedicineLevel.SECOND)
-//                .buildCountry();
-//        ukraine.addPathAir(china);
-//        ukraine.addPathSea(italy);
-//        china.addPathSea(japan);
-//
-//        countryComposite.addComponent(ukraine);
-//        countryComposite.addComponent(italy);
-//        countryComposite.addComponent(china);
-//        Disease disease = new Disease("nCov2019");
-//        BaseDecorator baseDecorator = new GameStateLogDecorator(GameStateCallbackDecorator.init(GameStateReali.init(1,"1",countryComposite,disease,new GlobalCure(1000000),new GregorianCalendar(2019,12,31),0),new ConcreateCallback()));
-//        baseDecorator.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
-//        baseDecorator.addSymptom(new Symptom("Cough","A-a-a-pchi",2,4,0));
-//        baseDecorator.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1, new HandlerAntibiotics1()));
-//        baseDecorator.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR,new HandlerAIR()));
-//        baseDecorator.addTransmission(new Transmission("Tourist transmission","You will be able to infect by tourists", TypeTrans.GROUND,new HandlerGround()));
-//        baseDecorator.addTransmission(new Transmission("Ship transmission","You will be able to infect by ships", TypeTrans.WATER,new HandlerWater()));
-//        baseDecorator.infectComponentByName("Ukraine");
-//        IIterator iterator = countryComposite.getIterator();
-//        while (iterator.hasNext()){
-//            System.out.println(iterator.next());
-//        }
-//        GameStateForEntity gameStateSnapshot = baseDecorator.makeSnapshot();
-//        System.out.println(gameStateSnapshot);
-//        System.out.println(GameStateReali.getInstance());
-//        for (int i=0;i<50;i++) {
-////            System.out.println(baseDecorator);
-//            baseDecorator.pastOneTimeUnit();
-//        }
-//        System.out.println(gameStateSnapshot);
-//        System.out.println(GameStateReali.getInstance());
-//        GameStateReali.getInstance().loadSnapshot(gameStateSnapshot);
-//        System.out.println(GameStateReali.getInstance());
-//        baseDecorator.addSymptom(new Symptom("Kill all","People started dying",2,4,2));
-//        for (int i=0;i<100;i++) {
+    static public void testGameModel(){
+        CountryComposite countryComposite= new CountryComposite("Root");
+        Country ukraine = new CountryBuilder()
+                .setName("Ukraine")
+                .setAmountOfPeople(42_000_000)
+                .setRich(false)
+                .setClimate(Climate.NORMAL)
+                .setMedicineLevel(MedicineLevel.FIRST)
+                .setHronology(new Hronology(new ArrayList<>()))
+                .buildCountry();
+        Country italy = new CountryBuilder()
+                .setName("Italy")
+                .setAmountOfPeople(60_000_000)
+                .setRich(true)
+                .setClimate(Climate.NORMAL)
+                .setMedicineLevel(MedicineLevel.SECOND)
+                .setHronology(new Hronology(new ArrayList<>()))
+                .buildCountry();
+        Country china= new CountryBuilder()
+                .setName("China")
+                .setAmountOfPeople(1_400_000_000)
+                .setRich(false)
+                .setClimate(Climate.HOT)
+                .setMedicineLevel(MedicineLevel.THIRD)
+                .setHronology(new Hronology(new ArrayList<>()))
+                .buildCountry();
+        Country japan = new CountryBuilder()
+                .setName("Japan")
+                .setAmountOfPeople(78_000_000)
+                .setRich(true)
+                .setClimate(Climate.NORMAL)
+                .setMedicineLevel(MedicineLevel.SECOND)
+                .buildCountry();
+        ukraine.addPathAir(china);
+        ukraine.addPathSea(italy);
+        china.addPathSea(japan);
+
+        countryComposite.addComponent(ukraine);
+        countryComposite.addComponent(italy);
+        countryComposite.addComponent(china);
+        Disease disease = new Disease("nCov2019");
+        BaseDecorator baseDecorator = new GameStateLogDecorator(GameStateCallbackDecorator.init(GameStateReali.init(1,"1",countryComposite,disease,new GlobalCure(1000000),new GregorianCalendar(2019,12,31),0),new ConcreateCallback()));
+        baseDecorator.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
+        baseDecorator.addSymptom(new Symptom("Cough","A-a-a-pchi",2,4,0));
+        baseDecorator.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1, new HandlerAntibiotics1()));
+        baseDecorator.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR,new HandlerAIR()));
+        baseDecorator.addTransmission(new Transmission("Tourist transmission","You will be able to infect by tourists", TypeTrans.GROUND,new HandlerGround()));
+        baseDecorator.addTransmission(new Transmission("Ship transmission","You will be able to infect by ships", TypeTrans.WATER,new HandlerWater()));
+        baseDecorator.infectComponentByName("Ukraine");
+        IIterator iterator = countryComposite.getIterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+        GameStateForEntity gameStateSnapshot = baseDecorator.makeSnapshot();
+        System.out.println(gameStateSnapshot);
+        System.out.println(GameStateReali.getInstance());
+        for (int i=0;i<50;i++) {
 //            System.out.println(baseDecorator);
-//            baseDecorator.pastOneTimeUnit();
-//        }
-//        System.out.println(baseDecorator);
-//    }
+            baseDecorator.pastOneTimeUnit();
+        }
+        System.out.println(gameStateSnapshot);
+        System.out.println(GameStateReali.getInstance());
+        GameStateReali.getInstance().loadSnapshot(gameStateSnapshot);
+        System.out.println(GameStateReali.getInstance());
+        baseDecorator.addSymptom(new Symptom("Kill all","People started dying",2,4,2));
+        for (int i=0;i<100;i++) {
+            System.out.println(baseDecorator);
+            baseDecorator.pastOneTimeUnit();
+        }
+        System.out.println(baseDecorator);
+    }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
