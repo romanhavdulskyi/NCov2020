@@ -48,17 +48,22 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
                 for(item in state.infectedCountryList) {
                     if (countryMap.containsKey(item.key))
                     {
-                        if(!countryMap[item.key]?.equals(item)!!)
+                        if(!countryMap[item.key]?.equals(item)!!) {
                             mapValue?.updateCountry?.add(item.value)
+                            countryMap[item.key] = item.value
+                        }
                     } else {
+                        countryMap[item.key] = item.value
                         mapValue?.addCountry?.add(item.value)
                     }
                 }
 
                 for(item in countryMap)
                 {
-                    if(!state.infectedCountryList.containsKey(item.key))
+                    if(!state.infectedCountryList.containsKey(item.key)) {
                         mapValue?.removeCountry?.add(item.value)
+                        countryMap.remove(item.key)
+                    }
                 }
 
                 mapValue?.currDate = state.dateTime?.let { TimeUtils.formatDate(it) }.toString()

@@ -6,7 +6,7 @@ object ColorUtils {
 
     fun genColor(intensively : Double) : Int
     {
-        val colors = floatArrayOf(0.0f, 84.7f, 100 -  intensively.toFloat() * 100)
+        val colors = floatArrayOf(0.0f, 84.7f, 102 - intensively.toFloat() * 100)
         return Color.HSVToColor(colors)
     }
 }
