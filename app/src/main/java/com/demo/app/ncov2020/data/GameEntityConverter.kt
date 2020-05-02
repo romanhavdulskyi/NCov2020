@@ -111,6 +111,7 @@ object GameEntityConverter {
                 }
             }
         }
+
        return GameStateReali.init(1, "1", countryComposite, disease, gameState.globalCure, Calendar.getInstance(), gameState.upgradePoints!!)
     }
 

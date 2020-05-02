@@ -15,10 +15,6 @@ public interface Component extends Cloneable{
 
     List<Component> getAllLeaves();
 
-    List<String> getHardLevelInfectedCountry();
-
-    List<String> getMediumLevelInfectedCountry();
-
-    List<String> getLowLevelInfectedCountry();
+    List<String> getInfectedCountry();
 
 }

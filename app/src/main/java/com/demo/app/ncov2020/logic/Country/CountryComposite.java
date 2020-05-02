@@ -64,28 +64,13 @@ public class CountryComposite implements Component, IterCollection {
     }
 
     @Override
-    public List<String> getHardLevelInfectedCountry() {
+    public List<String> getInfectedCountry() {
         List<String> list = new ArrayList<>();
         for(Component component : components.values())
-            list.addAll(component.getHardLevelInfectedCountry());
+            list.addAll(component.getInfectedCountry());
         return list;
     }
 
-    @Override
-    public List<String> getMediumLevelInfectedCountry() {
-        List<String> list = new ArrayList<>();
-        for(Component component : components.values())
-            list.addAll(component.getMediumLevelInfectedCountry());
-        return list;
-    }
-
-    @Override
-    public List<String> getLowLevelInfectedCountry() {
-        List<String> list = new ArrayList<>();
-        for(Component component : components.values())
-            list.addAll(component.getLowLevelInfectedCountry());
-        return list;
-    }
 
     public void addComponent(Component component){
         if(component instanceof Country){

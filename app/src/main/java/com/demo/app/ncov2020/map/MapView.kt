@@ -1,47 +1,39 @@
 package com.demo.app.ncov2020.map
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ComplexColorCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.demo.app.basics.mvvm.BaseActivity
 import com.demo.app.basics.mvvm.BaseView
 import com.demo.app.ncov2020.R
+import com.demo.app.ncov2020.common.ColorUtils
 import com.demo.app.ncov2020.databinding.MapFragmentBinding
-import com.mapbox.geojson.Point
+import com.demo.app.ncov2020.map.commands.*
 import com.mapbox.geojson.Polygon
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.geometry.LatLngBounds
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition
 import com.mapbox.mapboxsdk.style.layers.FillLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import timber.log.Timber
-import java.lang.Error
 import java.util.*
+import kotlin.collections.HashMap
 
 class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
               inflater: LayoutInflater,
               container: ViewGroup?,
-              model: MapViewModel, savedInstanceState: Bundle?) : BaseView() {
+              model: MapViewModel, savedInstanceState: Bundle?) : BaseView(), MapCommandExecutable {
 
     private var mapBoxMap: MapboxMap? = null
-    private var geoJsonSource: MutableList<GeoJsonSource?> = mutableListOf()
-    private var fillLayer: MutableList<FillLayer?> = mutableListOf()
+    private var geoJsonSource: HashMap<String, GeoJsonSource?> = HashMap()
+    private var fillLayer: HashMap<String, FillLayer?> = HashMap()
     var style: Style? = null
     lateinit var mapView: MapView
 
@@ -84,71 +76,65 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
 
         model.mapLiveData.observe(lifecycleOwner, Observer { mapValue ->
             run {
-                //cleanMap()
 
+                val mapCommandProcessor = MapCommandProcessor(this@MapView)
+                for(item in mapValue.removeCountry)
+                    mapCommandProcessor.addToQueue(RemoveCountryCommand(item))
+                for(item in mapValue.addCountry)
+                    mapCommandProcessor.addToQueue(AddCountryCommand(item))
+                for(item in mapValue.updateCountry)
+                    mapCommandProcessor.addToQueue(UpdateCountryCommand(item))
 
-                if (mapValue.hardInfectedPoints.isNotEmpty()) {
-                    val temp = mutableListOf<MutableList<Point>>()
-                    for (item in mapValue.hardInfectedPoints)
-                        temp.addAll(item)
-
-                    Timber.e("Draw hard infected")
-                     renderInfectedCountry(temp, ContextCompat.getColor(activity!!, R.color.hardInfected))
-                }
-
-                if (mapValue.mediumInfectedPoints.isNotEmpty()) {
-                    val temp = mutableListOf<MutableList<Point>>()
-                    for (item in mapValue.mediumInfectedPoints)
-                        temp.addAll(item)
-
-                    Timber.e("Draw medium infected")
-                    renderInfectedCountry(temp, ContextCompat.getColor(activity!!, R.color.mediumInfected))
-                }
-
-                if (mapValue.lowInfectedPoints.isNotEmpty()) {
-                    val temp = mutableListOf<MutableList<Point>>()
-                    for (item in mapValue.lowInfectedPoints)
-                        temp.addAll(item)
-
-                    Timber.e("Draw low infected")
-                    renderInfectedCountry(temp, ContextCompat.getColor(activity!!, R.color.lowInfected))
-                }
-
+                mapCommandProcessor.processCommand()
             }
         })
     }
 
     @Synchronized
     private fun cleanMap() {
-            if (geoJsonSource.isNotEmpty())
-                for (item in geoJsonSource)
-                    style?.removeSource(item!!)
+        if (geoJsonSource.isNotEmpty())
+            for (item in geoJsonSource)
+                style?.removeSource(item.value!!)
 
-            if (fillLayer.isNotEmpty())
-                for (item in fillLayer)
-                        item.let {
-                            if (it != null) {
-                                style?.removeLayer(it)
-                            }
-                        }
+        if (fillLayer.isNotEmpty())
+            for (item in fillLayer)
+                item.let {
+                    style?.removeLayer(it.value!!)
+                }
 
         geoJsonSource.clear()
         fillLayer.clear()
     }
 
     @Synchronized
-    private fun renderInfectedCountry(points: MutableList<MutableList<Point>>, color: Int) {
-            val date = Date()
-            val uuid = UUID.randomUUID().toString() + "" + date.time
-            val source  = GeoJsonSource(uuid, Polygon.fromLngLats(points))
-            geoJsonSource.add(source)
-            style?.addSource(source)
-            Timber.e("Added source")
-            val layer = FillLayer(uuid, uuid).withProperties(PropertyFactory.fillColor(color))
+    override fun addInfectedCountry(mapCountryData: MapCountryData) {
+        val date = Date()
+        val uuid = UUID.randomUUID().toString() + "" + date.time
+        val source = GeoJsonSource(uuid, Polygon.fromLngLats(mapCountryData.points))
+        geoJsonSource[mapCountryData.countryName] = (source)
+        style?.addSource(source)
+        Timber.e("Added source")
 
-            fillLayer.add(layer)
-            style?.addLayerBelow(layer, "settlement-label")
-            Timber.e("Added layer")
+        val layer = FillLayer(uuid, uuid).withProperties(PropertyFactory.fillColor(ColorUtils.genColor( mapCountryData.infectedCoefficient)))
+
+        fillLayer[mapCountryData.countryName] = layer
+        style?.addLayerBelow(layer, "settlement-label")
+        Timber.e("Added layer")
+    }
+
+    @Synchronized
+    override fun updateInfectedCountry(mapCountryData: MapCountryData) {
+        fillLayer[mapCountryData.countryName]?.setProperties(PropertyFactory.fillColor(ColorUtils.genColor(mapCountryData.infectedCoefficient)))
+    }
+
+    @Synchronized
+    override fun removeInfectedCountry(mapCountryData: MapCountryData) {
+
+        style?.removeSource(geoJsonSource[mapCountryData.countryName]!!)
+        style?.removeLayer(fillLayer[mapCountryData.countryName]!!)
+
+        geoJsonSource.remove(mapCountryData.countryName)
+        fillLayer.remove(mapCountryData.countryName)
     }
 
     fun onCreate(savedInstanceState: Bundle?) {

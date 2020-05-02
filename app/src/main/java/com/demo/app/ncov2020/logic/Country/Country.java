@@ -106,7 +106,7 @@ public class Country implements Component, Cloneable {
     }
 
     public double getPercentOfInfectedPeople() {
-        return (double) getInfectedPeople() / amountOfPeople;
+        return getInfectedPeople() / (double) amountOfPeople;
     }
 
     public double getPercentOfHealthyPeople() {
@@ -191,28 +191,14 @@ public class Country implements Component, Cloneable {
     }
 
     @Override
-    public List<String> getHardLevelInfectedCountry() {
+    public List<String> getInfectedCountry() {
         List<String> list = new ArrayList<>();
-        if (isInfected() && (amountOfPeople == 0 || ((double) infectedPeople / amountOfPeople) >= 0.5))
+        if (isInfected())
             list.add(name);
         return list;
     }
 
-    @Override
-    public List<String> getMediumLevelInfectedCountry() {
-        List<String> list = new ArrayList<>();
-        if (isInfected() && ((((double) infectedPeople / amountOfPeople) < 0.5) && ((double) infectedPeople / amountOfPeople) >= 0.01))
-            list.add(name);
-        return list;
-    }
 
-    @Override
-    public List<String> getLowLevelInfectedCountry() {
-        List<String> list = new ArrayList<>();
-        if (isInfected() && ((double) infectedPeople / amountOfPeople) < 0.01)
-            list.add(name);
-        return list;
-    }
 
     public void setInfectedPeople(long infectedPeople) {
         this.infectedPeople = infectedPeople;

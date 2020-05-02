@@ -30,32 +30,36 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     private val JSON_CHARSET = "UTF-8"
     private var gameProvider = GameProviderImpl.INSTANCE
     private val JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME"
+    private val countryMap: HashMap<String, MapCountryData> = HashMap()
 
     init {
         Mapbox.getInstance(application, "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
 
-        val map = Map(0, true, currDate = "", upgradePoints = "0")
+        val map = Map(0, true, currDate = "", upgradePoints = "0", removeCountry = mutableListOf(), updateCountry = mutableListOf(), addCountry = mutableListOf())
         mapLiveData.value = map
         gameProvider.addClient(object : GameProvider.Client {
             override fun onChanged(state: Game) {
                 Timber.e("State %s", state)
                 val mapValue = mapLiveData.value
-                mapValue?.hardInfectedPoints?.clear()
-                mapValue?.mediumInfectedPoints?.clear()
-                mapValue?.lowInfectedPoints?.clear()
+                mapValue?.removeCountry?.clear()
+                mapValue?.addCountry?.clear()
+                mapValue?.updateCountry?.clear()
 
-                if (state.hardLevelInfectedCountry.isNotEmpty())
-                    for (item in state.hardLevelInfectedCountry)
-                        mapValue?.hardInfectedPoints?.add(getPointsForCountry(item))
+                for(item in state.infectedCountryList) {
+                    if (countryMap.containsKey(item.key))
+                    {
+                        if(!countryMap[item.key]?.equals(item)!!)
+                            mapValue?.updateCountry?.add(item.value)
+                    } else {
+                        mapValue?.addCountry?.add(item.value)
+                    }
+                }
 
-                if (state.mediumLevelInfectedCountry.isNotEmpty())
-                    for (item in state.mediumLevelInfectedCountry)
-                        mapValue?.mediumInfectedPoints?.add(getPointsForCountry(item))
-
-
-                if (state.lowLevelInfectedCountry.isNotEmpty())
-                    for (item in state.lowLevelInfectedCountry)
-                        mapValue?.lowInfectedPoints?.add(getPointsForCountry(item))
+                for(item in countryMap)
+                {
+                    if(!state.infectedCountryList.containsKey(item.key))
+                        mapValue?.removeCountry?.add(item.value)
+                }
 
                 mapValue?.currDate = state.dateTime?.let { TimeUtils.formatDate(it) }.toString()
                 mapValue?.upgradePoints = state.upgradePoints.toString()
@@ -130,16 +134,6 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         }
     }
 
-    fun getPointsForCountry(countryName: String): MutableList<MutableList<Point>> {
-        val points = mutableListOf<MutableList<Point>>()
-        val data = GeoDataFactory.getPolygon(countryName)
-        if (data.getPolygons()!!.isNotEmpty()) {
-            points.clear()
-            for (item in data.getPolygons()!!)
-                points.add(item!!.points as MutableList<Point>)
-        }
-        return points
-    }
 
     private fun startProgress() {
         val mapValue = mapLiveData.value

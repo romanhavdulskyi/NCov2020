@@ -53,6 +53,10 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         infectedPeople+=countryComposite.getInfectedPeople();
         this.calendar = calendar;
         this.upgradePoints = upgradePoints;
+        this.infectedCountries = new HashMap<>();
+        for(String name : countryComposite.getInfectedCountry())
+            infectedCountries.put(name, (Country) countryComposite.getComponentByName(name));
+
     }
 
     public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
