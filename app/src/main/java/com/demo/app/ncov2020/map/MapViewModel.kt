@@ -8,17 +8,14 @@ import com.demo.app.ncov2020.common.offlinegeocoder.GeoDataFactory
 import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 import com.demo.app.ncov2020.game.GameProviderImpl
+import com.demo.app.ncov2020.gamedialog.GameDialogsImpl
 import com.demo.app.ncov2020.userprofile.CurrentSession
-import com.demo.app.ncov2020.userprofile.login.CurrentSessionManager
-import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.offline.*
 import com.mapbox.mapboxsdk.offline.OfflineManager.CreateOfflineRegionCallback
 import com.mapbox.mapboxsdk.offline.OfflineRegion.OfflineRegionObserver
-import com.mapbox.mapboxsdk.style.layers.FillLayer
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import org.json.JSONObject
 import timber.log.Timber
 import kotlin.math.roundToInt
@@ -45,7 +42,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
                 mapValue?.addCountry?.clear()
                 mapValue?.updateCountry?.clear()
 
-                for(item in state.infectedCountryList) {
+                for(item in state.infectedCountryShort) {
                     if (countryMap.containsKey(item.key))
                     {
                         if(!countryMap[item.key]?.equals(item)!!) {
@@ -60,7 +57,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
 
                 for(item in countryMap)
                 {
-                    if(!state.infectedCountryList.containsKey(item.key)) {
+                    if(!state.infectedCountryShort.containsKey(item.key)) {
                         mapValue?.removeCountry?.add(item.value)
                         countryMap.remove(item.key)
                     }
@@ -134,7 +131,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         map?.let { value ->
             run {
                 val countryName = GeoDataFactory.getCountryName(point)
-                countryName?.let { gameProvider.infectCountry(it) }
+                countryName?.let { GameDialogsImpl.openCountryDialog(it) }
             }
         }
     }

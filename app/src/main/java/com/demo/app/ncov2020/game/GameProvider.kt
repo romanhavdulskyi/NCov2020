@@ -12,7 +12,7 @@ interface GameProvider {
     fun addAbility(ability : Ability)
     fun addTransmission(transmission: Transmission)
     fun addClient(client: Client)
-    fun removeClient()
+    fun removeClient(client: Client)
     fun loadSnapshot()
     fun makeSnapshot()
 

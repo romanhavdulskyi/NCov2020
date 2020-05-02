@@ -7,6 +7,8 @@ import androidx.navigation.Navigation
 import com.demo.app.basics.mvvm.BaseActivity
 import com.demo.app.ncov2020.common.GameNavigatorImpl
 import com.demo.app.ncov2020.common.GameNavigatorImpl.Companion.instance
+import com.demo.app.ncov2020.game.GameProviderImpl
+import com.demo.app.ncov2020.gamedialog.GameDialogsImpl
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +16,7 @@ class MainActivity : BaseActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)
-        //getSupportFragmentManager().beginTransaction().replace(R.id.container, new LoginFragment()).commit();
+        GameDialogsImpl.init(supportFragmentManager, GameProviderImpl.INSTANCE)
         instance.setNavController(Navigation.findNavController(this, R.id.nav_host_fragment))
     }
 

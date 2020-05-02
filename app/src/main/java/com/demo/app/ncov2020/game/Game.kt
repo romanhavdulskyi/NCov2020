@@ -3,21 +3,24 @@ package com.demo.app.ncov2020.game
 import com.demo.app.ncov2020.common.MapBoxUtils
 import com.demo.app.ncov2020.logic.Callback.CallbackType
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
+import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.map.MapCountryData
 import java.util.*
 import kotlin.collections.HashMap
 
 class Game() {
-    var infectedCountryList: HashMap<String, MapCountryData> = HashMap()
+    var infectedCountryShort: HashMap<String, MapCountryData> = HashMap()
+    var infectedCountries: HashMap<String, Country> = HashMap()
     var dateTime: Date? = null
     var upgradePoints: Int? = null
 
-    constructor(gameStateForEntity: GameStateForEntity,  callbackType : CallbackType) : this()
+    constructor(gameStateForEntity: GameStateForEntity) : this()
     {
+        infectedCountries = gameStateForEntity.infectedCountries
         if(gameStateForEntity.infectedCountries.isNotEmpty())
         {
             for(item in gameStateForEntity.infectedCountries)
-                infectedCountryList[item.key] = (MapCountryData(item.key, MapBoxUtils.getPointsForCountry(item.key), item.value.percentOfInfectedPeople))
+                infectedCountryShort[item.key] = (MapCountryData(item.key, MapBoxUtils.getPointsForCountry(item.key), item.value.percentOfInfectedPeople))
 
         }
         dateTime = gameStateForEntity.date.clone() as Date
@@ -25,6 +28,6 @@ class Game() {
     }
 
     override fun toString(): String {
-        return "$infectedCountryList $dateTime $upgradePoints"
+        return "$infectedCountryShort $dateTime $upgradePoints"
     }
 }

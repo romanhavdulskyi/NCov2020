@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.map_fragment.view.*
 class DiseaseDialogImpl : DialogFragment(), DiseaseDialog {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.map_fragment, container)
+        val rootView = inflater.inflate(R.layout.disease_dialog, container)
 
         return rootView
     }

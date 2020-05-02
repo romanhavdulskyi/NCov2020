@@ -22,7 +22,7 @@ import kotlin.collections.HashMap
 class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) : GameProvider {
     private lateinit var gameStateCallbackDecorator: GameStateLogDecorator
     private var guid: String? = null
-    private var client: GameProvider.Client? = null
+    private var clients: MutableList<GameProvider.Client?> = mutableListOf()
     private val executor = Executors.newSingleThreadExecutor()
     private lateinit var scheduledExecutor: ScheduledExecutorService
     private var gameState: GameState? = null
@@ -43,7 +43,8 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
         run {
             executor.execute {
                 lastSnapshot = gameStateForEntity.clone() as GameStateForEntity
-                client?.onChanged(Game(gameStateForEntity, callbackType))
+
+                notifyAll(Game(gameStateForEntity))
                 gameState = GameEntityConverter.applyChangesToEntity(gameStateForEntity, gameState!!)
                 gameState?.let { gameRepositoryFacade.updateState(it) }
             }
@@ -99,11 +100,23 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     }
 
     override fun addClient(client: GameProvider.Client) {
-        this.client = client
+        if(!clients.contains(client)) {
+            clients.add(client)
+            if(lastSnapshot != null)
+                client.onChanged(Game(lastSnapshot!!))
+        }
     }
 
-    override fun removeClient() {
-        this.client = null
+    override fun removeClient(client: GameProvider.Client) {
+        clients.remove(client)
+    }
+
+    private fun notifyAll(game: Game)
+    {
+        for (item in clients)
+        {
+            item?.onChanged(game)
+        }
     }
 
     override fun loadSnapshot() {
