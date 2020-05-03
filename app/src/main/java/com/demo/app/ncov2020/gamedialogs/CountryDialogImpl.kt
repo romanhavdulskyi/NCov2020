@@ -1,20 +1,17 @@
-package com.demo.app.ncov2020.gamedialog
+package com.demo.app.ncov2020.gamedialogs
 
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.DialogFragment

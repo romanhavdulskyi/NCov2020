@@ -5,10 +5,9 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.navigation.Navigation
 import com.demo.app.basics.mvvm.BaseActivity
-import com.demo.app.ncov2020.common.GameNavigatorImpl
 import com.demo.app.ncov2020.common.GameNavigatorImpl.Companion.instance
 import com.demo.app.ncov2020.game.GameProviderImpl
-import com.demo.app.ncov2020.gamedialog.GameDialogsImpl
+import com.demo.app.ncov2020.gamedialogs.GameDialogsImpl
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

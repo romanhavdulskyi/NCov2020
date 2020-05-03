@@ -1,4 +1,4 @@
-package com.demo.app.ncov2020.gamedialog
+package com.demo.app.ncov2020.gamedialogs
 
 interface GameDialogs {
 
