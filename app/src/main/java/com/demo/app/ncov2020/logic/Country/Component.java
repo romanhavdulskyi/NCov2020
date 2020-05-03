@@ -2,7 +2,7 @@ package com.demo.app.ncov2020.logic.Country;
 
 import java.util.List;
 
-public interface Component extends Cloneable{
+public interface Component extends Cloneable, Visitable{
     void passOneTimeUnit();
 
     long getAmountOfPeople();

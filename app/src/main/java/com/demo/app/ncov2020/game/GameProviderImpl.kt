@@ -8,16 +8,17 @@ import com.demo.app.ncov2020.data.GameRepositoryFacade
 import com.demo.app.ncov2020.data.room_data.GameState
 import com.demo.app.ncov2020.logic.Callback.Callback
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
+import com.demo.app.ncov2020.logic.Country.ConcreateVisitor
 import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.logic.Disease.Ability
 import com.demo.app.ncov2020.logic.Disease.Symptom
 import com.demo.app.ncov2020.logic.Disease.Transmission
 import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateLogDecorator
+import com.demo.app.ncov2020.logic.MainPart.GameStateReali
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
-import kotlin.collections.HashMap
 
 class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) : GameProvider {
     private lateinit var gameStateCallbackDecorator: GameStateLogDecorator
@@ -67,6 +68,11 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
             gameStateCallbackDecorator.addTransmission(transmissionMap["plains"])
             gameStateCallbackDecorator.addTransmission(transmissionMap["tourist"])
             gameStateCallbackDecorator.addTransmission(transmissionMap["ship"]);
+//            try {
+//                GameStateReali.getInstance().countryComposite.accept(ConcreateVisitor())
+//            }catch (e:Exception){
+//                e.printStackTrace()
+//            }
 
             scheduledExecutor = Executors.newSingleThreadScheduledExecutor()
             scheduledExecutor.schedule(execTask, 5L, TimeUnit.SECONDS)

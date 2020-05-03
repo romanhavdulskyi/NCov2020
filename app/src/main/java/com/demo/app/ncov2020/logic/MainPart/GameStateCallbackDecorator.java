@@ -4,6 +4,7 @@ import com.demo.app.ncov2020.logic.Abilities.HandlerAntibiotics1;
 import com.demo.app.ncov2020.logic.Callback.Callback;
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Callback.ConcreateCallback;
+import com.demo.app.ncov2020.logic.Country.ConcreateVisitor;
 import com.demo.app.ncov2020.logic.Country.CountryComposite;
 import com.demo.app.ncov2020.logic.Country.IIterator;
 import com.demo.app.ncov2020.logic.Disease.Ability;
@@ -142,6 +143,11 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         IIterator iterator = countryComposite.getIterator();
         while (iterator.hasNext()){
             System.out.println(iterator.next());
+        }
+        try {
+            GameStateReali.getInstance().getCountryComposite().accept(new ConcreateVisitor());
+        }catch (Exception e){
+            e.printStackTrace();
         }
         for (int i=0;i<50;i++) {
             baseDecorator.pastOneTimeUnit();

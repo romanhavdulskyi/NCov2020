@@ -286,6 +286,8 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         this.upgradePoints = upgradePoints;
     }
 
+
+
     @NonNull
     @Override
     protected Object clone() throws CloneNotSupportedException {

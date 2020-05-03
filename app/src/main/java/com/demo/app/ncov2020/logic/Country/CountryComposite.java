@@ -2,17 +2,13 @@ package com.demo.app.ncov2020.logic.Country;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class CountryComposite implements Component, IterCollection {
+public class CountryComposite implements Component, IterCollection, Visitable {
     private final String name;
     private Map<String,Component> components = new HashMap<>();
 
@@ -112,6 +108,15 @@ public class CountryComposite implements Component, IterCollection {
     @Override
     public IIterator getIterator() {
         return new CountryIterator(getAllLeaves());
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.accept(this);
+    }
+
+    public List<Component> getComponents(){
+        return (List<Component>) new ArrayList<>(components.values());
     }
 
     private class CountryIterator implements IIterator<Component>{

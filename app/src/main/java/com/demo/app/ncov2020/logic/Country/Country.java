@@ -2,20 +2,18 @@ package com.demo.app.ncov2020.logic.Country;
 
 import androidx.annotation.NonNull;
 
-import com.demo.app.ncov2020.data.room_data.GameState;
 import com.demo.app.ncov2020.logic.Country.State.BaseCountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 
-public class Country implements Component, Cloneable {
+public class Country implements Component, Cloneable, Visitable {
     private final String name;
     private String countryGUID;
     private final long amountOfPeople;
@@ -370,5 +368,10 @@ public class Country implements Component, Cloneable {
         copy.pathsGround = pathsGroundCopy;
         copy.pathsSea = pathsSeaCopy;
         return copy;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.accept(this);
     }
 }
