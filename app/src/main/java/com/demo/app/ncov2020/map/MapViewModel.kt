@@ -8,7 +8,7 @@ import com.demo.app.ncov2020.common.offlinegeocoder.GeoDataFactory
 import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 import com.demo.app.ncov2020.game.GameProviderImpl
-import com.demo.app.ncov2020.gamedialog.GameDialogsImpl
+import com.demo.app.ncov2020.gamedialogs.GameDialogsImpl
 import com.demo.app.ncov2020.userprofile.CurrentSession
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.geometry.LatLng

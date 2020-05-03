@@ -1,4 +1,4 @@
-package com.demo.app.ncov2020.gamedialog
+package com.demo.app.ncov2020.gamedialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.demo.app.ncov2020.R
-import kotlinx.android.synthetic.main.map_fragment.view.*
 
 class DiseaseDialogImpl : DialogFragment(), DiseaseDialog {
 
