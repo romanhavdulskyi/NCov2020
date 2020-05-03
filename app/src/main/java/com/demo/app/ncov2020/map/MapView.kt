@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.demo.app.basics.mvvm.BaseView
 import com.demo.app.ncov2020.R
-import com.demo.app.ncov2020.common.ColorUtils
+import com.demo.app.ncov2020.common.ColorUtil
 import com.demo.app.ncov2020.databinding.MapFragmentBinding
 import com.demo.app.ncov2020.map.commands.*
 import com.mapbox.geojson.Polygon
@@ -115,7 +115,7 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
         style?.addSource(source)
         Timber.e("Added source")
 
-        val layer = FillLayer(uuid, uuid).withProperties(PropertyFactory.fillColor(ColorUtils.genColor( mapCountryData.infectedCoefficient)))
+        val layer = FillLayer(uuid, uuid).withProperties(PropertyFactory.fillColor(ColorUtil.genColor( mapCountryData.infectedAndDeadCoefficient)))
 
         fillLayer[mapCountryData.countryName] = layer
         style?.addLayerBelow(layer, "settlement-label")
@@ -124,7 +124,7 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
 
     @Synchronized
     override fun updateInfectedCountry(mapCountryData: MapCountryData) {
-        fillLayer[mapCountryData.countryName]?.setProperties(PropertyFactory.fillColor(ColorUtils.genColor(mapCountryData.infectedCoefficient)))
+        fillLayer[mapCountryData.countryName]?.setProperties(PropertyFactory.fillColor(ColorUtil.genColor(mapCountryData.infectedAndDeadCoefficient)))
     }
 
     @Synchronized

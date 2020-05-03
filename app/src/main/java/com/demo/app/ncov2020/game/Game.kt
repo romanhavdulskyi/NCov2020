@@ -1,7 +1,6 @@
 package com.demo.app.ncov2020.game
 
 import com.demo.app.ncov2020.common.MapBoxUtils
-import com.demo.app.ncov2020.logic.Callback.CallbackType
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
 import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.map.MapCountryData
@@ -20,7 +19,7 @@ class Game() {
         if(gameStateForEntity.infectedCountries.isNotEmpty())
         {
             for(item in gameStateForEntity.infectedCountries)
-                infectedCountryShort[item.key] = (MapCountryData(item.key, MapBoxUtils.getPointsForCountry(item.key), item.value.percentOfInfectedPeople))
+                infectedCountryShort[item.key] = (MapCountryData(item.key, MapBoxUtils.getPointsForCountry(item.key), item.value.percentOfInfAndDeadPeople))
 
         }
         dateTime = gameStateForEntity.date.clone() as Date

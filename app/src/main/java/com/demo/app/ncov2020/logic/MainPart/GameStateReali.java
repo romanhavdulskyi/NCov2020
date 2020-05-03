@@ -108,6 +108,18 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
             transmission.getHandler().handle(country);
         }
     }
+    private void calcInfectedPeople(Country country){
+        long perTimeUnitInfected =(long) Math.min(Math.ceil(disease.getInfectivity()*country.getInfectedPeople()), country.getHealthyPeople());
+        country.setInfectedPeople(country.getInfectedPeople()+perTimeUnitInfected);
+    }
+    private void calcDeadPeople(Country country){
+        long perTimeUnitDead =(long) Math.min(Math.ceil(disease.getLethality() * country.getInfectedPeople()), country.getInfectedPeople());
+        country.setDeadPeople(country.getDeadPeople()+perTimeUnitDead);
+        country.setInfectedPeople(country.getInfectedPeople()-perTimeUnitDead);
+    }
+    private void calcHealthyPeople(Country country){
+        country.setHealthyPeople(country.getAmountOfPeople()-country.getInfectedPeople()-country.getDeadPeople());
+    }
 
     public void addSymptom(Symptom symptom){
         getDisease().addSymptom(symptom);
@@ -124,18 +136,6 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     @Override
     public void infectComponentByName(String name) {
         countryComposite.infectComponent(name);
-    }
-
-    private void calcInfectedPeople(Country country){
-        long perTimeUnitInfected =(long) Math.min(Math.ceil(disease.getInfectivity()*country.getInfectedPeople()), country.getHealthyPeople());
-        country.setInfectedPeople(country.getInfectedPeople()+perTimeUnitInfected);
-    }
-    private void calcDeadPeople(Country country){
-        long perTimeUnitDead =(long) Math.min(Math.ceil(disease.getLethality() * country.getInfectedPeople()), country.getInfectedPeople());
-        country.setDeadPeople(country.getDeadPeople()+perTimeUnitDead);
-    }
-    private void calcHealthyPeople(Country country){
-        country.setHealthyPeople(country.getAmountOfPeople()-country.getInfectedPeople()-country.getDeadPeople());
     }
 
     private void passOneTimeUnitCure(){
