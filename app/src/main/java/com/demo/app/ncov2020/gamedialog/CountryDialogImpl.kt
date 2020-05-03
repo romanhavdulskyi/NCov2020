@@ -87,7 +87,6 @@ class CountryDialogImpl(private val gameProvider: GameProvider) : DialogFragment
     }
 
     private val handler = Handler()
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onChanged(state: Game) {
         val country = state.infectedCountries[countryName]
         handler.post {
@@ -99,11 +98,11 @@ class CountryDialogImpl(private val gameProvider: GameProvider) : DialogFragment
                 deadPeopleTitle.visibility = View.VISIBLE
                 infectBtn.visibility = View.GONE
                 healthyProgressBar.max = (country.amountOfPeople / 1000).toInt()
-                healthyProgressBar.setProgress((country.healthyPeople / 1000).toInt(), true)
+                healthyProgressBar.progress = ((country.healthyPeople / 1000).toInt())
                 infectedProgressBar.max = (country.amountOfPeople / 1000).toInt()
-                infectedProgressBar.setProgress((country.infectedPeople / 1000).toInt(), true)
+                infectedProgressBar.progress = (country.infectedPeople / 1000).toInt()
                 deadProgressBar.max = (country.amountOfPeople / 1000).toInt()
-                deadProgressBar.setProgress((country.deadPeople / 1000).toInt(), true)
+                deadProgressBar.progress = (country.deadPeople / 1000).toInt()
             } else {
                 countryTitle.setTextColor(Color.WHITE)
                 infectedProgressBar.visibility = View.GONE
