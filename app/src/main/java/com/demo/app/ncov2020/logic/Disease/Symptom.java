@@ -7,9 +7,9 @@ public class Symptom  implements  Cloneable{
     private final String description;
     private final double infectivity;
     private final long severity;
-    private final long lethality;
+    private final double lethality;
 
-    public Symptom(String name, String description, double infectivity, long severity, long lethality) {
+    public Symptom(String name, String description, double infectivity, long severity, double lethality) {
         this.name = name;
         this.description = description;
         this.infectivity = infectivity;
@@ -33,7 +33,7 @@ public class Symptom  implements  Cloneable{
         return severity;
     }
 
-    public long getLethality() {
+    public double getLethality() {
         return lethality;
     }
 

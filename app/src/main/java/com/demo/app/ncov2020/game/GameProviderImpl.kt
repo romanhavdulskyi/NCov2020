@@ -61,8 +61,8 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
                 this.gameState = gameRepositoryFacade.createState(playerGUID = guid, virusName = "TestVirus")
 
             gameStateCallbackDecorator = GameStateLogDecorator(GameStateCallbackDecorator(GameEntityConverter.createFromGameState(gameState!!, countryMap), callback))
-            gameStateCallbackDecorator.addSymptom(symptomMap["pnevmonia"])
             gameStateCallbackDecorator.addSymptom(symptomMap["cough"])
+            gameStateCallbackDecorator.addSymptom(symptomMap["pnevmonia"])
             gameStateCallbackDecorator.addAbility(abilityMap["antibiotics"])
             gameStateCallbackDecorator.addTransmission(transmissionMap["plains"])
             gameStateCallbackDecorator.addTransmission(transmissionMap["tourist"])
