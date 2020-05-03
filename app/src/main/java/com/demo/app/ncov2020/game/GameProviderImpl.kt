@@ -40,7 +40,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     private val countryMap = HashMap<String, Country>()
 
 
-    var callback = Callback { gameStateForEntity, callbackType ->
+    var callback = Callback { gameStateForEntity, _ ->
         run {
             executor.execute {
                 lastSnapshot = gameStateForEntity.clone() as GameStateForEntity
@@ -68,11 +68,11 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
             gameStateCallbackDecorator.addTransmission(transmissionMap["plains"])
             gameStateCallbackDecorator.addTransmission(transmissionMap["tourist"])
             gameStateCallbackDecorator.addTransmission(transmissionMap["ship"]);
-//            try {
-//                GameStateReali.getInstance().countryComposite.accept(ConcreateVisitor())
-//            }catch (e:Exception){
-//                e.printStackTrace()
-//            }
+            try {
+                GameStateReali.getInstance().countryComposite.accept(ConcreateVisitor())
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
 
             scheduledExecutor = Executors.newSingleThreadScheduledExecutor()
             scheduledExecutor.schedule(execTask, 5L, TimeUnit.SECONDS)
