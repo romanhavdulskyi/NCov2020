@@ -106,7 +106,7 @@ public class Country implements Component, Cloneable {
     }
 
     public double getPercentOfInfectedPeople() {
-        return getInfectedPeople() / (double) amountOfPeople;
+        return (getInfectedPeople() + getDeadPeople()) / (double) amountOfPeople;
     }
 
     public double getPercentOfHealthyPeople() {
