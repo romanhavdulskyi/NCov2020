@@ -132,7 +132,7 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         countryComposite.addComponent(china);
         Disease disease = new Disease("nCov2019");
         BaseDecorator baseDecorator = new GameStateLogDecorator(GameStateCallbackDecorator.init(GameStateReali.init(1,"1",countryComposite,disease,new GlobalCure(1000000),new GregorianCalendar(2019,12,31),0),new ConcreateCallback()));
-        baseDecorator.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0));
+        baseDecorator.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0.3));
         baseDecorator.addSymptom(new Symptom("Cough","A-a-a-pchi",2,4,0));
         baseDecorator.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1, new HandlerAntibiotics1()));
         baseDecorator.addTransmission(new Transmission("Plains transmission","You will be able to infect by plains", TypeTrans.AIR,new HandlerAIR()));
@@ -143,18 +143,11 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         while (iterator.hasNext()){
             System.out.println(iterator.next());
         }
-        GameStateForEntity gameStateSnapshot = baseDecorator.makeSnapshot();
-        System.out.println(gameStateSnapshot);
-        System.out.println(GameStateReali.getInstance());
         for (int i=0;i<50;i++) {
-//            System.out.println(baseDecorator);
             baseDecorator.pastOneTimeUnit();
         }
-        System.out.println(gameStateSnapshot);
         System.out.println(GameStateReali.getInstance());
-        GameStateReali.getInstance().loadSnapshot(gameStateSnapshot);
-        System.out.println(GameStateReali.getInstance());
-        baseDecorator.addSymptom(new Symptom("Kill all","People started dying",2,4,2));
+
         for (int i=0;i<100;i++) {
             System.out.println(baseDecorator);
             baseDecorator.pastOneTimeUnit();

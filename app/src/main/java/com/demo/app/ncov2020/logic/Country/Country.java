@@ -105,16 +105,20 @@ public class Country implements Component, Cloneable {
         return this;
     }
 
+    public double getPercentOfInfAndDeadPeople() {
+        return (getInfectedPeople()+ getDeadPeople()) / (double) amountOfPeople;
+    }
+
     public double getPercentOfInfectedPeople() {
-        return (getInfectedPeople() + getDeadPeople()) / (double) amountOfPeople;
+        return (double) getInfectedPeople() / (double) amountOfPeople;
     }
 
     public double getPercentOfHealthyPeople() {
-        return (double) getHealthyPeople() / amountOfPeople;
+        return (double) getHealthyPeople() / (double) amountOfPeople;
     }
 
     public double getPercentOfDeadPeople() {
-        return (double) getDeadPeople() / amountOfPeople;
+        return (double) getDeadPeople() / (double) amountOfPeople;
     }
 
     public void shufflePathAir() {
@@ -140,7 +144,6 @@ public class Country implements Component, Cloneable {
     public void removePathGround(Country country) {
         pathsGround.remove(country);
     }
-
 
     public void addPathAir(Country country) {
         pathsAir.add(country);

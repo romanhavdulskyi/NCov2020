@@ -17,7 +17,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.demo.app.ncov2020.R
-import com.demo.app.ncov2020.common.ColorUtils
+import com.demo.app.ncov2020.common.ColorUtil
 import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 
@@ -88,18 +88,18 @@ class CountryDialogImpl(private val gameProvider: GameProvider) : DialogFragment
         val country = state.infectedCountries[countryName]
         handler.post {
             if (country != null && country.isInfected) {
-                countryTitle.setTextColor(ColorUtils.genColor(country.percentOfInfectedPeople))
+                countryTitle.setTextColor(ColorUtil.genColor(country.percentOfInfAndDeadPeople))
                 infectedProgressBar.visibility = View.VISIBLE
                 deadProgressBar.visibility = View.VISIBLE
                 infectedPeopleTitle.visibility = View.VISIBLE
                 deadPeopleTitle.visibility = View.VISIBLE
                 infectBtn.visibility = View.GONE
-                healthyProgressBar.max = (country.amountOfPeople / 1000).toInt()
-                healthyProgressBar.progress = ((country.healthyPeople / 1000).toInt())
-                infectedProgressBar.max = (country.amountOfPeople / 1000).toInt()
-                infectedProgressBar.progress = (country.infectedPeople / 1000).toInt()
-                deadProgressBar.max = (country.amountOfPeople / 1000).toInt()
-                deadProgressBar.progress = (country.deadPeople / 1000).toInt()
+                healthyProgressBar.max = 1_000_000
+                healthyProgressBar.progress = (country.percentOfHealthyPeople*1_000_000).toInt()
+                infectedProgressBar.max = 1_000_000
+                infectedProgressBar.progress = (country.percentOfInfectedPeople*1_000_000).toInt()
+                deadProgressBar.max = 1_000_000
+                deadProgressBar.progress = (country.percentOfDeadPeople*1_000_000).toInt()
             } else {
                 countryTitle.setTextColor(Color.WHITE)
                 infectedProgressBar.visibility = View.GONE
