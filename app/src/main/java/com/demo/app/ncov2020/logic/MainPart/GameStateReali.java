@@ -36,6 +36,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     private GlobalCure globalCure;
     private Calendar calendar;
     private int upgradePoints = 0; //TODO: add point when user watches mem and when infects country and when countries changes state
+    private Strategy strategy = new ConcreateStrategyNoAction();
 
     private boolean timePassed=false;
 
@@ -56,7 +57,6 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         this.infectedCountries = new HashMap<>();
         for(String name : countryComposite.getInfectedCountry())
             infectedCountries.put(name, (Country) countryComposite.getComponentByName(name));
-
     }
 
     public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
@@ -184,6 +184,10 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         infectedCountries.put(country.getName(),country);
     }
 
+    void executeStrategy(List<Country> countries){
+        strategy.execute(countries);
+    }
+
     @Override
     public GameStateForEntity makeSnapshot() {
         try {
@@ -286,7 +290,13 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         this.upgradePoints = upgradePoints;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
 
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
 
     @NonNull
     @Override
