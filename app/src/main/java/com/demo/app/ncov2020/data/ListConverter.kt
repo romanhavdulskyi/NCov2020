@@ -2,6 +2,7 @@ package com.demo.app.ncov2020.data
 
 import android.util.Base64
 import androidx.room.TypeConverter
+import com.demo.app.ncov2020.logic.MainPart.UpgradePointsCalc
 import com.demo.app.ncov2020.logic.cure.GlobalCure
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -68,4 +69,44 @@ class ListConverter {
         }
         return null
     }
+
+    @TypeConverter
+    fun toUpgradePointsCalc(data: String?): UpgradePointsCalc? {
+        if (data == null) {
+            return null
+        }
+        var toUpgradePointsCalc : UpgradePointsCalc ? = null
+        try {
+            val base64: ByteArray = Base64.decode(data, Base64.DEFAULT)
+            val ois = ObjectInputStream(ByteArrayInputStream(base64))
+            toUpgradePointsCalc = ois.readObject() as UpgradePointsCalc
+            ois.close()
+        } catch (e: ClassNotFoundException) {
+            print("ClassNotFoundException occurred.")
+        } catch (e: IOException) {
+            print("IOException occurred.")
+        }
+        return toUpgradePointsCalc
+    }
+
+    @TypeConverter
+    fun toString(upgradePointsCalc: UpgradePointsCalc?): String? {
+        if (upgradePointsCalc == null) {
+            return null
+        }
+        try {
+            val baos = ByteArrayOutputStream()
+            val oos = ObjectOutputStream(baos)
+            oos.writeObject(upgradePointsCalc)
+            oos.close()
+            return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
+
+        } catch (e: ClassNotFoundException) {
+            print("ClassNotFoundException occurred.")
+        } catch (e: IOException) {
+            print("IOException occurred.")
+        }
+        return null
+    }
+
 }

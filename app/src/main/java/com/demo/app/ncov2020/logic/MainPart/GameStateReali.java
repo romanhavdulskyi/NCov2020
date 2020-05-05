@@ -29,14 +29,14 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     private Disease disease;
     private GlobalCure globalCure;
     private Calendar calendar;
-    private int upgradePoints = 0; //TODO: add point when user watches mem and when infects country and when countries changes state
+    private UpgradePointsCalc upgradePointsCalc = new UpgradePointsCalc(); //TODO: add point when user watches mem
     private Strategy strategy = new StrategyNoAction();
 
     private boolean timePassed=false;
 
     private static GameStateReali instance;
 
-    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
+    private GameStateReali(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, UpgradePointsCalc upgradePointsCalc) {
         this.id = id;
         this.playerGUID = playerGUID;
         this.countryComposite = countryComposite;
@@ -47,14 +47,14 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         healthyPeople+=countryComposite.getHealthyPeople();
         infectedPeople+=countryComposite.getInfectedPeople();
         this.calendar = calendar;
-        this.upgradePoints = upgradePoints;
+        this.upgradePointsCalc = upgradePointsCalc==null? new UpgradePointsCalc():upgradePointsCalc;
         this.infectedCountries = new HashMap<>();
         for(String name : countryComposite.getInfectedCountry())
             infectedCountries.put(name, (Country) countryComposite.getComponentByName(name));
     }
 
-    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
-        instance= new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar, upgradePoints);
+    public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, UpgradePointsCalc upgradePointsCalc) {
+        instance= new GameStateReali(id, playerGUID, countryComposite, disease, globalCure, calendar, upgradePointsCalc);
         return instance;
     }
 
@@ -117,6 +117,10 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     }
     private void calcHealthyPeople(Country country){
         country.setHealthyPeople(country.getAmountOfPeople()-country.getInfectedPeople()-country.getDeadPeople());
+    }
+
+    public void addUpgradePoints(int points){
+        upgradePointsCalc.addUpgradePoints(points);
     }
 
     public void addSymptom(Symptom symptom){
@@ -202,7 +206,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         this.globalCure =  snapshot.getGlobalCure();
         this.calendar = Calendar.getInstance();
         this.calendar.setTime(snapshot.getDate());
-        this.upgradePoints =  snapshot.getUpgradePoints();
+        this.upgradePointsCalc =  snapshot.getUpgradePointsCalc();
         this.timePassed=true;
     }
 
@@ -274,20 +278,20 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         this.calendar = calendar;
     }
 
-    public int getUpgradePoints() {
-        return upgradePoints;
-    }
-
-    public void setUpgradePoints(int upgradePoints) {
-        this.upgradePoints = upgradePoints;
-    }
-
     public Strategy getStrategy() {
         return strategy;
     }
 
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
+    }
+
+    public UpgradePointsCalc getUpgradePointsCalc() {
+        return upgradePointsCalc;
+    }
+
+    public void setUpgradePointsCalc(UpgradePointsCalc upgradePointsCalc) {
+        this.upgradePointsCalc = upgradePointsCalc;
     }
 
     @NonNull
@@ -316,10 +320,9 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
                 ", disease=" + disease +
                 ", globalCure=" + globalCure +
                 ", calendar=" + calendar +
-                ", upgradePoints=" + upgradePoints +
+                ", upgradePointsCalc=" + upgradePointsCalc +
+                ", strategy=" + strategy +
                 ", timePassed=" + timePassed +
                 '}';
     }
-
-
 }

@@ -23,7 +23,7 @@ class Game() {
 
         }
         dateTime = gameStateForEntity.date.clone() as Date
-        upgradePoints = gameStateForEntity.upgradePoints
+        upgradePoints = gameStateForEntity.upgradePointsCalc.upgradePoints
     }
 
     override fun toString(): String {

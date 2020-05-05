@@ -15,6 +15,7 @@ import com.demo.app.ncov2020.logic.Country.Climate
 import com.demo.app.ncov2020.logic.Country.CountryBuilder
 import com.demo.app.ncov2020.logic.Country.Hronology
 import com.demo.app.ncov2020.logic.Country.MedicineLevel
+import com.demo.app.ncov2020.logic.MainPart.UpgradePointsCalc
 import com.demo.app.ncov2020.logic.cure.GlobalCure
 import java.io.IOException
 import java.util.*
@@ -48,7 +49,8 @@ class GameStateRepo private constructor(private var countryDao: GameCountryDao, 
     override fun createState(playerGUID: String, virusName: String): GameState {
         val commonCountries: MutableList<CommonCountry> = fetchCommonCountries()
         val disease = Disease(diseaseName = virusName, playerGUID = playerGUID, transmissionsIds = null, abilitiesIds = null, symptomsIds = null)
-        val gameState = GameState(playerGUID = playerGUID, countries = convertCountry(commonCountries, playerGUID), disease = disease, globalCure = GlobalCure(1000000), upgradePoints = 0)
+        val upgradePointsCalc = UpgradePointsCalc();
+        val gameState = GameState(playerGUID = playerGUID, countries = convertCountry(commonCountries, playerGUID), disease = disease, globalCure = GlobalCure(1000000), upgradePointsCalc = upgradePointsCalc )
         countryDao.insertAll(gameState.countries)
         diseaseDao.insert(disease)
         return gameState

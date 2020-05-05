@@ -9,6 +9,7 @@ import com.demo.app.ncov2020.logic.Country.CountryComposite;
 import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 import com.demo.app.ncov2020.logic.MainPart.Memento;
+import com.demo.app.ncov2020.logic.MainPart.UpgradePointsCalc;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -34,7 +35,7 @@ public class GameStateForEntity implements Memento, Cloneable{
     private Disease disease;
     private GlobalCure globalCure;
     private Date date;
-    private int upgradePoints = 0; //TODO: add point when user watches mem and when infects country and when countries changes state
+    private UpgradePointsCalc upgradePointsCalc; //TODO: add point when user watches mem and when infects country and when countries changes state
     private Date snapshotDate;
 
     public GameStateForEntity(GameStateReali gameStateReali) {
@@ -49,7 +50,7 @@ public class GameStateForEntity implements Memento, Cloneable{
         this.disease =  gameStateReali.getDisease();
         this.globalCure =  gameStateReali.getGlobalCure();
         this.date =  (Date) gameStateReali.getCalendar().getTime().clone();
-        this.upgradePoints =  gameStateReali.getUpgradePoints();
+        this.upgradePointsCalc =  gameStateReali.getUpgradePointsCalc();
         snapshotDate = new Date();
     }
 
@@ -133,12 +134,12 @@ public class GameStateForEntity implements Memento, Cloneable{
         this.date = date;
     }
 
-    public int getUpgradePoints() {
-        return upgradePoints;
+    public UpgradePointsCalc getUpgradePointsCalc() {
+        return upgradePointsCalc;
     }
 
-    public void setUpgradePoints(int upgradePoints) {
-        this.upgradePoints = upgradePoints;
+    public void setUpgradePointsCalc(UpgradePointsCalc upgradePointsCalc) {
+        this.upgradePointsCalc = upgradePointsCalc;
     }
 
     @NonNull
@@ -172,7 +173,7 @@ public class GameStateForEntity implements Memento, Cloneable{
                 ", disease=" + disease +
                 ", globalCure=" + globalCure +
                 ", date=" + date +
-                ", upgradePoints=" + upgradePoints +
+                ", upgradePointsCalc=" + upgradePointsCalc +
                 ", snapshotDate=" + snapshotDate +
                 '}';
     }
