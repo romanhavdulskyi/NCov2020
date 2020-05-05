@@ -91,21 +91,6 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
         })
     }
 
-    @Synchronized
-    private fun cleanMap() {
-        if (geoJsonSource.isNotEmpty())
-            for (item in geoJsonSource)
-                style?.removeSource(item.value!!)
-
-        if (fillLayer.isNotEmpty())
-            for (item in fillLayer)
-                item.let {
-                    style?.removeLayer(it.value!!)
-                }
-
-        geoJsonSource.clear()
-        fillLayer.clear()
-    }
 
     @Synchronized
     override fun addInfectedCountry(mapCountryData: MapCountryData) {
@@ -162,5 +147,22 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
 
     fun onDestroy() {
         mapView.onDestroy()
+    }
+
+    @Deprecated("So old api")
+    @Synchronized
+    private fun cleanMap() {
+        if (geoJsonSource.isNotEmpty())
+            for (item in geoJsonSource)
+                style?.removeSource(item.value!!)
+
+        if (fillLayer.isNotEmpty())
+            for (item in fillLayer)
+                item.let {
+                    style?.removeLayer(it.value!!)
+                }
+
+        geoJsonSource.clear()
+        fillLayer.clear()
     }
 }
