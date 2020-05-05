@@ -4,7 +4,7 @@ import com.demo.app.ncov2020.logic.Country.Country;
 
 import java.util.List;
 
-public class ConcreateStrategyInfectSmall implements Strategy{
+public class StrategyInfectSmall implements Strategy{
     @Override
     public void execute(List<Country> countries) {
         for(Country country : countries){

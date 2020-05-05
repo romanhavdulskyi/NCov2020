@@ -1,6 +1,5 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
-import com.demo.app.ncov2020.common.TimeUtils;
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity;
 import com.demo.app.ncov2020.logic.Country.Component;
@@ -11,12 +10,7 @@ import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +30,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     private GlobalCure globalCure;
     private Calendar calendar;
     private int upgradePoints = 0; //TODO: add point when user watches mem and when infects country and when countries changes state
-    private Strategy strategy = new ConcreateStrategyNoAction();
+    private Strategy strategy = new StrategyNoAction();
 
     private boolean timePassed=false;
 

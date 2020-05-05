@@ -5,7 +5,7 @@ import com.demo.app.ncov2020.logic.Transsmission.HandlerGround;
 
 import java.util.List;
 
-public class ConcreateStrategyNoAction implements Strategy{
+public class StrategyNoAction implements Strategy{
     @Override
     public void execute(List<Country> countries) {
     }
