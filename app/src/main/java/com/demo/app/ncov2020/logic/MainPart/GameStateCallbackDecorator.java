@@ -26,6 +26,7 @@ import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 
 public class GameStateCallbackDecorator extends BaseDecorator {
@@ -73,6 +74,12 @@ public class GameStateCallbackDecorator extends BaseDecorator {
     public void infectComponentByName(String name) {
         super.infectComponentByName(name);
         callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.BEGININFECTION);
+    }
+
+    @Override
+    public void executeStrategy(List<Country> countries) {
+        super.executeStrategy(countries);
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.STRATEGYEXECUTED);
     }
 
     @Override
@@ -130,7 +137,6 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         countryComposite.addComponent(china);
         Disease disease = new Disease("nCov2019");
         BaseDecorator baseDecorator = new GameStateLogDecorator(GameStateCallbackDecorator.init(GameStateReali.init(1,"1",countryComposite,disease,new GlobalCure(1000000),new GregorianCalendar(2019,12,31),0),new ConcreateCallback()));
-        BaseDecorator baseDecorator2 = new GameStateLogDecorator(GameStateCallbackDecorator.init(GameStateReali.init(1,"1",countryComposite,disease,new GlobalCure(1000000),new GregorianCalendar(2019,12,31),0),new ConcreateCallback()));
         baseDecorator.addSymptom(new Symptom("Pnevmonia","Hard to breathe",2,4,0.3));
         baseDecorator.addSymptom(new Symptom("Cough","A-a-a-pchi",2,4,0));
         baseDecorator.addAbility(new Ability("Antibiotics1","Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1, new HandlerAntibiotics1()));

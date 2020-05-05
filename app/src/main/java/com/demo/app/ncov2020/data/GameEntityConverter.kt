@@ -150,7 +150,7 @@ object GameEntityConverter {
             is CountryStateUndiscovered -> 0
             is CountryStateDoNotTakeActions -> 1
             is CountryStateCarantine -> 2
-            is CountryStateCloseAll -> 3
+            is CountryStateCloseAllPaths -> 3
             else -> -1
         }
     }
@@ -164,7 +164,7 @@ object GameEntityConverter {
             0 -> CountryStateUndiscovered(newItem)
             1 -> CountryStateDoNotTakeActions(newItem)
             2 -> CountryStateCarantine(newItem)
-            else -> CountryStateCloseAll(newItem)
+            else -> CountryStateCloseAllPaths(newItem)
         }
     }
 }

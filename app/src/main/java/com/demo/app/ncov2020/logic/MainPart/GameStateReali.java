@@ -67,13 +67,13 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         timePassed=true;
         calendar.add(Calendar.DATE,1);
         //System.out.println(TimeUtils.INSTANCE.formatDate(calendar.getTime()));
-        for (Component country: countryComposite.getAllLeaves()) {
+        for (Component country: infectedCountries.values()) {
             applyDiseaseOnCountry((Country) country);
         }
         countryComposite.passOneTimeUnit();
         if(getInfectedPeople()>100_000)
             getGlobalCure().startWorkOnCure();
-        passOneTimeUnitCure();
+        globalCure.passOneTimeUnitCure();
 
         if(getDeadPeople()==getAmountOfPeople()){
             System.out.println("You won the game");
@@ -101,9 +101,13 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         for (Transmission transmission : disease.getTransmissions()){
             transmission.getHandler().handle(country);
         }
+        for (Ability ability : disease.getAbilities()){
+            ability.getHandler().handle(country);
+        }
     }
     private void calcInfectedPeople(Country country){
-        long perTimeUnitInfected =(long) Math.min(Math.ceil(disease.getInfectivity()*country.getInfectedPeople()), country.getHealthyPeople());
+        double infectivity = Math.max(disease.getInfectivity()-country.getSlowInfect(),0.);
+        long perTimeUnitInfected =(long) Math.min(Math.ceil(infectivity*country.getInfectedPeople()), country.getHealthyPeople());
         country.setInfectedPeople(country.getInfectedPeople()+perTimeUnitInfected);
     }
     private void calcDeadPeople(Country country){
@@ -130,12 +134,6 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     @Override
     public void infectComponentByName(String name) {
         countryComposite.infectComponent(name);
-    }
-
-    private void passOneTimeUnitCure(){
-        if (!globalCure.isStartedWork()) return;
-        long tempTime = getInfectedPeople()/1000000;
-        globalCure.setTimeToEnd(globalCure.getTimeToEnd()-tempTime-1);
     }
 
     public long getDeadPeople() {
@@ -178,7 +176,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         infectedCountries.put(country.getName(),country);
     }
 
-    void executeStrategy(List<Country> countries){
+    public void executeStrategy(List<Country> countries){
         strategy.execute(countries);
     }
 

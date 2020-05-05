@@ -77,12 +77,7 @@ public class Country implements Component, Cloneable, Visitable {
 
     @Override
     public void passOneTimeUnit() {
-        try {
-            hronology.setAmountOfUnlocked((int) (hronology.getUrls().size() * (infectedPeople / amountOfPeople)));
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        hronology.setAmountOfUnlocked((int) (hronology.getUrls().size() * (infectedPeople / amountOfPeople)));
         try {
             state.checkIfNeedChangeState();
             if (hronology.isAvailable()) {
@@ -92,7 +87,6 @@ public class Country implements Component, Cloneable, Visitable {
         {
             e.printStackTrace();
         }
-
 
     }
 

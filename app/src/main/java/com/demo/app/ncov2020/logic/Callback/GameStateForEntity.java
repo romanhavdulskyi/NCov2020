@@ -154,7 +154,7 @@ public class GameStateForEntity implements Memento, Cloneable{
     }
 
     @Override
-    public Date getSnaphotDate() {
+    public Date getSnapshotDate() {
         return date;
     }
 

@@ -2,9 +2,12 @@ package com.demo.app.ncov2020.logic.MainPart;
 
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity;
+import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.Disease.Ability;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
+
+import java.util.List;
 
 public abstract class BaseDecorator implements ComponentDec {
     ComponentDec wrappee;
@@ -54,5 +57,10 @@ public abstract class BaseDecorator implements ComponentDec {
 
     public void setWrappee(ComponentDec wrappee) {
         this.wrappee = wrappee;
+    }
+
+    @Override
+    public void executeStrategy(List<Country> countries) {
+        wrappee.executeStrategy(countries);
     }
 }
