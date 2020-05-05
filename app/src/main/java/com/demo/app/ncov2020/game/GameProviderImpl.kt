@@ -16,9 +16,11 @@ import com.demo.app.ncov2020.logic.Disease.Transmission
 import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateLogDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali
+import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
+import kotlin.collections.HashMap
 
 class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) : GameProvider {
     private lateinit var gameStateCallbackDecorator: GameStateLogDecorator

@@ -3,6 +3,7 @@ package com.demo.app.ncov2020.map
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.demo.app.basics.mvvm.BaseAndroidViewModel
+import com.demo.app.basics.mvvm.ViewModelState
 import com.demo.app.ncov2020.common.TimeUtils
 import com.demo.app.ncov2020.common.offlinegeocoder.GeoDataFactory
 import com.demo.app.ncov2020.game.Game
@@ -21,7 +22,8 @@ import timber.log.Timber
 import kotlin.math.roundToInt
 
 
-class MapViewModel(application: Application) : BaseAndroidViewModel(application) {
+class MapViewModel(application: Application) : BaseAndroidViewModel(application), GameProvider.Client {
+    private var viewModelState : ViewModelState = ViewModelState.INITIALIZED
     var mapLiveData: MutableLiveData<Map> = MutableLiveData()
     private var mapBoxMap: MapboxMap? = null
     private val JSON_CHARSET = "UTF-8"
@@ -34,41 +36,20 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
 
         val map = Map(0, true, currDate = "", upgradePoints = "0", removeCountry = mutableListOf(), updateCountry = mutableListOf(), addCountry = mutableListOf())
         mapLiveData.value = map
-        gameProvider.addClient(object : GameProvider.Client {
-            override fun onChanged(state: Game) {
-                Timber.e("State %s", state)
-                val mapValue = mapLiveData.value
-                mapValue?.removeCountry?.clear()
-                mapValue?.addCountry?.clear()
-                mapValue?.updateCountry?.clear()
+    }
 
-                for(item in state.infectedCountryShort) {
-                    if (countryMap.containsKey(item.key))
-                    {
-                        if(!countryMap[item.key]?.equals(item)!!) {
-                            mapValue?.updateCountry?.add(item.value)
-                            countryMap[item.key] = item.value
-                        }
-                    } else {
-                        countryMap[item.key] = item.value
-                        mapValue?.addCountry?.add(item.value)
-                    }
-                }
+    fun onAttach()
+    {
+        viewModelState = ViewModelState.ATTACHED
+        gameProvider.addClient(this)
+    }
 
-                for(item in countryMap)
-                {
-                    if(!state.infectedCountryShort.containsKey(item.key)) {
-                        mapValue?.removeCountry?.add(item.value)
-                        countryMap.remove(item.key)
-                    }
-                }
+    fun onDetach()
+    {
 
-                mapValue?.currDate = state.dateTime?.let { TimeUtils.formatDate(it) }.toString()
-                mapValue?.upgradePoints = state.upgradePoints.toString()
-
-                mapLiveData.postValue(mapValue)
-            }
-        })
+        viewModelState = ViewModelState.DETACHED
+        gameProvider.removeClient(this)
+        countryMap.clear()
     }
 
     fun loadMap(mapboxMap: MapboxMap, definition: OfflineTilePyramidRegionDefinition) {
@@ -165,5 +146,39 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
             map.isLoading = true
             mapLiveData.postValue(map)
         }
+    }
+
+    override fun onChanged(state: Game) {
+        Timber.e("State %s", state)
+        val mapValue = mapLiveData.value
+        mapValue?.removeCountry?.clear()
+        mapValue?.addCountry?.clear()
+        mapValue?.updateCountry?.clear()
+
+        for(item in state.infectedCountryShort) {
+            if (countryMap.containsKey(item.key))
+            {
+                if(!countryMap[item.key]?.equals(item)!!) {
+                    mapValue?.updateCountry?.add(item.value)
+                    countryMap[item.key] = item.value
+                }
+            } else {
+                countryMap[item.key] = item.value
+                mapValue?.addCountry?.add(item.value)
+            }
+        }
+
+        for(item in countryMap)
+        {
+            if(!state.infectedCountryShort.containsKey(item.key)) {
+                mapValue?.removeCountry?.add(item.value)
+                countryMap.remove(item.key)
+            }
+        }
+
+        mapValue?.currDate = state.dateTime?.let { TimeUtils.formatDate(it) }.toString()
+        mapValue?.upgradePoints = state.upgradePoints.toString()
+
+        mapLiveData.postValue(mapValue)
     }
 }

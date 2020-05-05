@@ -29,13 +29,14 @@ import kotlin.collections.HashMap
 class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
               inflater: LayoutInflater,
               container: ViewGroup?,
-              model: MapViewModel, savedInstanceState: Bundle?) : BaseView(), MapCommandExecutable {
+              val model: MapViewModel, savedInstanceState: Bundle?) : BaseView(), MapCommandExecutable {
 
     private var mapBoxMap: MapboxMap? = null
     private var geoJsonSource: HashMap<String, GeoJsonSource?> = HashMap()
     private var fillLayer: HashMap<String, FillLayer?> = HashMap()
     var style: Style? = null
-    lateinit var mapView: MapView
+    var mapView: MapView
+
 
     init {
         val mViewBinding: MapFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.map_fragment, container, false)
@@ -143,10 +144,12 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
 
     fun onResume() {
         mapView.onResume()
+        model.onAttach()
     }
 
     fun onPause() {
         mapView.onPause()
+        model.onDetach()
     }
 
     fun onSaveInstanceState(savedInstanceState: Bundle?) {

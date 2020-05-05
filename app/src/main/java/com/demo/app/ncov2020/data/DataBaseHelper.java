@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.demo.app.ncov2020.logic.Country.Visitor;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
