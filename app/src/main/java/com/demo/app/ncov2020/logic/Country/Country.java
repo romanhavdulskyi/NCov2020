@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.demo.app.ncov2020.logic.Country.State.BaseCountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
+import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 
 import java.util.ArrayList;

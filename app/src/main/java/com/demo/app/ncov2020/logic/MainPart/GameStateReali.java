@@ -1,6 +1,5 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
-import com.demo.app.ncov2020.common.TimeUtils;
 import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity;
 import com.demo.app.ncov2020.logic.Country.Component;
@@ -11,12 +10,7 @@ import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Symptom;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +30,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     private GlobalCure globalCure;
     private Calendar calendar;
     private int upgradePoints = 0; //TODO: add point when user watches mem and when infects country and when countries changes state
+    private Strategy strategy = new StrategyNoAction();
 
     private boolean timePassed=false;
 
@@ -56,7 +51,6 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         this.infectedCountries = new HashMap<>();
         for(String name : countryComposite.getInfectedCountry())
             infectedCountries.put(name, (Country) countryComposite.getComponentByName(name));
-
     }
 
     public static GameStateReali init(int id, String playerGUID, CountryComposite countryComposite, Disease disease, GlobalCure globalCure, Calendar calendar, int upgradePoints) {
@@ -184,6 +178,10 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         infectedCountries.put(country.getName(),country);
     }
 
+    void executeStrategy(List<Country> countries){
+        strategy.execute(countries);
+    }
+
     @Override
     public GameStateForEntity makeSnapshot() {
         try {
@@ -286,7 +284,13 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         this.upgradePoints = upgradePoints;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
 
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
 
     @NonNull
     @Override
