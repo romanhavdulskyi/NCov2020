@@ -6,10 +6,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class GlobalCure implements Serializable {
+    private static GlobalCure instance;
     private boolean startedWork;
     private long timeToEnd=90;
     private HashMap<String,Long> contibutorsMoney = new HashMap<>();
-    private Long totalMoney =new Long(0);
+    private Long totalMoney = 0L;
 
     public void passOneTimeUnitCure(){
         if (!isStartedWork()) return;
@@ -32,6 +33,11 @@ public class GlobalCure implements Serializable {
 
     public GlobalCure(long timeToEnd) {
         this.timeToEnd = timeToEnd;
+    }
+    public static GlobalCure init(long timeToEnd){
+        GlobalCure globalCure = new GlobalCure(timeToEnd);
+        instance =globalCure;
+        return instance;
     }
 
     public void startWorkOnCure(){
@@ -60,6 +66,14 @@ public class GlobalCure implements Serializable {
 
     public void setContibutorsMoney(HashMap<String, Long> contibutorsMoney) {
         this.contibutorsMoney = contibutorsMoney;
+    }
+
+    public static GlobalCure getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(GlobalCure instance) {
+        GlobalCure.instance = instance;
     }
 
     @Override

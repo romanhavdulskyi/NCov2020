@@ -9,6 +9,7 @@ import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
 import com.demo.app.ncov2020.logic.Country.*
 import com.demo.app.ncov2020.logic.Country.State.*
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali
+import com.demo.app.ncov2020.logic.cure.GlobalCure
 import java.util.*
 
 object GameEntityConverter {

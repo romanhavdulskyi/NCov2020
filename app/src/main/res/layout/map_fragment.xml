@@ -38,21 +38,21 @@
                 android:fontFamily="sans-serif"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
-                android:text="@{viewModel.mapLiveData.currDate}"
+                android:text="DD.MM.YYYY"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
                 android:id="@+id/pointsView"
-                android:layout_width="714dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:layout_margin="3dp"
                 android:fontFamily="sans-serif"
                 android:gravity="center_vertical|end"
                 android:paddingEnd="20dp"
-                android:text="@{viewModel.mapLiveData.upgradePoints}"
+                android:text="Points: 10"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
@@ -60,7 +60,7 @@
             <Button
                 android:id="@+id/button13"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Menu" />
         </LinearLayout>
@@ -93,10 +93,49 @@
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="53dp"
-            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="149dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/infectsmall" />
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="291dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/infectmid" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/travel" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="87dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/death" />
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="190dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/business_rebellion" />
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
