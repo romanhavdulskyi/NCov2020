@@ -62,6 +62,7 @@ object GameEntityConverter {
 
     fun createFromGameState(gameState: GameState, countryMap : HashMap<String, Country>) : GameStateReali
     {
+        GlobalCure.setInstance(gameState.globalCure)
         val result = gameState.countries
         val savedDisease = gameState.disease
         val disease = com.demo.app.ncov2020.logic.Disease.Disease(savedDisease?.diseaseName)
@@ -85,7 +86,6 @@ object GameEntityConverter {
 
         for (item in savedDisease.transmissionsIds!!)
             disease.transmissions.add(transmissionMap[item])
-
         val countryComposite = CountryComposite("Root")
         if (result != null) {
             for (item in result) {

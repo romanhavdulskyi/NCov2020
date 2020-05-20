@@ -2,6 +2,7 @@ package com.demo.app.ncov2020.logic.Country.State;
 
 import com.demo.app.ncov2020.logic.Country.Country;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
+import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 public class CountryStateCarantine extends BaseCountryState {
     public CountryStateCarantine(Country country) {
@@ -16,7 +17,7 @@ public class CountryStateCarantine extends BaseCountryState {
         country.setOpenSchool(false);
         country.setKnowAboutVirus(true);
         country.setSlowInfect(0.2);
-        if(!GameStateReali.getInstance().getGlobalCure().checkIfThereIsContributor(country.getName())){
+        if(!GlobalCure.getInstance().checkIfThereIsContributor(country.getName())){
             Long money = (long) (Math.random()*100_000.);
             money=country.isRich()?money*2:money;
             GameStateReali.getInstance().getGlobalCure().addContributor(country,money);
