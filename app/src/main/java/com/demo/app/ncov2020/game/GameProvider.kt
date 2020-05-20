@@ -13,6 +13,7 @@ interface GameProvider {
     fun addTransmission(transmission: Transmission)
     fun addClient(client: Client)
     fun removeClient(client: Client)
+    fun notifyAll(game: Game)
     fun loadSnapshot()
     fun makeSnapshot()
 

@@ -16,14 +16,13 @@ import com.demo.app.ncov2020.logic.Disease.Transmission
 import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateLogDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali
-import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
 
 class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) : GameProvider {
-    private lateinit var gameStateCallbackDecorator: GameStateLogDecorator
+    private lateinit var gameStateDecorator: GameStateLogDecorator
     private var guid: String? = null
     private var clients: MutableList<GameProvider.Client?> = mutableListOf()
     private val executor = Executors.newSingleThreadExecutor()
@@ -34,7 +33,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
 
     private var execTask: Runnable = object : Runnable {
         override fun run() {
-            gameStateCallbackDecorator.pastOneTimeUnit()
+            gameStateDecorator.pastOneTimeUnit()
             scheduledExecutor.schedule(this, 5L, TimeUnit.SECONDS)
         }
     }
@@ -63,13 +62,13 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
             if (gameState == null)
                 this.gameState = gameRepositoryFacade.createState(playerGUID = guid, virusName = "TestVirus")
 
-            gameStateCallbackDecorator = GameStateLogDecorator(GameStateCallbackDecorator(GameEntityConverter.createFromGameState(gameState!!, countryMap), callback))
-            gameStateCallbackDecorator.addSymptom(symptomMap["cough"])
-            gameStateCallbackDecorator.addSymptom(symptomMap["pnevmonia"])
-            gameStateCallbackDecorator.addAbility(abilityMap["antibiotics"])
-            gameStateCallbackDecorator.addTransmission(transmissionMap["plains"])
-            gameStateCallbackDecorator.addTransmission(transmissionMap["tourist"])
-            gameStateCallbackDecorator.addTransmission(transmissionMap["ship"]);
+            gameStateDecorator = GameStateLogDecorator(GameStateCallbackDecorator(GameEntityConverter.createFromGameState(gameState!!, countryMap), callback))
+            gameStateDecorator.addSymptom(symptomMap["cough"])
+            gameStateDecorator.addSymptom(symptomMap["pnevmonia"])
+            gameStateDecorator.addAbility(abilityMap["antibiotics"])
+            gameStateDecorator.addTransmission(transmissionMap["plains"])
+            gameStateDecorator.addTransmission(transmissionMap["tourist"])
+            gameStateDecorator.addTransmission(transmissionMap["ship"]);
             try {
                 GameStateReali.getInstance().countryComposite.accept(ConcreateVisitor())
             }catch (e:Exception){
@@ -85,25 +84,25 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
 
     override fun infectCountry(countryName: String) {
         executor.execute {
-            gameStateCallbackDecorator.infectComponentByName(countryName)
+            gameStateDecorator.infectComponentByName(countryName)
         }
     }
 
     override fun addSymptom(symptom: Symptom) {
         executor.execute {
-            gameStateCallbackDecorator.addSymptom(symptom)
+            gameStateDecorator.addSymptom(symptom)
         }
     }
 
     override fun addAbility(ability: Ability) {
         executor.execute {
-            gameStateCallbackDecorator.addAbility(ability)
+            gameStateDecorator.addAbility(ability)
         }
     }
 
     override fun addTransmission(transmission: Transmission) {
         executor.execute {
-            gameStateCallbackDecorator.addTransmission(transmission)
+            gameStateDecorator.addTransmission(transmission)
         }
     }
 
@@ -119,7 +118,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
         clients.remove(client)
     }
 
-    private fun notifyAll(game: Game)
+    override fun notifyAll(game: Game)
     {
         for (item in clients)
         {
@@ -129,13 +128,13 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
 
     override fun loadSnapshot() {
         if (snapshotFromMakeSnapshot == null)
-            gameStateCallbackDecorator.loadSnapshot(lastSnapshot)
+            gameStateDecorator.loadSnapshot(lastSnapshot)
         else
-            gameStateCallbackDecorator.loadSnapshot(snapshotFromMakeSnapshot)
+            gameStateDecorator.loadSnapshot(snapshotFromMakeSnapshot)
     }
 
     override fun makeSnapshot() {
-        snapshotFromMakeSnapshot = gameStateCallbackDecorator.makeSnapshot()
+        snapshotFromMakeSnapshot = gameStateDecorator.makeSnapshot()
     }
 
     private object HOLDER {
