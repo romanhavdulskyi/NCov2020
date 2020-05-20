@@ -12,87 +12,32 @@
         android:id="@+id/countryTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="108dp"
+        android:layout_marginRight="108dp"
+        android:layout_marginBottom="32dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:text="CountryName"
         android:textSize="38sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/infect_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/closeBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/closeBtn"
+        app:layout_constraintVertical_bias="0.46" />
 
-    <ProgressBar
-        android:id="@+id/healthyProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <com.hookedonplay.decoviewlib.DecoView
+        android:id="@+id/dynamicArcView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        app:dv_lineWidth="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/infect_btn"
+        app:layout_constraintEnd_toStartOf="@+id/countryTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <ProgressBar
-        android:id="@+id/infectedProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infectedPeopleTitle" />
-
-    <ProgressBar
-        android:id="@+id/deadProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deadPeopleTitle" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="Healthy people"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countryTitle" />
-
-    <TextView
-        android:id="@+id/infectedPeopleTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="Infected people"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/healthyProgressBar" />
-
-    <TextView
-        android:id="@+id/deadPeopleTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="Dead people"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infectedProgressBar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/closeBtn"
@@ -108,21 +53,25 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginBottom="32dp"
         android:text="Infect country"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deadProgressBar" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/infoView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="212dp" />
+        android:textColor="@color/colorRed"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/dynamicArcView"
+        app:layout_constraintEnd_toEndOf="@+id/dynamicArcView"
+        app:layout_constraintStart_toStartOf="@+id/dynamicArcView"
+        app:layout_constraintTop_toTopOf="@+id/dynamicArcView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

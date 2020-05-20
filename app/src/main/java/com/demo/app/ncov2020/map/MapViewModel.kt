@@ -177,7 +177,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         }
 
         mapValue?.currDate = state.dateTime?.let { TimeUtils.formatDate(it) }.toString()
-        mapValue?.upgradePoints = state.upgradePoints.toString()
+        mapValue?.upgradePoints =  "Points: " + state.upgradePoints.toString()
 
         mapLiveData.postValue(mapValue)
     }
