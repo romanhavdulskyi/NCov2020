@@ -14,10 +14,11 @@ object GameProperties {
     init {
         symptomMap["pnevmonia"] = Symptom("Pnevmonia", "Hard to breathe", 2.0, 4, 0.01)
         symptomMap["cough"] = Symptom("Cough", "A-a-a-pchi", 2.0, 4, 0.0)
+        symptomMap["sl"] = Symptom("Cough", "A-a-a-pchi", 2.0, 4, 0.0)
+        symptomMap["drowsiness"] = Symptom("Drowsiness", "A-a-a-pchi", 2.0, 4, 0.0)
         abilityMap["antibiotics"] = Ability("Antibiotics1", "Can survive Level1 antibiotics", TypeAbility.ANTIBIOTICS1, HandlerAntibiotics1())
         transmissionMap["plains"] = Transmission("Plains transmission", "You will be able to infect by plains", TypeTrans.AIR, HandlerAIR())
         transmissionMap["tourist"] = Transmission("Tourist transmission", "You will be able to infect by tourists", TypeTrans.GROUND, HandlerGround())
         transmissionMap["ship"] = Transmission("Ship transmission", "You will be able to infect by ships", TypeTrans.WATER, HandlerWater())
-
     }
 }
