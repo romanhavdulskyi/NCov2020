@@ -15,12 +15,13 @@ public class CountryStateDoNotTakeActions extends BaseCountryState {
         country.setOpenGround(true);
         country.setOpenSchool(true);
         country.setKnowAboutVirus(true);
+        country.setSlowInfect(0.);
     };
 
     @Override
     public void checkIfNeedChangeState() {
-        if(GameStateReali.getInstance().getDeadPeople()>10000)  changeState(new CountryStateDoNotTakeActions(country));
-        if(GameStateReali.getInstance().getInfectedPeople()>1_000_000)  changeState(new CountryStateDoNotTakeActions(country));
+        if(country.getDeadPeople()>1000)  changeState(new CountryStateCarantine(country));
+        if(country.getPercentOfInfectedPeople()>0.2)  changeState(new CountryStateCarantine(country));
         //TODO: Callback suspecios disease
     }
 

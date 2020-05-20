@@ -2,8 +2,8 @@ package com.demo.app.ncov2020.logic.Country.State;
 
 import com.demo.app.ncov2020.logic.Country.Country;
 
-public class CountryStateCloseAll extends BaseCountryState {
-    public CountryStateCloseAll(Country country) {
+public class CountryStateCloseAllPaths extends BaseCountryState {
+    public CountryStateCloseAllPaths(Country country) {
         super(country);
     }
 
@@ -13,6 +13,7 @@ public class CountryStateCloseAll extends BaseCountryState {
         country.setOpenSeaport(false);
         country.setOpenGround(false);
         country.setOpenSchool(false);
+        country.setKnowAboutVirus(true);
         country.setSlowInfect(0.5);
     };
 

@@ -9,6 +9,7 @@ import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
 import com.demo.app.ncov2020.logic.Country.*
 import com.demo.app.ncov2020.logic.Country.State.*
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali
+import com.demo.app.ncov2020.logic.cure.GlobalCure
 import java.util.*
 
 object GameEntityConverter {
@@ -23,7 +24,7 @@ object GameEntityConverter {
         gameState.disease?.transmissionsIds?.clear()
         gameState.disease?.abilitiesIds?.clear()
         gameState.disease?.symptomsIds?.clear()
-        gameState.upgradePoints = gameStateForEntity.upgradePoints
+        gameState.upgradePointsCalc = gameStateForEntity.upgradePointsCalc
 
         for (item in gameStateForEntity.disease.transmissions) {
             val keys = transmissionMap.filterValues { it.name == item.name }.keys
@@ -112,7 +113,7 @@ object GameEntityConverter {
             }
         }
 
-       return GameStateReali.init(1, "1", countryComposite, disease, gameState.globalCure, Calendar.getInstance(), gameState.upgradePoints!!)
+       return GameStateReali.init(1, "1", countryComposite, disease, gameState.globalCure, Calendar.getInstance(), gameState.upgradePointsCalc!!)
     }
 
     private fun buildCountry(item : GameCountry) : Country
@@ -150,7 +151,7 @@ object GameEntityConverter {
             is CountryStateUndiscovered -> 0
             is CountryStateDoNotTakeActions -> 1
             is CountryStateCarantine -> 2
-            is CountryStateCloseAll -> 3
+            is CountryStateCloseAllPaths -> 3
             else -> -1
         }
     }
@@ -164,7 +165,7 @@ object GameEntityConverter {
             0 -> CountryStateUndiscovered(newItem)
             1 -> CountryStateDoNotTakeActions(newItem)
             2 -> CountryStateCarantine(newItem)
-            else -> CountryStateCloseAll(newItem)
+            else -> CountryStateCloseAllPaths(newItem)
         }
     }
 }

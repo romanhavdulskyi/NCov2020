@@ -23,6 +23,7 @@ import com.demo.app.ncov2020.logic.Transsmission.HandlerWater;
 import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameStateLogDecorator extends BaseDecorator {
@@ -68,6 +69,12 @@ public class GameStateLogDecorator extends BaseDecorator {
     public void loadSnapshot(GameStateForEntity snapshot) {
         super.loadSnapshot(snapshot);
         System.out.println(CallbackType.LOADSNAPSHOT.name());
+    }
+
+    @Override
+    public void executeStrategy(List<Country> countries) {
+        super.executeStrategy(countries);
+        System.out.println(CallbackType.STRATEGYEXECUTED.name());
     }
 
 }

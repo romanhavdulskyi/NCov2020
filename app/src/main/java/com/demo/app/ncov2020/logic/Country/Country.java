@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import com.demo.app.ncov2020.logic.Country.State.BaseCountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryState;
 import com.demo.app.ncov2020.logic.Country.State.CountryStateUndiscovered;
+import com.demo.app.ncov2020.logic.Disease.Ability;
+import com.demo.app.ncov2020.logic.Disease.Disease;
 import com.demo.app.ncov2020.logic.Disease.Transmission;
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali;
 
@@ -77,12 +79,7 @@ public class Country implements Component, Cloneable, Visitable {
 
     @Override
     public void passOneTimeUnit() {
-        try {
-            hronology.setAmountOfUnlocked((int) (hronology.getUrls().size() * (infectedPeople / amountOfPeople)));
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        hronology.setAmountOfUnlocked((int) (hronology.getUrls().size() * (infectedPeople / amountOfPeople)));
         try {
             state.checkIfNeedChangeState();
             if (hronology.isAvailable()) {
@@ -92,15 +89,42 @@ public class Country implements Component, Cloneable, Visitable {
         {
             e.printStackTrace();
         }
-
-
     }
+
+    public void applyDisease(Disease disease){
+        if (!isInfected()) return;
+        calcInfectedPeople(disease);
+        calcDeadPeople(disease);
+        calcHealthyPeople(disease);
+
+        for (Transmission transmission : disease.getTransmissions()){
+            transmission.getHandler().handle(this);
+        }
+        for (Ability ability : disease.getAbilities()){
+            ability.getHandler().handle(this);
+        }
+    }
+    private void calcInfectedPeople(Disease disease){
+        double infectivity = Math.max(disease.getInfectivity()-slowInfect,0.);
+        long perTimeUnitInfected =(long) Math.min(Math.ceil(infectivity*getInfectedPeople()), getHealthyPeople());
+        infectedPeople+=perTimeUnitInfected;
+    }
+    private void calcDeadPeople(Disease disease){
+        long perTimeUnitDead =(long) Math.min(Math.ceil(disease.getLethality() * getInfectedPeople()), getInfectedPeople());
+        deadPeople+=perTimeUnitDead;
+        infectedPeople-=perTimeUnitDead;
+    }
+    private void calcHealthyPeople(Disease disease){
+        healthyPeople=getAmountOfPeople()-getInfectedPeople()-getDeadPeople();
+    }
+
 
     public Country beginInfection() {
         infected = true;
         healthyPeople--;
         infectedPeople = 1;
         GameStateReali.getInstance().addInfectedCountry(this);
+        GameStateReali.getInstance().addUpgradePoints((int) (Math.random()*3));
         return this;
     }
 
