@@ -20,4 +20,7 @@ public interface ComponentDec extends Originator<GameStateForEntity> {
     void infectComponentByName(String name);
 
     void executeStrategy(List<Country> countries);
+    public CallbackType checkCanBuy(int points);
+
+    public CallbackType buyStuff(int points);
 }

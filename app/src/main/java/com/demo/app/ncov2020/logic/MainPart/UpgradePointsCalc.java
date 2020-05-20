@@ -32,8 +32,12 @@ public class UpgradePointsCalc implements Serializable {
         this.upgradePoints+=points;
     }
 
-    public boolean consumeUpgradePoints(int points){
-        if (upgradePoints>points){
+    public boolean checkCanBuy(int points){
+        return upgradePoints>=points;
+    }
+
+    public boolean buyStuff(int points){
+        if (upgradePoints>=points){
             upgradePoints-=points;
             return true;
         }

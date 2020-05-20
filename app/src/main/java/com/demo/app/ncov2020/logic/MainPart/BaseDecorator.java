@@ -21,6 +21,14 @@ public abstract class BaseDecorator implements ComponentDec {
         return wrappee.pastOneTimeUnit();
     }
 
+    public CallbackType checkCanBuy(int points){
+        return wrappee.checkCanBuy(points);
+    }
+
+    public CallbackType buyStuff(int points){
+        return wrappee.buyStuff(points);
+    }
+
     @Override
     public void addSymptom(Symptom symptom) {
         wrappee.addSymptom(symptom);

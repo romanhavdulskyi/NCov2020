@@ -11,12 +11,14 @@ public class Transmission implements Cloneable{
     private final String description;
     private final TypeTrans type;
     private Handler handler;
+    private final int pricePoints;
 
-    public Transmission(String name, String description, TypeTrans type, Handler handler) {
+    public Transmission(String name, String description, TypeTrans type, Handler handler, int pricePoints) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.handler = handler;
+        this.pricePoints = pricePoints;
     }
 
     public String getName() {
@@ -37,6 +39,10 @@ public class Transmission implements Cloneable{
 
     public void setHandler(Handler handler) {
         this.handler = handler;
+    }
+
+    public int getPricePoints() {
+        return pricePoints;
     }
 
     @NonNull

@@ -37,6 +37,20 @@ public class GameStateLogDecorator extends BaseDecorator {
         return callbackType;
     }
 
+    @Override
+    public CallbackType checkCanBuy(int points) {
+        CallbackType callbackType =  super.checkCanBuy(points);
+        System.out.println(callbackType.name());
+        return callbackType;
+    }
+
+    @Override
+    public CallbackType buyStuff(int points) {
+        CallbackType callbackType =  super.buyStuff(points);
+        System.out.println(callbackType.name());
+        return callbackType;
+    }
+
     public void addSymptom(Symptom symptom){
         super.addSymptom(symptom);
         System.out.println(CallbackType.SYMPTOMADD.name());

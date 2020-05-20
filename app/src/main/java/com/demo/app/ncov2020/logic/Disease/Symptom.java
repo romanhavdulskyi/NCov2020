@@ -13,13 +13,15 @@ public class Symptom  implements  Cloneable{
     private final double infectivity;
     private final long severity;
     private final double lethality;
+    private final int pricePoints;
 
-    public Symptom(String name, String description, double infectivity, long severity, double lethality) {
+    public Symptom(String name, String description, double infectivity, long severity, double lethality,int pricePoints) {
         this.name = name;
         this.description = description;
         this.infectivity = infectivity;
         this.severity = severity;
         this.lethality = lethality;
+        this.pricePoints= pricePoints;
     }
 
     public String getName() {
@@ -40,6 +42,10 @@ public class Symptom  implements  Cloneable{
 
     public double getLethality() {
         return lethality;
+    }
+
+    public int getPricePoints() {
+        return pricePoints;
     }
 
     @NonNull

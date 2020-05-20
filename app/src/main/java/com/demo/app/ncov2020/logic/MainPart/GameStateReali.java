@@ -119,6 +119,20 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         country.setHealthyPeople(country.getAmountOfPeople()-country.getInfectedPeople()-country.getDeadPeople());
     }
 
+    public CallbackType checkCanBuy(int points){
+        if (upgradePointsCalc.checkCanBuy(points)){
+            return CallbackType.CANBUY;
+        }
+        else return CallbackType.CANTBUY;
+    }
+
+    public CallbackType buyStuff(int points){
+        if (upgradePointsCalc.buyStuff(points)){
+            return CallbackType.BUYSUCCESSFUL;
+        }
+        else return CallbackType.BUYFAILED;
+    }
+
     public void addUpgradePoints(int points){
         upgradePointsCalc.addUpgradePoints(points);
     }

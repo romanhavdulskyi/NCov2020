@@ -11,12 +11,14 @@ public class Ability implements Cloneable{
     private final String description;
     private final TypeAbility typeAbility;
     private Handler handler;
+    private final int pricePoints;
 
-    public Ability(String name, String description, TypeAbility typeAbility, Handler handler) {
+    public Ability(String name, String description, TypeAbility typeAbility, Handler handler, int pricePoints) {
         this.name = name;
         this.description = description;
         this.typeAbility = typeAbility;
         this.handler = handler;
+        this.pricePoints = pricePoints;
     }
 
     public String getName() {
@@ -37,6 +39,10 @@ public class Ability implements Cloneable{
 
     public void setHandler(Handler handler) {
         this.handler = handler;
+    }
+
+    public int getPricePoints() {
+        return pricePoints;
     }
 
     @NonNull

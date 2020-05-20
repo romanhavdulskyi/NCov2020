@@ -99,7 +99,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/imageBtnInfectSmall"
                 android:layout_width="149dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -107,7 +107,7 @@
                 app:srcCompat="@drawable/infectsmall" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/imageBtnInfectMid"
                 android:layout_width="291dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

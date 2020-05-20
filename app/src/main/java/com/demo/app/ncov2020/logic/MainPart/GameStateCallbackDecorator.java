@@ -55,6 +55,20 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         return callbackType;
     }
 
+    @Override
+    public CallbackType checkCanBuy(int points) {
+        CallbackType callbackType =  super.checkCanBuy(points);
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()), callbackType);
+        return callbackType;
+    }
+
+    @Override
+    public CallbackType buyStuff(int points) {
+        CallbackType callbackType =  super.buyStuff(points);
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()), callbackType);
+        return callbackType;
+    }
+
     public void addSymptom(Symptom symptom){
         super.addSymptom(symptom);
         callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.SYMPTOMADD);
@@ -94,7 +108,7 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         super.loadSnapshot(snapshot);
         callback.callingBack(snapshot,CallbackType.LOADSNAPSHOT);
     }
-
+/*
     static public void testGameModel(){
         CountryComposite countryComposite= new CountryComposite("Root");
         Country ukraine = new CountryBuilder()
@@ -164,7 +178,7 @@ public class GameStateCallbackDecorator extends BaseDecorator {
         }
         System.out.println(baseDecorator);
     }
-
+*/
     public void setCallback(Callback callback) {
         this.callback = callback;
     }

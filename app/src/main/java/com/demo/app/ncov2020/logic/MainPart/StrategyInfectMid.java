@@ -1,15 +1,24 @@
 package com.demo.app.ncov2020.logic.MainPart;
 
+import com.demo.app.ncov2020.logic.Callback.CallbackType;
 import com.demo.app.ncov2020.logic.Country.Country;
 
 import java.util.List;
 
-public class StrategyInfectMid implements Strategy{
+public class StrategyInfectMid extends BaseStrategy{
+    static final int pricePoints=5;
     @Override
-    public void execute(List<Country> countries) {
+    boolean confirmBuy() {
+        return (GameStateReali.getInstance().getUpgradePointsCalc().buyStuff(pricePoints));
+    }
+
+    @Override
+    public CallbackType execute(List<Country> countries) {
+        if (!confirmBuy()) return CallbackType.STRATEGYFAILED;
         for(Country country : countries){
-            applyAdditionalOnCountry(country,10000);
+            applyAdditionalOnCountry(country,1000000);
         }
+        return CallbackType.STRATEGYEXECUTED;
     }
 
     private void applyAdditionalOnCountry(Country country, long infectivity){
