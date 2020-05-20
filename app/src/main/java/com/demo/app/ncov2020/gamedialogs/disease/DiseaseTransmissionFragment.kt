@@ -31,8 +31,8 @@ class DiseaseTransmissionFragment : Fragment(), GameProvider.Client, Transmissio
     }
 
     override fun onChanged(state: Game) {
-        state.disease?.let {
-            recyclerView.post { recyclerView.adapter = TransmissionRecyclerAdapter(state.disease!!.transmissions.toMutableList(),   this)}
+        state.transmission?.let {
+            recyclerView.post { recyclerView.adapter = TransmissionRecyclerAdapter(state.transmission!!.toMutableList(),   this)}
         }
     }
 

@@ -32,8 +32,8 @@ class DiseaseAbilityFragment : Fragment(), GameProvider.Client, AbilityRecyclerA
     }
 
     override fun onChanged(state: Game) {
-        state.disease?.let {
-            recyclerView.post {  recyclerView.adapter = AbilityRecyclerAdapter(state.disease!!.abilities.toMutableList(),   this) }
+        state.abilities?.let {
+            recyclerView.post {  recyclerView.adapter = AbilityRecyclerAdapter(state.abilities!!.toMutableList(),   this) }
         }
     }
 

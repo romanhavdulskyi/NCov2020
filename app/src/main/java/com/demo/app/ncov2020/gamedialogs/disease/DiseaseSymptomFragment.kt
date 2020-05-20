@@ -31,8 +31,8 @@ class DiseaseSymptomFragment : Fragment(), GameProvider.Client, SymptomRecyclerA
     }
 
     override fun onChanged(state: Game) {
-        state.disease?.let {
-            recyclerView.post { recyclerView.adapter = SymptomRecyclerAdapter(state.disease!!.symptoms.toMutableList(),   this) }
+        state.symptom?.let {
+            recyclerView.post { recyclerView.adapter = SymptomRecyclerAdapter(state.symptom!!.toMutableList(),   this) }
         }
     }
 

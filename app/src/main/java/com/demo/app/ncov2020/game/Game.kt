@@ -5,16 +5,21 @@ import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
 import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.logic.Disease.Ability
 import com.demo.app.ncov2020.logic.Disease.Disease
+import com.demo.app.ncov2020.logic.Disease.Symptom
+import com.demo.app.ncov2020.logic.Disease.Transmission
 import com.demo.app.ncov2020.map.MapCountryData
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 class Game() {
     var infectedCountryShort: HashMap<String, MapCountryData> = HashMap()
     var infectedCountries: HashMap<String, Country> = HashMap()
     var dateTime: Date? = null
     var upgradePoints: Int? = null
-    var disease : Disease? = null
+    var abilities : HashSet<Ability>? = null
+    var transmission : HashSet<Transmission>? = null
+    var symptom : HashSet<Symptom>? = null
 
     constructor(gameStateForEntity: GameStateForEntity) : this()
     {
@@ -27,10 +32,12 @@ class Game() {
         }
         dateTime = gameStateForEntity.date.clone() as Date
         upgradePoints = gameStateForEntity.upgradePointsCalc.upgradePoints
-        disease = gameStateForEntity.disease
+        abilities = gameStateForEntity.disease.abilities.toHashSet()
+        transmission = gameStateForEntity.disease.transmissions.toHashSet()
+        symptom = gameStateForEntity.disease.symptoms.toHashSet()
     }
 
     override fun toString(): String {
-        return "$infectedCountryShort $dateTime $upgradePoints $disease"
+        return "$infectedCountryShort $dateTime $upgradePoints"
     }
 }
