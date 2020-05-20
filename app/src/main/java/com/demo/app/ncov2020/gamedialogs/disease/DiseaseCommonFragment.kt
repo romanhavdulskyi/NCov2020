@@ -1,4 +1,4 @@
-package com.demo.app.ncov2020.gamedialogs
+package com.demo.app.ncov2020.gamedialogs.disease
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.demo.app.ncov2020.R
 class DiseaseCommonFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.disease_common_dialog, container)
+        val rootView = inflater.inflate(R.layout.disease_common_dialog, container, false)
 
         return rootView
     }

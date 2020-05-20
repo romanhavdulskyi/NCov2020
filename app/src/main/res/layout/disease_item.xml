@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/editor_top_buttons"
+    android:layout_width="62dp"
+    android:layout_height="130dp"
+    android:layout_marginTop="13dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:src="@drawable/infectmid" />
+    <TextView
+        android:id="@+id/name"
+        style="@style/editor_top_buttons_text"
+        android:text="Text" />
+</LinearLayout>

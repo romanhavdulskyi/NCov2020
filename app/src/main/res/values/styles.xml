@@ -18,4 +18,23 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="editor_top_buttons">
+        <item name="android:layout_height">78sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_marginStart">2sp</item>
+        <item name="android:layout_marginEnd">2sp</item>
+        <item name="android:gravity">center|bottom</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="editor_top_buttons_text">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginTop">5sp</item>
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textSize">12sp</item>
+    <item name="android:layout_marginBottom">11sp</item>
+    </style>
+
 </resources>

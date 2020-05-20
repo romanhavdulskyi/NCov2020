@@ -1,6 +1,7 @@
 package com.demo.app.ncov2020.map
 
 import android.app.Application
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.demo.app.basics.mvvm.BaseAndroidViewModel
 import com.demo.app.basics.mvvm.ViewModelState
@@ -180,5 +181,10 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         mapValue?.upgradePoints =  "Points: " + state.upgradePoints.toString()
 
         mapLiveData.postValue(mapValue)
+    }
+
+    public fun onMenuClicked(v : View)
+    {
+        GameDialogsImpl.openDiseaseDialog()
     }
 }

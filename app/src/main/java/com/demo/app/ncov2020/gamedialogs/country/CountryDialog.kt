@@ -1,4 +1,4 @@
-package com.demo.app.ncov2020.gamedialogs
+package com.demo.app.ncov2020.gamedialogs.country
 
 import androidx.fragment.app.FragmentManager
 

@@ -1,4 +1,4 @@
-package com.demo.app.ncov2020.gamedialogs
+package com.demo.app.ncov2020.gamedialogs.country
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -20,10 +20,8 @@ import com.demo.app.ncov2020.common.TextUtils
 import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 import com.hookedonplay.decoviewlib.DecoView
-import com.hookedonplay.decoviewlib.charts.DecoDrawEffect
 import com.hookedonplay.decoviewlib.charts.SeriesItem
 import com.hookedonplay.decoviewlib.events.DecoEvent
-import com.hookedonplay.decoviewlib.events.DecoEvent.ExecuteEventListener
 import timber.log.Timber
 
 
