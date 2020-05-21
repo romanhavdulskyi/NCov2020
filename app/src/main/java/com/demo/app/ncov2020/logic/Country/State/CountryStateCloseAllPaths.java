@@ -11,7 +11,7 @@ public class CountryStateCloseAllPaths extends BaseCountryState {
     public void applyState(){
         country.setOpenAirport(false);
         country.setOpenSeaport(false);
-        country.setOpenGround(false);
+        country.setOpenGround(true);
         country.setOpenSchool(false);
         country.setKnowAboutVirus(true);
         country.setSlowInfect(0.5);
