@@ -163,7 +163,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         val mapValue = mapStateLiveData.value
         if(state.callbackReason == CallbackType.STRATEGYEXECUTED)
         {
-            mapValue?.messageText = "Strategy was added!"
+            mapValue?.messageText = "Strategy was executed!"
             mapValue?.selectStrategyMode = false
             mapValue?.showMessage = true
         } else if(state.callbackReason == CallbackType.STRATEGYFAILED) {

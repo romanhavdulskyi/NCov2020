@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.app.ncov2020.R
@@ -20,6 +21,7 @@ class TransmissionRecyclerAdapter(var items: List<Transmission>, var currItems: 
     }
     inner class MainHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.name)
+        private val contentLayout = itemView.findViewById<LinearLayout>(R.id.contentLayout)
         fun bind(item: Transmission) {
             name.text = item.name
             if(currItems.contains(item)) {
@@ -28,12 +30,15 @@ class TransmissionRecyclerAdapter(var items: List<Transmission>, var currItems: 
             else {
                 name.setTextColor(Color.BLACK)
             }
+            contentLayout.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition], currItems.contains(items[adapterPosition]))
+            }
             itemView.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
+                if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition], currItems.contains(items[adapterPosition]))
             }
         }
     }
     interface Callback {
-        fun onItemClicked(item: Transmission)
+        fun onItemClicked(item: Transmission, engaged : Boolean)
     }
 }

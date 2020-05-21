@@ -9,6 +9,7 @@
     app:cardCornerRadius="8dp"
     >
 <LinearLayout
+    android:id="@+id/contentLayout"
     style="@style/editor_top_buttons"
     android:layout_width="80dp"
     android:layout_height="155dp"

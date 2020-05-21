@@ -11,26 +11,24 @@ class DiseaseViewPagerAdapter(fm: FragmentManager, behavior: Int) : FragmentPage
     override fun getItem(position: Int): Fragment {
         return when(position)
         {
-            0 -> DiseaseCommonFragment()
-            1 -> DiseaseAbilityFragment()
-            2 -> DiseaseTransmissionFragment()
-            3 -> DiseaseSymptomFragment()
+            0 -> DiseaseAbilityFragment()
+            1 -> DiseaseTransmissionFragment()
+            2 -> DiseaseSymptomFragment()
             else
               -> DiseaseSymptomFragment()
         }
     }
 
     override fun getCount(): Int {
-        return 4
+        return 3
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when(position)
         {
-            0 -> "CommonDialog"
-            1 -> "Abilities"
-            2 -> "Transmissions"
-            3 -> "Symptoms"
+            0 -> "Abilities"
+            1 -> "Transmissions"
+            2 -> "Symptoms"
             else
             ->    super.getPageTitle(position)
         }
