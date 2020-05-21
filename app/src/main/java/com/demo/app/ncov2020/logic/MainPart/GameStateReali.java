@@ -13,6 +13,7 @@ import com.demo.app.ncov2020.logic.cure.GlobalCure;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
     private long infectedPeople = 0;
     private long healthyPeople = 0;
     private CountryComposite countryComposite;
-    private HashMap<String,Country> infectedCountries = new HashMap<>();
+    private HashMap<String,Country> infectedCountries = new LinkedHashMap<>();
     private Disease disease;
     private GlobalCure globalCure;
     private Calendar calendar;
@@ -48,7 +49,7 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         infectedPeople+=countryComposite.getInfectedPeople();
         this.calendar = calendar;
         this.upgradePointsCalc = upgradePointsCalc==null? new UpgradePointsCalc():upgradePointsCalc;
-        this.infectedCountries = new HashMap<>();
+        this.infectedCountries = new LinkedHashMap<>();
         for(String name : countryComposite.getInfectedCountry())
             infectedCountries.put(name, (Country) countryComposite.getComponentByName(name));
     }
@@ -67,9 +68,12 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         timePassed=true;
         calendar.add(Calendar.DATE,1);
         //System.out.println(TimeUtils.INSTANCE.formatDate(calendar.getTime()));
-        for (Component country: infectedCountries.values()) {
-            applyDiseaseOnCountry((Country) country);
+        for (int i = 0; i < infectedCountries.size(); i++) {
+            applyDiseaseOnCountry((Country) infectedCountries.values().toArray()[i]);
         }
+//        for (Component country: infectedCountries.values()) {
+//            applyDiseaseOnCountry((Country) country);
+//        }
         countryComposite.passOneTimeUnit();
         if(getInfectedPeople()>100_000)
             getGlobalCure().startWorkOnCure();
