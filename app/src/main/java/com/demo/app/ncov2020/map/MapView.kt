@@ -75,7 +75,7 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
             }
         }
 
-        model.mapLiveData.observe(lifecycleOwner, Observer { mapValue ->
+        model.mapStateLiveData.observe(lifecycleOwner, Observer { mapValue ->
             run {
 
                 val mapCommandProcessor = MapCommandProcessor(this@MapView)

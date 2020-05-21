@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="@{viewModel.mapLiveData.loading ? View.GONE : View.VISIBLE}">
+            android:visibility="@{viewModel.mapStateLiveData.loading ? View.GONE : View.VISIBLE}">
 
 
             <TextView
@@ -38,7 +38,7 @@
                 android:fontFamily="sans-serif"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
-                android:text="@{viewModel.mapLiveData.currDate}"
+                android:text="@{viewModel.mapStateLiveData.currDate}"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
@@ -52,7 +52,7 @@
                 android:fontFamily="sans-serif"
                 android:gravity="center_vertical"
                 android:paddingEnd="20dp"
-                android:text="@{viewModel.mapLiveData.upgradePoints.toString()}"
+                android:text="@{viewModel.mapStateLiveData.upgradePoints.toString()}"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
@@ -83,8 +83,8 @@
             android:layout_gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:progress="@{viewModel.mapLiveData.loadPercentage}"
-            android:visibility="@{viewModel.mapLiveData.loading ? View.VISIBLE : View.GONE}"
+            android:progress="@{viewModel.mapStateLiveData.loadPercentage}"
+            android:visibility="@{viewModel.mapStateLiveData.loading ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,6 +104,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerInside"
+                android:onClick="@{viewModel::onInfectSmall}"
                 app:srcCompat="@drawable/infectsmall" />
 
             <ImageButton
@@ -112,6 +113,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerInside"
+                android:onClick="@{viewModel::onInfectMid}"
                 app:srcCompat="@drawable/infectmid" />
 
             <ImageButton
@@ -119,6 +121,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
+                android:onClick="@{viewModel::onTravelGround}"
                 app:srcCompat="@drawable/travel" />
 
             <ImageButton
@@ -126,6 +129,7 @@
                 android:layout_width="87dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
+                android:onClick="@{viewModel::onKill}"
                 app:srcCompat="@drawable/death" />
 
             <ImageButton
@@ -134,6 +138,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="centerInside"
+                android:onClick="@{viewModel::onBusinessRebellion}"
                 app:srcCompat="@drawable/business_rebellion" />
 
         </LinearLayout>

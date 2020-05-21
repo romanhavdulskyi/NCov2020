@@ -11,6 +11,7 @@ import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 import com.demo.app.ncov2020.game.GameProviderImpl
 import com.demo.app.ncov2020.gamedialogs.GameDialogsImpl
+import com.demo.app.ncov2020.logic.MainPart.*
 import com.demo.app.ncov2020.userprofile.CurrentSession
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -25,7 +26,7 @@ import kotlin.math.roundToInt
 
 class MapViewModel(application: Application) : BaseAndroidViewModel(application), GameProvider.Client {
     private var viewModelState : ViewModelState = ViewModelState.INITIALIZED
-    var mapLiveData: MutableLiveData<Map> = MutableLiveData()
+    var mapStateLiveData: MutableLiveData<MapState> = MutableLiveData()
     private var mapBoxMap: MapboxMap? = null
     private val JSON_CHARSET = "UTF-8"
     private var gameProvider = GameProviderImpl.INSTANCE
@@ -35,8 +36,8 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     init {
         Mapbox.getInstance(application, "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
 
-        val map = Map(0, true, currDate = "", upgradePoints = "0", removeCountry = mutableListOf(), updateCountry = mutableListOf(), addCountry = mutableListOf())
-        mapLiveData.value = map
+        val map = MapState(0, true, currDate = "", upgradePoints = "0", removeCountry = mutableListOf(), updateCountry = mutableListOf(), addCountry = mutableListOf())
+        mapStateLiveData.value = map
     }
 
     fun onAttach()
@@ -109,49 +110,56 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     }
 
     fun onMapClicked(point: LatLng) {
-        val map = mapLiveData.value
+        val map = mapStateLiveData.value
         map?.let { value ->
             run {
                 val countryName = GeoDataFactory.getCountryName(point)
-                countryName?.let { GameDialogsImpl.openCountryDialog(it) }
+                countryName?.let {
+                    if(value.selectStrategyMode)
+                        gameProvider.setCountryForStrategy(it)
+                    else
+                        GameDialogsImpl.openCountryDialog(it)
+
+                    setSelectStrategyMode(false)
+                }
             }
         }
     }
 
 
     private fun startProgress() {
-        val mapValue = mapLiveData.value
+        val mapValue = mapStateLiveData.value
         mapValue?.let { map ->
             map.isLoading = true
             map.loadPercentage = 0
-            mapLiveData.postValue(map)
+            mapStateLiveData.postValue(map)
         }
     }
 
     private fun endProgress() {
-        val mapValue = mapLiveData.value
+        val mapValue = mapStateLiveData.value
         mapValue?.let { map ->
             if(map.isLoading)
                 CurrentSession.instance.playerGUID?.let { gameProvider.initGame(it) }
             map.isLoading = false
             map.loadPercentage = 0
-            mapLiveData.postValue(map)
+            mapStateLiveData.postValue(map)
         }
 
     }
 
     private fun setPercentage(percentage: Int) {
-        val mapValue = mapLiveData.value
+        val mapValue = mapStateLiveData.value
         mapValue?.let { map ->
             map.loadPercentage = percentage
             map.isLoading = true
-            mapLiveData.postValue(map)
+            mapStateLiveData.postValue(map)
         }
     }
 
     override fun onChanged(state: Game) {
         Timber.e("State %s", state)
-        val mapValue = mapLiveData.value
+        val mapValue = mapStateLiveData.value
         mapValue?.removeCountry?.clear()
         mapValue?.addCountry?.clear()
         mapValue?.updateCountry?.clear()
@@ -180,11 +188,50 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         mapValue?.currDate = state.dateTime?.let { TimeUtils.formatDate(it) }.toString()
         mapValue?.upgradePoints =  "Points: " + state.upgradePoints.toString()
 
-        mapLiveData.postValue(mapValue)
+        mapStateLiveData.postValue(mapValue)
     }
 
-    public fun onMenuClicked(v : View)
+    private fun setSelectStrategyMode(value: Boolean)
+    {
+        val mapValue = mapStateLiveData.value
+        mapValue?.let { map ->
+            map.selectStrategyMode = value
+            mapStateLiveData.postValue(map)
+        }
+    }
+
+    fun onMenuClicked(v : View)
     {
         GameDialogsImpl.openDiseaseDialog()
+    }
+
+    fun onInfectSmall(v : View)
+    {
+        setSelectStrategyMode(true)
+        gameProvider.setStrategy(StrategyInfectSmall())
+    }
+
+    fun onInfectMid(v : View)
+    {
+        setSelectStrategyMode(true)
+        gameProvider.setStrategy(StrategyInfectMid())
+    }
+
+    fun onTravelGround(v : View)
+    {
+        setSelectStrategyMode(true)
+        gameProvider.setStrategy(StrategyTravelGround())
+    }
+
+    fun onKill(v : View)
+    {
+        setSelectStrategyMode(true)
+        gameProvider.setStrategy(StrategyKill())
+    }
+
+    fun onBusinessRebellion(v : View)
+    {
+        setSelectStrategyMode(true)
+        gameProvider.setStrategy(StrategyBusinessRebellion())
     }
 }
