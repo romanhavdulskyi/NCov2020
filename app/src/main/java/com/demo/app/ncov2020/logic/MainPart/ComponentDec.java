@@ -23,4 +23,6 @@ public interface ComponentDec extends Originator<GameStateForEntity> {
     public CallbackType checkCanBuy(int points);
 
     public CallbackType buyStuff(int points);
+
+    public void setStrategy(Strategy strategy);
 }

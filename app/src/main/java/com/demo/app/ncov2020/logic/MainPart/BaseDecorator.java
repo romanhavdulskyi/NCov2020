@@ -71,4 +71,8 @@ public abstract class BaseDecorator implements ComponentDec {
     public void executeStrategy(List<Country> countries) {
         wrappee.executeStrategy(countries);
     }
+
+    public void setStrategy(Strategy strategy){
+        wrappee.setStrategy(strategy);
+    }
 }
