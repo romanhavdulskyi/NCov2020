@@ -18,7 +18,8 @@ public class CountryComposite implements Component, IterCollection, Visitable {
 
     @Override
     public void passOneTimeUnit() {
-        for (Component component:components.values()){
+        for (int i = 0; i < components.values().size(); i++) {
+            Component component= (Component) components.values().toArray()[i];
             component.passOneTimeUnit();
         }
     }

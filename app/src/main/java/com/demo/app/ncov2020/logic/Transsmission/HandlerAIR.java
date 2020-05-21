@@ -23,13 +23,17 @@ public class HandlerAIR extends BaseHandler {
 
     public void infectAnotherCountryByAir(Country baseCountry){
         baseCountry.shufflePathAir();
-        for(Country country: baseCountry.getPathsAir()){
+        for (int i = 0; i < baseCountry.getPathsAir().size(); i++) {
+            Country country = baseCountry.getPathsAir().get(i);
             if(country.isOpenAirport() && !country.isInfected()){
                 country.beginInfection();
                 baseCountry.removePathAir(country);
                 return;
             }
-            else baseCountry.removePathAir(country);
+            else {
+                baseCountry.removePathAir(country);
+                i--;
+            }
         }
     }
 }

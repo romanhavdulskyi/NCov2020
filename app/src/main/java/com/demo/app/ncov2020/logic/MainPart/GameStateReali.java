@@ -71,9 +71,6 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         for (int i = 0; i < infectedCountries.size(); i++) {
             applyDiseaseOnCountry((Country) infectedCountries.values().toArray()[i]);
         }
-//        for (Component country: infectedCountries.values()) {
-//            applyDiseaseOnCountry((Country) country);
-//        }
         countryComposite.passOneTimeUnit();
         if(getInfectedPeople()>100_000)
             getGlobalCure().startWorkOnCure();
@@ -101,11 +98,12 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         calcInfectedPeople(country);
         calcDeadPeople(country);
         calcHealthyPeople(country);
-
-        for (Transmission transmission : disease.getTransmissions()){
+        for (int i = 0; i < disease.getTransmissions().size(); i++) {
+            Transmission transmission = disease.getTransmissions().get(i);
             transmission.getHandler().handle(country);
         }
-        for (Ability ability : disease.getAbilities()){
+        for (int i = 0; i < disease.getAbilities().size(); i++) {
+            Ability ability=disease.getAbilities().get(i);
             ability.getHandler().handle(country);
         }
     }
