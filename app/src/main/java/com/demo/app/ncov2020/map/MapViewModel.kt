@@ -11,6 +11,7 @@ import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 import com.demo.app.ncov2020.game.GameProviderImpl
 import com.demo.app.ncov2020.gamedialogs.GameDialogsImpl
+import com.demo.app.ncov2020.logic.Callback.CallbackType
 import com.demo.app.ncov2020.logic.MainPart.*
 import com.demo.app.ncov2020.userprofile.CurrentSession
 import com.mapbox.mapboxsdk.Mapbox
@@ -36,7 +37,7 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     init {
         Mapbox.getInstance(application, "pk.eyJ1IjoibmNvdmdhbWUiLCJhIjoiY2s3eWpjcjJjMDdnZTNqcGZ2ZXBxMGYxdSJ9.IBqgc27bmXnxY2G6iF-MiQ")
 
-        val map = MapState(0, true, currDate = "", upgradePoints = "0", removeCountry = mutableListOf(), updateCountry = mutableListOf(), addCountry = mutableListOf())
+        val map = MapState(0, true, currDate = "", upgradePoints = "0", removeCountry = mutableListOf(), updateCountry = mutableListOf(), addCountry = mutableListOf(), messageText = "")
         mapStateLiveData.value = map
     }
 
@@ -160,6 +161,16 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     override fun onChanged(state: Game) {
         Timber.e("State %s", state)
         val mapValue = mapStateLiveData.value
+        if(state.callbackReason == CallbackType.STRATEGYEXECUTED)
+        {
+            mapValue?.messageText = "Strategy was added!"
+            mapValue?.selectStrategyMode = false
+            mapValue?.showMessage = true
+        } else if(state.callbackReason == CallbackType.STRATEGYFAILED) {
+            mapValue?.messageText = "You can`t use this strategy for this country...!"
+            mapValue?.selectStrategyMode = false
+            mapValue?.showMessage = true
+        }
         mapValue?.removeCountry?.clear()
         mapValue?.addCountry?.clear()
         mapValue?.updateCountry?.clear()
@@ -200,6 +211,24 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         }
     }
 
+    private fun setMessageText(text: String)
+    {
+        val mapValue = mapStateLiveData.value
+        mapValue?.let { map ->
+            map.messageText = text
+            mapStateLiveData.postValue(map)
+        }
+    }
+
+    private fun setShowMessage(value: Boolean)
+    {
+        val mapValue = mapStateLiveData.value
+        mapValue?.let { map ->
+            map.showMessage = value
+            mapStateLiveData.postValue(map)
+        }
+    }
+
     fun onMenuClicked(v : View)
     {
         GameDialogsImpl.openDiseaseDialog()
@@ -208,30 +237,61 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     fun onInfectSmall(v : View)
     {
         setSelectStrategyMode(true)
+        setShowMessage(true)
+        setMessageText("Select country for infect small strategy")
         gameProvider.setStrategy(StrategyInfectSmall())
     }
 
     fun onInfectMid(v : View)
     {
         setSelectStrategyMode(true)
+        setShowMessage(true)
+        setMessageText("Select country for infect medium strategy")
         gameProvider.setStrategy(StrategyInfectMid())
     }
 
     fun onTravelGround(v : View)
     {
         setSelectStrategyMode(true)
+        setMessageText("Select country for travel ground strategy")
         gameProvider.setStrategy(StrategyTravelGround())
     }
 
     fun onKill(v : View)
     {
         setSelectStrategyMode(true)
+        setShowMessage(true)
+        setMessageText("Select country for death strategy")
         gameProvider.setStrategy(StrategyKill())
     }
 
     fun onBusinessRebellion(v : View)
     {
         setSelectStrategyMode(true)
+        setShowMessage(true)
+        setMessageText("Select country for business rebellion strategy")
         gameProvider.setStrategy(StrategyBusinessRebellion())
+    }
+
+    fun dismissMessage(v: View)
+    {
+        val mapValue = mapStateLiveData.value
+        mapValue?.let { map ->
+            map.showMessage = false
+            map.messageText = ""
+            map.selectStrategyMode = false;
+            mapStateLiveData.postValue(map)
+        }
+    }
+
+    fun dismissAction(v: View)
+    {
+        val mapValue = mapStateLiveData.value
+        mapValue?.let { map ->
+            map.showMessage = false
+            map.messageText = ""
+            map.selectStrategyMode = false;
+            mapStateLiveData.postValue(map)
+        }
     }
 }

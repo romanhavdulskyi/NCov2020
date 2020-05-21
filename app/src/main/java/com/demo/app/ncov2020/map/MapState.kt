@@ -9,4 +9,6 @@ data class MapState(
         var updateCountry: MutableList<MapCountryData>,
         var currDate : String,
         var upgradePoints : String,
-        var selectStrategyMode : Boolean = false)
+        var selectStrategyMode : Boolean = false,
+        var showMessage : Boolean = false,
+        var messageText : String)

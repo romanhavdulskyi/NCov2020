@@ -7,6 +7,7 @@ import com.demo.app.ncov2020.data.GameProperties.transmissionMap
 import com.demo.app.ncov2020.data.GameRepositoryFacade
 import com.demo.app.ncov2020.data.room_data.GameState
 import com.demo.app.ncov2020.logic.Callback.Callback
+import com.demo.app.ncov2020.logic.Callback.CallbackType
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
 import com.demo.app.ncov2020.logic.Country.ConcreateVisitor
 import com.demo.app.ncov2020.logic.Country.Country
@@ -16,6 +17,7 @@ import com.demo.app.ncov2020.logic.Disease.Transmission
 import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateLogDecorator
 import com.demo.app.ncov2020.logic.MainPart.GameStateReali
+import com.demo.app.ncov2020.logic.MainPart.Strategy
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -41,12 +43,11 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
     private val countryMap = HashMap<String, Country>()
 
 
-    var callback = Callback { gameStateForEntity, _ ->
+    var callback = Callback { gameStateForEntity, callbackType ->
         run {
             executor.execute {
                 lastSnapshot = gameStateForEntity.clone() as GameStateForEntity
-
-                notifyAll(Game(gameStateForEntity))
+                notifyAll(Game(gameStateForEntity, callbackType))
                 gameState = GameEntityConverter.applyChangesToEntity(gameStateForEntity, gameState!!)
                 gameState?.let { gameRepositoryFacade.updateState(it) }
             }
@@ -110,7 +111,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
         if(!clients.contains(client)) {
             clients.add(client)
             if(lastSnapshot != null)
-                client.onChanged(Game(lastSnapshot!!))
+                client.onChanged(Game(lastSnapshot!!, CallbackType.LOADSNAPSHOT))
         }
     }
 
@@ -135,6 +136,16 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
 
     override fun makeSnapshot() {
         snapshotFromMakeSnapshot = gameStateDecorator.makeSnapshot()
+    }
+
+    override fun setStrategy(strategy: Strategy) {
+        executor.execute{ gameStateDecorator.setStrategy(strategy) }
+    }
+
+    override fun setCountryForStrategy(countryName: String) {
+        executor.execute{
+            gameStateDecorator.executeStrategy(mutableListOf(countryMap[countryName]))
+        }
     }
 
     private object HOLDER {

@@ -1,5 +1,6 @@
 package com.demo.app.ncov2020.map
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -77,7 +78,6 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
 
         model.mapStateLiveData.observe(lifecycleOwner, Observer { mapValue ->
             run {
-
                 val mapCommandProcessor = MapCommandProcessor(this@MapView)
                 for(item in mapValue.removeCountry)
                     mapCommandProcessor.addToQueue(RemoveCountryCommand(item))

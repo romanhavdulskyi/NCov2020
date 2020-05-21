@@ -1,6 +1,7 @@
 package com.demo.app.ncov2020.game
 
 import com.demo.app.ncov2020.common.MapBoxUtils
+import com.demo.app.ncov2020.logic.Callback.CallbackType
 import com.demo.app.ncov2020.logic.Callback.GameStateForEntity
 import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.logic.Disease.Ability
@@ -13,6 +14,7 @@ import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 
 class Game() {
+    var callbackReason : CallbackType? = null
     var infectedCountryShort: HashMap<String, MapCountryData> = HashMap()
     var infectedCountries: HashMap<String, Country> = HashMap()
     var dateTime: Date? = null
@@ -21,8 +23,9 @@ class Game() {
     var transmission : HashSet<Transmission>? = null
     var symptom : HashSet<Symptom>? = null
 
-    constructor(gameStateForEntity: GameStateForEntity) : this()
+    constructor(gameStateForEntity: GameStateForEntity, callbackType: CallbackType) : this()
     {
+        callbackReason = callbackType
         infectedCountries = gameStateForEntity.infectedCountries
         if(gameStateForEntity.infectedCountries.isNotEmpty())
         {
