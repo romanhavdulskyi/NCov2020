@@ -82,7 +82,7 @@ class CountryDialogImpl(private val gameProvider: GameProvider) : DialogFragment
     private var mSeries1Index = 0
     private var mSeries2Index = 0
     private var mSeries3Index = 0
-    private val mSeriesMax = 50f
+    private val mSeriesMax = 100f
     private var wasFullyInfected = false
 
     @SuppressLint("SetTextI18n")
@@ -95,20 +95,20 @@ class CountryDialogImpl(private val gameProvider: GameProvider) : DialogFragment
                 infoView.visibility = View.VISIBLE
                 infoView.text = TextUtils.floatToText((country.percentOfInfAndDeadPeople * 100).toFloat())   + " %"
 
-                Timber.e("Values %f, %f, %f", country.percentOfHealthyPeople * 50, country.percentOfInfectedPeople * 50, country.percentOfDeadPeople * 50)
-                mDecoView.addEvent(DecoEvent.Builder((country.percentOfHealthyPeople * 50).toFloat())
+                Timber.e("Values %f, %f, %f", country.percentOfHealthyPeople * 100, country.percentOfInfectedPeople * 100, country.percentOfDeadPeople * 100)
+                mDecoView.addEvent(DecoEvent.Builder(((country.percentOfHealthyPeople+country.percentOfInfectedPeople+country.percentOfDeadPeople) * 100).toFloat())
                         .setIndex(mSeries1Index)
                         .setDelay(0)
                         .setDuration(0)
                         .build())
 
                 if(!wasFullyInfected) {
-                    mDecoView.addEvent(DecoEvent.Builder((country.percentOfInfectedPeople * 50).toFloat())
+                    mDecoView.addEvent(DecoEvent.Builder(((country.percentOfInfectedPeople+country.percentOfDeadPeople) * 100).toFloat())
                             .setIndex(mSeries2Index)
                             .build())
                 }
 
-                mDecoView.addEvent(DecoEvent.Builder((country.percentOfDeadPeople * 50).toFloat())
+                mDecoView.addEvent(DecoEvent.Builder((country.percentOfDeadPeople * 100).toFloat())
                         .setIndex(mSeries3Index)
                         .build())
                 wasFullyInfected = country.percentOfHealthyPeople.compareTo(0.0f) == 0
@@ -123,14 +123,14 @@ class CountryDialogImpl(private val gameProvider: GameProvider) : DialogFragment
 
     private fun createBackSeries() {
         val seriesItem = SeriesItem.Builder(Color.parseColor("#FFE2E2E2"))
-                .setRange(0f, mSeriesMax, 50f)
+                .setRange(0f, mSeriesMax, 100f)
                 .setInitialVisibility(true)
                 .build()
         mBackIndex = mDecoView.addSeries(seriesItem)
     }
 
     private fun createDataSeries1() {
-        val seriesItem = SeriesItem.Builder(Color.parseColor("#FF6699FF"))
+        val seriesItem = SeriesItem.Builder(Color.parseColor("#FF00cc66"))
                 .setRange(0f, mSeriesMax, 0f)
                 .setInitialVisibility(false)
                 .build()
