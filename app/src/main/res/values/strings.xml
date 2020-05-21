@@ -4,6 +4,7 @@
     <string name="sign_in">Sign in</string>
     <string name="keep_me_logged_in">Keep me login in</string>
     <string name="account">Account name</string>
+    <string name="buy">Buy</string>
     <color name="colorGray">#707070</color>
 
 </resources>

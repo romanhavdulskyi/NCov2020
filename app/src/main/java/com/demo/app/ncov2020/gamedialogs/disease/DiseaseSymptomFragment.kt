@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.app.ncov2020.R
+import com.demo.app.ncov2020.data.GameProperties
 import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 import com.demo.app.ncov2020.game.GameProviderImpl
@@ -32,7 +33,7 @@ class DiseaseSymptomFragment : Fragment(), GameProvider.Client, SymptomRecyclerA
 
     override fun onChanged(state: Game) {
         state.symptom?.let {
-            recyclerView.post { recyclerView.adapter = SymptomRecyclerAdapter(state.symptom!!.toMutableList(),   this) }
+            recyclerView.post { recyclerView.adapter = SymptomRecyclerAdapter(GameProperties.symptomMap.values.toMutableList(), state.symptom!!.toMutableList(),   this) }
         }
     }
 
