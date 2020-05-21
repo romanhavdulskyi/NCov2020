@@ -157,7 +157,13 @@ object GameEntityConverter {
     }
 
     private fun convertCountry(countries: List<Country>): List<String> {
-        return countries.map { it.name }
+        try{
+            val result = countries.map { it.name }
+            return result;
+        }catch (e:Exception){
+            e.printStackTrace();
+        }
+        return emptyList();
     }
 
     private fun convertIntToState(index: Int, newItem: Country): BaseCountryState? {

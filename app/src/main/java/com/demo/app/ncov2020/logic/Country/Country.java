@@ -371,9 +371,6 @@ public class Country implements Component, Cloneable, Visitable {
                 ", infected=" + infected +
                 ", slowInfect=" + slowInfect +
                 ", hronology=" + hronology +
-                ", pathsAir=" + pathsAir +
-                ", pathsSea=" + pathsSea +
-                ", pathsGround=" + pathsGround +
                 ", state=" + state +
                 '}';
     }
