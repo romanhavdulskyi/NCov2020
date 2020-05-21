@@ -22,13 +22,17 @@ public class HandlerGround extends BaseHandler {
 
     public void infectAnotherCountryByGround(Country baseCountry){
         baseCountry.shufflePathGround();
-        for(Country country: baseCountry.getPathsGround()){
+        for (int i = 0; i < baseCountry.getPathsGround().size(); i++) {
+            Country country = baseCountry.getPathsGround().get(i);
             if(country.isOpenGround() && !country.isInfected()){
                 country.beginInfection();
                 baseCountry.removePathGround(country);
                 return;
             }
-            else baseCountry.removePathGround(country);
+            else {
+                baseCountry.removePathGround(country);
+                i--;
+            }
         }
     }
 }

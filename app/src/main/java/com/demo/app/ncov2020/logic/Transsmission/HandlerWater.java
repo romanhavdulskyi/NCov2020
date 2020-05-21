@@ -23,13 +23,17 @@ public class HandlerWater extends BaseHandler {
 
     public void infectAnotherCountryByWater(Country baseCountry){
         baseCountry.shufflePathSea();
-        for(Country country: baseCountry.getPathsSea()){
+        for (int i = 0; i < baseCountry.getPathsSea().size(); i++) {
+            Country country = baseCountry.getPathsSea().get(i);
             if(country.isOpenSeaport() && !country.isInfected()){
                 country.beginInfection();
                 baseCountry.removePathSea(country);
                 return;
             }
-            else baseCountry.removePathSea(country);
+            else {
+                baseCountry.removePathSea(country);
+                i--;
+            }
         }
     }
 }
