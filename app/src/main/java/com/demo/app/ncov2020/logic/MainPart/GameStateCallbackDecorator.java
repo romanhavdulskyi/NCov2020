@@ -97,6 +97,11 @@ public class GameStateCallbackDecorator extends BaseDecorator {
     }
 
     @Override
+    public void setStrategy(Strategy strategy) {
+        super.setStrategy(strategy);
+    }
+
+    @Override
     public GameStateForEntity makeSnapshot() {
         GameStateForEntity gameStateForEntity = super.makeSnapshot();
         callback.callingBack(gameStateForEntity,CallbackType.MAKEDSNAPSHOT);

@@ -91,4 +91,9 @@ public class GameStateLogDecorator extends BaseDecorator {
         System.out.println(CallbackType.STRATEGYEXECUTED.name());
     }
 
+    @Override
+    public void setStrategy(Strategy strategy) {
+        super.setStrategy(strategy);
+    }
+
 }
