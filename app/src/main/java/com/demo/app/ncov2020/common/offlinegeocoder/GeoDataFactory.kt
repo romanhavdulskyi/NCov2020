@@ -7,12 +7,12 @@ object GeoDataFactory {
     private val polygonCache = HashMap<String, GeoData?>()
     private val countryCache = HashMap<LatLng, String?>()
 
-    fun getPolygon(countryName : String) : GeoData
+    fun getPolygon(countryName : String) : GeoData?
     {
         if(!polygonCache.containsKey(countryName))
             polygonCache[countryName] =  ReverseGeocodingCountry.getInstance()?.getCountryCoordinates(GeocodeKey.KEY_NAME, countryName)
 
-        return polygonCache[countryName] !!
+        return polygonCache[countryName]
     }
 
     fun getPolygon(touchPoint : LatLng) : GeoData

@@ -7,7 +7,7 @@ object MapBoxUtils {
 
     fun getPointsForCountry(countryName: String): MutableList<MutableList<Point>> {
         val points = mutableListOf<MutableList<Point>>()
-        val data = GeoDataFactory.getPolygon(countryName)
+        val data = GeoDataFactory.getPolygon(countryName) ?: return mutableListOf()
         if (data.getPolygons()!!.isNotEmpty()) {
             points.clear()
             for (item in data.getPolygons()!!)
