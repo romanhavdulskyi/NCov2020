@@ -22,7 +22,7 @@ public interface ComponentDec extends Originator<GameStateForEntity> {
     void executeStrategy(List<Country> countries);
     public CallbackType checkCanBuy(int points);
 
-    public CallbackType buyStuff(int points);
+    public CallbackType buyStuff(Priceable priceable);
 
     public void setStrategy(Strategy strategy);
 }

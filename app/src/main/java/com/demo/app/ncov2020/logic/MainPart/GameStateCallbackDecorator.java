@@ -63,8 +63,8 @@ public class GameStateCallbackDecorator extends BaseDecorator {
     }
 
     @Override
-    public CallbackType buyStuff(int points) {
-        CallbackType callbackType =  super.buyStuff(points);
+    public CallbackType buyStuff(Priceable priceable) {
+        CallbackType callbackType =  super.buyStuff(priceable);
         callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()), callbackType);
         return callbackType;
     }

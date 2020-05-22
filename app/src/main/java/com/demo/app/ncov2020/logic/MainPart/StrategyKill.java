@@ -9,7 +9,7 @@ public class StrategyKill extends BaseStrategy{
     static int pricePoints=5;
     @Override
     boolean confirmBuy() {
-        return (GameStateReali.getInstance().getUpgradePointsCalc().buyStuff(pricePoints));
+        return (GameStateReali.getInstance().getUpgradePointsCalc().buyStuff(this));
     }
 
     @Override
@@ -37,5 +37,9 @@ public class StrategyKill extends BaseStrategy{
     }
     private void calcHealthyPeople(Country country){
         country.setHealthyPeople(country.getAmountOfPeople()-country.getInfectedPeople()-country.getDeadPeople());
+    }
+    @Override
+    public int getPricePoints() {
+        return pricePoints;
     }
 }

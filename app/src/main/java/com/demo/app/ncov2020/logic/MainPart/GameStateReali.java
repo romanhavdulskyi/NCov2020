@@ -128,8 +128,8 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         else return CallbackType.CANTBUY;
     }
 
-    public CallbackType buyStuff(int points){
-        if (upgradePointsCalc.buyStuff(points)){
+    public CallbackType buyStuff(Priceable priceable){
+        if (upgradePointsCalc.buyStuff(priceable)){
             return CallbackType.BUYSUCCESSFUL;
         }
         else return CallbackType.BUYFAILED;

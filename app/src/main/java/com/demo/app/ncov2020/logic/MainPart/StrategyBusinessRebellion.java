@@ -12,7 +12,7 @@ public class StrategyBusinessRebellion extends BaseStrategy{
 
     @Override
     boolean confirmBuy() {
-        return (GameStateReali.getInstance().getUpgradePointsCalc().buyStuff(pricePoints));
+        return (GameStateReali.getInstance().getUpgradePointsCalc().buyStuff(this));
     }
 
     @Override
@@ -26,5 +26,10 @@ public class StrategyBusinessRebellion extends BaseStrategy{
             }
         }
         return CallbackType.STRATEGYEXECUTED;
+    }
+
+    @Override
+    public int getPricePoints() {
+        return pricePoints;
     }
 }

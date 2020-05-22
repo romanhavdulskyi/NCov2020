@@ -12,7 +12,7 @@ public class StrategyTravelGround extends BaseStrategy{
     private static HandlerGround handlerGround = new HandlerGround();
     @Override
     boolean confirmBuy() {
-        return (GameStateReali.getInstance().getUpgradePointsCalc().buyStuff(pricePoints));
+        return (GameStateReali.getInstance().getUpgradePointsCalc().buyStuff(this));
     }
 
     @Override
@@ -23,5 +23,9 @@ public class StrategyTravelGround extends BaseStrategy{
             handlerGround.infectAnotherCountryByGround(country);
         }
         return CallbackType.STRATEGYEXECUTED;
+    }
+    @Override
+    public int getPricePoints() {
+        return pricePoints;
     }
 }

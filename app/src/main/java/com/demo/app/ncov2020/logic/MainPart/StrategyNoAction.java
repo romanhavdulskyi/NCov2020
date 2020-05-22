@@ -12,4 +12,8 @@ public class StrategyNoAction implements Strategy{
     public CallbackType execute(List<Country> countries) {
         return CallbackType.STRATEGYEXECUTED;
     }
+    @Override
+    public int getPricePoints() {
+        return 0;
+    }
 }

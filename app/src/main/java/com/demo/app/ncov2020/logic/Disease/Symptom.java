@@ -2,12 +2,14 @@ package com.demo.app.ncov2020.logic.Disease;
 
 import android.os.Build;
 
+import com.demo.app.ncov2020.logic.MainPart.Priceable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import java.util.Objects;
 
-public class Symptom  implements  Cloneable{
+public class Symptom  implements  Cloneable, Priceable {
     private final String name;
     private final String description;
     private final double infectivity;

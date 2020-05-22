@@ -36,9 +36,10 @@ public class UpgradePointsCalc implements Serializable {
         return upgradePoints>=points;
     }
 
-    public boolean buyStuff(int points){
-        if (upgradePoints>=points){
-            upgradePoints-=points;
+    public boolean buyStuff(Priceable priceable){
+        int pointsPrice = priceable.getPricePoints();
+        if (upgradePoints>=pointsPrice){
+            upgradePoints-=pointsPrice;
             return true;
         }
         else return false;
@@ -83,4 +84,5 @@ public class UpgradePointsCalc implements Serializable {
     public void setUpgradePoints(int upgradePoints) {
         this.upgradePoints = upgradePoints;
     }
+
 }

@@ -5,6 +5,6 @@ import com.demo.app.ncov2020.logic.Country.Country;
 
 import java.util.List;
 
-public interface Strategy {
+public interface Strategy extends Priceable {
     CallbackType execute(List<Country> country);
 }

@@ -25,8 +25,8 @@ public abstract class BaseDecorator implements ComponentDec {
         return wrappee.checkCanBuy(points);
     }
 
-    public CallbackType buyStuff(int points){
-        return wrappee.buyStuff(points);
+    public CallbackType buyStuff(Priceable priceable){
+        return wrappee.buyStuff(priceable);
     }
 
     @Override
