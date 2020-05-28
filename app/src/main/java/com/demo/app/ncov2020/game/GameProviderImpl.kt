@@ -14,10 +14,7 @@ import com.demo.app.ncov2020.logic.Country.Country
 import com.demo.app.ncov2020.logic.Disease.Ability
 import com.demo.app.ncov2020.logic.Disease.Symptom
 import com.demo.app.ncov2020.logic.Disease.Transmission
-import com.demo.app.ncov2020.logic.MainPart.GameStateCallbackDecorator
-import com.demo.app.ncov2020.logic.MainPart.GameStateLogDecorator
-import com.demo.app.ncov2020.logic.MainPart.GameStateReali
-import com.demo.app.ncov2020.logic.MainPart.Strategy
+import com.demo.app.ncov2020.logic.MainPart.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -94,6 +91,7 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
             gameStateDecorator.addSymptom(symptom)
         }
     }
+
 
     override fun addAbility(ability: Ability) {
         executor.execute {

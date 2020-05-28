@@ -45,7 +45,9 @@ class DiseaseSymptomFragment : Fragment(), GameProvider.Client, SymptomRecyclerA
         cardInfoView.visibility = View.GONE
         closeBtn.setOnClickListener { cardInfoView.visibility = View.GONE }
         buyBtn.setOnClickListener {
-            selectedSymptom?.let { GameProviderImpl.INSTANCE.addSymptom(it) }
+            selectedSymptom?.let {
+                GameProviderImpl.INSTANCE.addSymptom(it)
+            }
         }
         return rootView
     }

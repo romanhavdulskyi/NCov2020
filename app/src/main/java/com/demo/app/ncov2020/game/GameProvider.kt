@@ -20,6 +20,7 @@ interface GameProvider {
 
     /*
     Firstly, I want to tell U sorry about that shitty code, but it`s the last night before demo release, that`s why I need to do it in this way...
+    Secondly,
      */
     fun setStrategy(strategy: Strategy)
     fun setCountryForStrategy(countryName: String)
