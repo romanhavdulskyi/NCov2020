@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.demo.app.ncov2020.data.GameProperties
 import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 import com.demo.app.ncov2020.game.GameProviderImpl
+import com.demo.app.ncov2020.logic.Callback.CallbackType
 import com.demo.app.ncov2020.logic.Disease.Ability
 import com.demo.app.ncov2020.logic.Disease.Transmission
 
@@ -43,7 +45,9 @@ class DiseaseTransmissionFragment : Fragment(), GameProvider.Client, Transmissio
         recyclerView.layoutManager = GridLayoutManager(activity, 6) as RecyclerView.LayoutManager?
         GameProviderImpl.INSTANCE.addClient(this)
         cardInfoView.visibility = View.GONE
-        closeBtn.setOnClickListener { cardInfoView.visibility = View.GONE }
+        closeBtn.setOnClickListener {
+            selectedTransmission = null
+            cardInfoView.visibility = View.GONE }
         buyBtn.setOnClickListener {
             selectedTransmission?.let { GameProviderImpl.INSTANCE.addTransmission(it) }
         }

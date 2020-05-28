@@ -12,6 +12,7 @@ import com.demo.app.basics.mvvm.BaseView
 import com.demo.app.ncov2020.R
 import com.demo.app.ncov2020.common.ColorUtil
 import com.demo.app.ncov2020.databinding.MapFragmentBinding
+import com.demo.app.ncov2020.gamedialogs.game_end.GameEndDialogsImpl
 import com.demo.app.ncov2020.map.commands.*
 import com.mapbox.geojson.Polygon
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -78,12 +79,20 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
 
         model.mapStateLiveData.observe(lifecycleOwner, Observer { mapValue ->
             run {
+                if (mapValue.endGame) {
+                    if (activity!!.supportFragmentManager.findFragmentByTag("END_GAME") == null) {
+                        if (mapValue.loseGame)
+                            GameEndDialogsImpl().showLoseDialog(activity.supportFragmentManager)
+                        else
+                            GameEndDialogsImpl().showWinDialog(activity.supportFragmentManager)
+                    }
+                }
                 val mapCommandProcessor = MapCommandProcessor(this@MapView)
-                for(item in mapValue.removeCountry)
+                for (item in mapValue.removeCountry)
                     mapCommandProcessor.addToQueue(RemoveCountryCommand(item))
-                for(item in mapValue.addCountry)
+                for (item in mapValue.addCountry)
                     mapCommandProcessor.addToQueue(AddCountryCommand(item))
-                for(item in mapValue.updateCountry)
+                for (item in mapValue.updateCountry)
                     mapCommandProcessor.addToQueue(UpdateCountryCommand(item))
 
                 mapCommandProcessor.processCommand()
@@ -101,7 +110,7 @@ class MapView(activity: FragmentActivity?, lifecycleOwner: LifecycleOwner,
         style?.addSource(source)
         Timber.e("Added source")
 
-        val layer = FillLayer(uuid, uuid).withProperties(PropertyFactory.fillColor(ColorUtil.genColor( mapCountryData.infectedAndDeadCoefficient)))
+        val layer = FillLayer(uuid, uuid).withProperties(PropertyFactory.fillColor(ColorUtil.genColor(mapCountryData.infectedAndDeadCoefficient)))
 
         fillLayer[mapCountryData.countryName] = layer
         style?.addLayerBelow(layer, "settlement-label")

@@ -12,6 +12,15 @@ class GameNavigatorImpl : GameNavigator {
         navController?.navigate(R.id.mapFragment)
     }
 
+    override fun navigateBack() {
+        navController?.popBackStack()
+    }
+
+    override fun navigateToLogin() {
+        navController?.navigate(R.id.loginFragment)
+    }
+
+
     fun setNavController(navController: NavController)
     {
         this.navController = navController

@@ -46,6 +46,11 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
 
     fun loginIsSucceeded()
     {
+        val login = loginLiveData.value
+        login?.let {
+        it.state = LoginStates.WAIT
+            loginLiveData.postValue(it)
+        }
         GameNavigatorImpl.instance.navigateLoginToMap()
     }
 }

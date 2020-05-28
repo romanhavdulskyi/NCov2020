@@ -11,4 +11,6 @@ data class MapState(
         var upgradePoints : String,
         var selectStrategyMode : Boolean = false,
         var showMessage : Boolean = false,
-        var messageText : String)
+        var messageText : String,
+        var endGame : Boolean = false,
+        var loseGame : Boolean = false)

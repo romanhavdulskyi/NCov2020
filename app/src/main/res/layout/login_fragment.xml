@@ -54,7 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
                         android:layout_gravity="center|top"
-                        android:hint="@string/account"
+                        android:hint="@string/disease_name"
                         android:importantForAutofill="no"
                         android:text="@={viewModel.loginLiveData.username}"
                         android:inputType="text"
@@ -77,20 +77,12 @@
                     <Button
                         android:id="@+id/button"
                         style="@style/EnterButtons"
-                        android:layout_width="341dp"
+                        android:layout_width="match_parent"
                         android:layout_height="37sp"
                         android:layout_gravity="center_horizontal"
                         android:onClick="@{viewModel::onLoginClicked}"
                         android:text="@string/sign_in" />
 
-                    <Button
-                        android:id="@+id/buttonSgnUp"
-                        style="@style/EnterButtons"
-                        android:layout_width="332dp"
-                        android:layout_height="37sp"
-                        android:layout_gravity="center_horizontal"
-                        android:onClick="@{viewModel::onLoginClicked}"
-                        android:text="Sign up" />
                 </LinearLayout>
 
             </LinearLayout>

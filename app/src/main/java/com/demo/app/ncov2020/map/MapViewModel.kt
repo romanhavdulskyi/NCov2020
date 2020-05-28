@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.demo.app.basics.mvvm.BaseAndroidViewModel
 import com.demo.app.basics.mvvm.ViewModelState
+import com.demo.app.ncov2020.common.GameNavigatorImpl
 import com.demo.app.ncov2020.common.TimeUtils
 import com.demo.app.ncov2020.common.offlinegeocoder.GeoDataFactory
 import com.demo.app.ncov2020.game.Game
@@ -14,6 +15,7 @@ import com.demo.app.ncov2020.gamedialogs.GameDialogsImpl
 import com.demo.app.ncov2020.logic.Callback.CallbackType
 import com.demo.app.ncov2020.logic.MainPart.*
 import com.demo.app.ncov2020.userprofile.CurrentSession
+import com.demo.app.ncov2020.userprofile.login.UserProfileAuthenticatorImpl
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
@@ -175,6 +177,12 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
         mapValue?.addCountry?.clear()
         mapValue?.updateCountry?.clear()
 
+        if(state.infectedCountries.isNotEmpty() && (state.callbackReason == CallbackType.ENDGAMEWIN || state.callbackReason == CallbackType.ENDGAMELOSE))
+        {
+            mapValue?.endGame = true;
+            mapValue?.loseGame = state.callbackReason == CallbackType.ENDGAMELOSE
+        }
+
         for(item in state.infectedCountryShort) {
             if (countryMap.containsKey(item.key))
             {
@@ -232,6 +240,12 @@ class MapViewModel(application: Application) : BaseAndroidViewModel(application)
     fun onMenuClicked(v : View)
     {
         GameDialogsImpl.openDiseaseDialog()
+    }
+
+    fun onLogOutClicked(v : View)
+    {
+        UserProfileAuthenticatorImpl.instance.logout()
+        GameNavigatorImpl.instance.navigateToLogin()
     }
 
     fun onInfectSmall(v : View)

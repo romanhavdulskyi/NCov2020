@@ -88,20 +88,20 @@ class GameProviderImpl(private val gameRepositoryFacade: GameRepositoryFacade) :
 
     override fun addSymptom(symptom: Symptom) {
         executor.execute {
-            gameStateDecorator.addSymptom(symptom)
+            gameStateDecorator.buyStuff(symptom)
         }
     }
 
 
     override fun addAbility(ability: Ability) {
         executor.execute {
-            gameStateDecorator.addAbility(ability)
+            gameStateDecorator.buyStuff(ability)
         }
     }
 
     override fun addTransmission(transmission: Transmission) {
         executor.execute {
-            gameStateDecorator.addTransmission(transmission)
+            gameStateDecorator.buyStuff(transmission)
         }
     }
 

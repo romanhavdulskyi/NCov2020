@@ -23,7 +23,9 @@ class LoginFragment : BaseFragment() {
         viewModel = ViewModelProvider.getInstance()?.getViewModel(LoginViewModel::class.java) as LoginViewModel
         viewModel.loginLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { login ->
-                if (login.state == LoginStates.SUCCESS) viewModel.loginIsSucceeded()
+                if (login.state == LoginStates.SUCCESS) {
+                    viewModel.loginIsSucceeded()
+                }
             }
         })
         val loginView = LoginView(this, inflater, container, viewModel)

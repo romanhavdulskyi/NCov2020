@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -16,6 +17,7 @@ import com.demo.app.ncov2020.R
 import com.demo.app.ncov2020.game.Game
 import com.demo.app.ncov2020.game.GameProvider
 import com.demo.app.ncov2020.game.GameProviderImpl
+import com.demo.app.ncov2020.logic.Callback.CallbackType
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.disease_dialog.view.*
 
@@ -52,6 +54,10 @@ class DiseaseDialogImpl : DialogFragment(), DiseaseDialog, GameProvider.Client {
     val handler = Handler()
     override fun onChanged(state: Game) {
         handler.post {
+            if(state.callbackReason == CallbackType.BUYFAILED)
+                Toast.makeText(activity, "Can`t buy this item!", Toast.LENGTH_LONG).show()
+            if(state.callbackReason == CallbackType.BUYSUCCESSFUL)
+                Toast.makeText(activity, "The item engaged!", Toast.LENGTH_LONG).show()
             infoView.text = "Points: " + state.upgradePoints
         }
     }

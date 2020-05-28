@@ -5,6 +5,7 @@
     <string name="keep_me_logged_in">Keep me login in</string>
     <string name="account">Account name</string>
     <string name="buy">Buy</string>
+    <string name="disease_name">Disease name</string>
     <color name="colorGray">#707070</color>
 
 </resources>

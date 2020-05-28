@@ -43,7 +43,9 @@ class DiseaseSymptomFragment : Fragment(), GameProvider.Client, SymptomRecyclerA
         recyclerView.layoutManager = GridLayoutManager(activity, 6) as RecyclerView.LayoutManager?
         GameProviderImpl.INSTANCE.addClient(this)
         cardInfoView.visibility = View.GONE
-        closeBtn.setOnClickListener { cardInfoView.visibility = View.GONE }
+        closeBtn.setOnClickListener {
+            selectedSymptom = null
+            cardInfoView.visibility = View.GONE }
         buyBtn.setOnClickListener {
             selectedSymptom?.let {
                 GameProviderImpl.INSTANCE.addSymptom(it)

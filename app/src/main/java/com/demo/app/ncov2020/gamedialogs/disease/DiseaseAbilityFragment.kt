@@ -43,7 +43,10 @@ class DiseaseAbilityFragment : Fragment(), GameProvider.Client, AbilityRecyclerA
         recyclerView.layoutManager = GridLayoutManager(activity, 6) as RecyclerView.LayoutManager?
         GameProviderImpl.INSTANCE.addClient(this)
         cardInfoView.visibility = View.GONE
-        closeBtn.setOnClickListener { cardInfoView.visibility = View.GONE }
+        closeBtn.setOnClickListener {
+            selectedAbility = null
+            cardInfoView.visibility = View.GONE
+        }
         buyBtn.setOnClickListener {
             selectedAbility?.let { GameProviderImpl.INSTANCE.addAbility(it) }
         }
