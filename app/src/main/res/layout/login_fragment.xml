@@ -36,7 +36,7 @@
                     android:layout_marginTop="42dp"
                     android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:text="@string/nCov_login"
+                    android:text="Create your own disease"
                     android:textColor="@color/colorWhite"
                     android:textSize="22sp"
                     android:textStyle="normal|bold" />
@@ -81,7 +81,7 @@
                         android:layout_height="37sp"
                         android:layout_gravity="center_horizontal"
                         android:onClick="@{viewModel::onLoginClicked}"
-                        android:text="@string/sign_in" />
+                        android:text="Start game!" />
 
                 </LinearLayout>
 
