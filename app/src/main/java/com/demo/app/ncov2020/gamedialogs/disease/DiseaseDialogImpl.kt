@@ -57,7 +57,7 @@ class DiseaseDialogImpl : DialogFragment(), DiseaseDialog, GameProvider.Client {
             if(state.callbackReason == CallbackType.BUYFAILED)
                 Toast.makeText(activity, "Can`t buy this item!", Toast.LENGTH_LONG).show()
             if(state.callbackReason == CallbackType.BUYSUCCESSFUL)
-                Toast.makeText(activity, "The item engaged!", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "The item is engaged!", Toast.LENGTH_LONG).show()
             infoView.text = "Points: " + state.upgradePoints
         }
     }

@@ -205,8 +205,8 @@ public class GameStateReali implements ComponentDec, Originator<GameStateForEnti
         infectedCountries.put(country.getName(),country);
     }
 
-    public void executeStrategy(List<Country> countries){
-        strategy.execute(countries);
+    public CallbackType executeStrategy(List<Country> countries){
+        return strategy.execute(countries);
     }
 
     @Override

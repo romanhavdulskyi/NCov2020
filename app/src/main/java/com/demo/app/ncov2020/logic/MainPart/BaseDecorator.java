@@ -68,8 +68,9 @@ public abstract class BaseDecorator implements ComponentDec {
     }
 
     @Override
-    public void executeStrategy(List<Country> countries) {
-        wrappee.executeStrategy(countries);
+    public CallbackType executeStrategy(List<Country> countries) {
+        CallbackType callbackType= wrappee.executeStrategy(countries);
+        return callbackType;
     }
 
     public void setStrategy(Strategy strategy){

@@ -86,9 +86,10 @@ public class GameStateLogDecorator extends BaseDecorator {
     }
 
     @Override
-    public void executeStrategy(List<Country> countries) {
-        super.executeStrategy(countries);
-        System.out.println(CallbackType.STRATEGYEXECUTED.name());
+    public CallbackType executeStrategy(List<Country> countries) {
+        CallbackType callbackType =super.executeStrategy(countries);
+        System.out.println(callbackType.name());
+        return callbackType;
     }
 
     @Override

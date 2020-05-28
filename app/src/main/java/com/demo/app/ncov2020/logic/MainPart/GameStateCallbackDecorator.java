@@ -91,9 +91,10 @@ public class GameStateCallbackDecorator extends BaseDecorator {
     }
 
     @Override
-    public void executeStrategy(List<Country> countries) {
-        super.executeStrategy(countries);
-        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),CallbackType.STRATEGYEXECUTED);
+    public CallbackType executeStrategy(List<Country> countries) {
+        CallbackType callbackType=super.executeStrategy(countries);
+        callback.callingBack(new GameStateForEntity(GameStateReali.getInstance()),callbackType);
+        return callbackType;
     }
 
     @Override
